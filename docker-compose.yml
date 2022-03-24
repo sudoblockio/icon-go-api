@@ -1,0 +1,38 @@
+version: "3.7"
+
+x-env: &env
+  NAME: "api"
+  NETWORK_NAME: "mainnet"
+
+  # Logging
+  LOG_LEVEL: "DEBUG"
+  LOG_TO_FILE: "false"
+  LOG_FILE_NAME: ""
+  LOG_FORMAT: "console"
+  LOG_IS_DEVELOPMENT: "true"
+
+  # DB
+  DB_DRIVER: "postgres"
+  DB_HOST: "postgres"
+  DB_PORT: "5432"
+  DB_USER: "postgres"
+  DB_PASSWORD: "changeme"
+  DB_DBNAME: "postgres"
+  DB_SSL_MODE: "disable"
+  DB_TIMEZONE: "UTC"
+
+  # Redis
+  REDIS_HOST: "redis"
+  REDIS_PORT: "6379"
+  REDIS_PASSWORD: ""
+  REDIS_CHANNEL: "blocks"
+  REDIS_SENTINEL_CLIENT_MODE: "false"
+  REDIS_SENTINEL_CLIENT_MASTER_NAME: "master"
+
+services:
+  api:
+    build:
+      context: .
+      target: prod
+    environment:
+      <<: *env

@@ -1,0 +1,14 @@
+syntax = "proto3";
+package models;
+option go_package = "./models";
+
+message BlockList {
+
+  uint32 transaction_count = 1;
+  uint32 number = 2;
+  string hash = 3;
+  uint64 timestamp = 4;
+  string transaction_fees = 5;
+  string transaction_amount = 6;
+  string peer_id = 7;
+}
