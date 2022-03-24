@@ -1,0 +1,278 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "The icon tracker API",
+        "title": "Icon Go API",
+        "contact": {},
+        "version": "2.0"
+    },
+    "paths": {
+        "/api/v1/blocks": {
+            "get": {
+                "description": "get historical blocks",
+                "consumes": [
+                    "*/*"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Blocks"
+                ],
+                "summary": "Get Blocks",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "amount of records",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "skip to a record",
+                        "name": "skip",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "find by block number",
+                        "name": "number",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "range by start block number",
+                        "name": "start_number",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "range by end block number",
+                        "name": "end_number",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "find by block hash",
+                        "name": "hash",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "find by block creator",
+                        "name": "created_by",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "desc or asc",
+                        "name": "sort",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.BlockList"
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/blocks/{number}": {
+            "get": {
+                "description": "get details of a block",
+                "consumes": [
+                    "*/*"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Blocks"
+                ],
+                "summary": "Get Block Details",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "block number",
+                        "name": "number",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Block"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/metadata": {
+            "get": {
+                "description": "get the status of server.",
+                "consumes": [
+                    "*/*"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Version"
+                ],
+                "summary": "Show the status of server.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/version": {
+            "get": {
+                "description": "get the status of server.",
+                "consumes": [
+                    "*/*"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Version"
+                ],
+                "summary": "Show the status of server.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.Block": {
+            "type": "object",
+            "properties": {
+                "block_time": {
+                    "description": "block_times",
+                    "type": "integer"
+                },
+                "failed_transaction_count": {
+                    "description": "block_failed_transactions",
+                    "type": "integer"
+                },
+                "hash": {
+                    "type": "string"
+                },
+                "internal_transaction_amount": {
+                    "description": "block_internal_transactions",
+                    "type": "string"
+                },
+                "internal_transaction_count": {
+                    "description": "block_internal_transactions",
+                    "type": "integer"
+                },
+                "item_id": {
+                    "type": "string"
+                },
+                "item_timestamp": {
+                    "type": "string"
+                },
+                "merkle_root_hash": {
+                    "type": "string"
+                },
+                "next_leader": {
+                    "type": "string"
+                },
+                "number": {
+                    "type": "integer"
+                },
+                "parent_hash": {
+                    "type": "string"
+                },
+                "peer_id": {
+                    "type": "string"
+                },
+                "signature": {
+                    "description": "Base",
+                    "type": "string"
+                },
+                "timestamp": {
+                    "type": "integer"
+                },
+                "transaction_amount": {
+                    "description": "block_transactions",
+                    "type": "string"
+                },
+                "transaction_count": {
+                    "type": "integer"
+                },
+                "transaction_fees": {
+                    "description": "Enriched from external tables",
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.BlockList": {
+            "type": "object",
+            "properties": {
+                "hash": {
+                    "type": "string"
+                },
+                "number": {
+                    "type": "integer"
+                },
+                "peer_id": {
+                    "type": "string"
+                },
+                "timestamp": {
+                    "type": "integer"
+                },
+                "transaction_amount": {
+                    "type": "string"
+                },
+                "transaction_count": {
+                    "type": "integer"
+                },
+                "transaction_fees": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

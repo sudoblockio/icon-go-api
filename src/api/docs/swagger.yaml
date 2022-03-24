@@ -1,0 +1,186 @@
+definitions:
+  models.Block:
+    properties:
+      block_time:
+        description: block_times
+        type: integer
+      failed_transaction_count:
+        description: block_failed_transactions
+        type: integer
+      hash:
+        type: string
+      internal_transaction_amount:
+        description: block_internal_transactions
+        type: string
+      internal_transaction_count:
+        description: block_internal_transactions
+        type: integer
+      item_id:
+        type: string
+      item_timestamp:
+        type: string
+      merkle_root_hash:
+        type: string
+      next_leader:
+        type: string
+      number:
+        type: integer
+      parent_hash:
+        type: string
+      peer_id:
+        type: string
+      signature:
+        description: Base
+        type: string
+      timestamp:
+        type: integer
+      transaction_amount:
+        description: block_transactions
+        type: string
+      transaction_count:
+        type: integer
+      transaction_fees:
+        description: Enriched from external tables
+        type: string
+      type:
+        type: string
+      version:
+        type: string
+    type: object
+  models.BlockList:
+    properties:
+      hash:
+        type: string
+      number:
+        type: integer
+      peer_id:
+        type: string
+      timestamp:
+        type: integer
+      transaction_amount:
+        type: string
+      transaction_count:
+        type: integer
+      transaction_fees:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: The icon tracker API
+  title: Icon Go API
+  version: "2.0"
+paths:
+  /api/v1/blocks:
+    get:
+      consumes:
+      - '*/*'
+      description: get historical blocks
+      parameters:
+      - description: amount of records
+        in: query
+        name: limit
+        type: integer
+      - description: skip to a record
+        in: query
+        name: skip
+        type: integer
+      - description: find by block number
+        in: query
+        name: number
+        type: integer
+      - description: range by start block number
+        in: query
+        name: start_number
+        type: integer
+      - description: range by end block number
+        in: query
+        name: end_number
+        type: integer
+      - description: find by block hash
+        in: query
+        name: hash
+        type: string
+      - description: find by block creator
+        in: query
+        name: created_by
+        type: string
+      - description: desc or asc
+        in: query
+        name: sort
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.BlockList'
+            type: array
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get Blocks
+      tags:
+      - Blocks
+  /api/v1/blocks/{number}:
+    get:
+      consumes:
+      - '*/*'
+      description: get details of a block
+      parameters:
+      - description: block number
+        in: path
+        name: number
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Block'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get Block Details
+      tags:
+      - Blocks
+  /metadata:
+    get:
+      consumes:
+      - '*/*'
+      description: get the status of server.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Show the status of server.
+      tags:
+      - Version
+  /version:
+    get:
+      consumes:
+      - '*/*'
+      description: get the status of server.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Show the status of server.
+      tags:
+      - Version
+swagger: "2.0"

@@ -10,10 +10,10 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"go.uber.org/zap"
 
+	_ "github.com/sudoblockio/icon-go-api/api/docs" // import for swagger docs
 	"github.com/sudoblockio/icon-go-api/api/rest"
 	"github.com/sudoblockio/icon-go-api/api/ws"
 	"github.com/sudoblockio/icon-go-api/config"
-	_ "github.com/sudoblockio/icon-go-api/docs" // import for swagger docs
 	"github.com/sudoblockio/icon-go-api/global"
 )
 

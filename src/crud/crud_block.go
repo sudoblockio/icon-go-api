@@ -9,36 +9,36 @@ import (
 	"github.com/sudoblockio/icon-go-api/models"
 )
 
-// BlockModel - type for block table model
-type BlockModel struct {
+// BlockCrud - type for block table model
+type BlockCrud struct {
 	db       *gorm.DB
 	model    *models.Block
 	modelORM *models.BlockORM
 }
 
-var blockModel *BlockModel
-var blockModelOnce sync.Once
+var blockCrud *BlockCrud
+var blockCrudOnce sync.Once
 
-// GetBlockModel - create and/or return the blocks table model
-func GetBlockModel() *BlockModel {
-	blockModelOnce.Do(func() {
+// GetBlockCrud - create and/or return the blocks table model
+func GetBlockCrud() *BlockCrud {
+	blockCrudOnce.Do(func() {
 		dbConn := getPostgresConn()
 		if dbConn == nil {
 			zap.S().Fatal("Cannot connect to postgres database")
 		}
 
-		blockModel = &BlockModel{
+		blockCrud = &BlockCrud{
 			db:       dbConn,
 			model:    &models.Block{},
 			modelORM: &models.BlockORM{},
 		}
 	})
 
-	return blockModel
+	return blockCrud
 }
 
 // Migrate - migrate blocks table
-func (m *BlockModel) Migrate() error {
+func (m *BlockCrud) Migrate() error {
 	// Only using BlockRawORM (ORM version of the proto generated struct) to create the TABLE
 	err := m.db.AutoMigrate(m.modelORM) // Migration and Index creation
 	return err
@@ -46,7 +46,7 @@ func (m *BlockModel) Migrate() error {
 
 // SelectMany - select from blocks table
 // Returns: models, error (if present)
-func (m *BlockModel) SelectMany(
+func (m *BlockCrud) SelectMany(
 	limit int,
 	skip int,
 	number uint32,
@@ -105,7 +105,7 @@ func (m *BlockModel) SelectMany(
 }
 
 // SelectOne - select from blocks table
-func (m *BlockModel) SelectOne(
+func (m *BlockCrud) SelectOne(
 	number uint32,
 ) (*models.Block, error) {
 	db := m.db

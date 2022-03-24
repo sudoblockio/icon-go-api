@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 
+	"github.com/sudoblockio/icon-go-api/api"
 	"github.com/sudoblockio/icon-go-api/config"
 	"github.com/sudoblockio/icon-go-api/global"
 	"github.com/sudoblockio/icon-go-api/healthcheck"
@@ -19,7 +20,6 @@ func main() {
 	log.Printf("Main: Starting logging with level %s", config.Config.LogLevel)
 
 	// Start Prometheus client
-	// Go routine starts in function
 	metrics.Start()
 
 	// Start Redis Client
@@ -28,11 +28,9 @@ func main() {
 	redis.GetRedisClient().StartSubscriber()
 
 	// Start API server
-	// Go routine starts in function
-	routes.Start()
+	api.Start()
 
 	// Start Health server
-	// Go routine starts in function
 	healthcheck.Start()
 
 	global.WaitShutdownSig()

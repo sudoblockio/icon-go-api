@@ -48,7 +48,7 @@ type paramsGetBlocks struct {
 // @Param created_by query string false "find by block creator"
 // @Param sort query string false "desc or asc"
 // @Router /api/v1/blocks [get]
-// @Success 200 {object} []models.BlockAPIList
+// @Success 200 {object} []models.BlockList
 // @Failure 422 {object} map[string]interface{}
 func handlerGetBlocks(c *fiber.Ctx) error {
 	params := &paramsGetBlocks{}
@@ -84,7 +84,7 @@ func handlerGetBlocks(c *fiber.Ctx) error {
 		params.Sort = "desc"
 	}
 
-	blocks, err := crud.GetBlockModel().SelectMany(
+	blocks, err := crud.GetBlockCrud().SelectMany(
 		params.Limit,
 		params.Skip,
 		params.Number,
@@ -104,13 +104,8 @@ func handlerGetBlocks(c *fiber.Ctx) error {
 	}
 
 	// Set X-TOTAL-COUNT
-	counter, err := crud.GetBlockCountModel().SelectCount("block")
-	if err != nil {
-		counter = 0
-		zap.S().Warn("Could not retrieve block count: ", err.Error())
-	}
-
-	c.Append("X-TOTAL-COUNT", strconv.FormatUint(uint64(counter), 10))
+	// TODO
+	// c.Append("X-TOTAL-COUNT", strconv.FormatUint(uint64(counter), 10))
 
 	body, _ := json.Marshal(&blocks)
 	return c.SendString(string(body))
@@ -142,7 +137,7 @@ func handlerGetBlockDetails(c *fiber.Ctx) error {
 		return c.SendString(`{"error": "invalid number"}`)
 	}
 
-	block, err := crud.GetBlockModel().SelectOne(uint32(number))
+	block, err := crud.GetBlockCrud().SelectOne(uint32(number))
 	if err != nil {
 		c.Status(404)
 		return c.SendString(`{"error": "no block found"}`)
