@@ -1,6 +1,6 @@
 version: "3.7"
 
-x-etl-env: &etl-env
+x-extractor-env: &extractor-env
   NAME: "blocks"
   NETWORK_NAME: "mainnet"
   LOG_LEVEL: "DEBUG"
@@ -23,8 +23,8 @@ x-etl-env: &etl-env
   START_HEAD_EXTRACTOR: "true"
   HEAD_EXTRACTOR_START_BLOCK: "40000000"
 
-x-worker-env:
-  NAME: "worker"
+x-transformer-env: &transformer-env
+  NAME: "transformer"
   NETWORK_NAME: "mainnet"
 
   # Logging
@@ -57,20 +57,20 @@ x-worker-env:
 
 services:
 
-  etl:
-    image: sudoblock/icon-go-etl:latest
+  extractor:
+    image: sudoblock/icon-extractor:latest
     environment:
-      <<: *etl-env
+      <<: *extractor-env
 
-  worker:
-    image: sudoblock/icon-go-transformer:latest
+  transformer:
+    image: sudoblock/icon-transformer:latest
     environment:
-      <<: *worker-env
+      <<: *transformer-env
 
-  worker-routine:
-    image: sudoblock/icon-go-transformer:latest
+  transformer-routine:
+    image: sudoblock/icon-transformer:latest
     environment:
-      <<: *worker-env
+      <<: *transformer-env
       ROUTINES_RUN_ONLY: "true"
 
 

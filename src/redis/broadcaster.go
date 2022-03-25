@@ -18,18 +18,25 @@ type Broadcaster struct {
 	OutputChannels map[BroadcasterID]chan []byte
 }
 
-var broadcaster *Broadcaster
-var broadcasterOnce sync.Once
+var broadcasters = map[string]*Broadcaster{}
+var broadcastersOnce = map[string]*sync.Once{}
 
-func GetBroadcaster() *Broadcaster {
-	broadcasterOnce.Do(func() {
-		broadcaster = &Broadcaster{
-			InputChannel:   make(chan []byte),
-			OutputChannels: make(map[BroadcasterID]chan []byte),
-		}
-	})
+func GetBroadcaster(channelName string) *Broadcaster {
+	if _, ok := broadcastersOnce[channelName]; ok == false {
+		broadcastersOnce[channelName] = &sync.Once{}
+	}
+	broadcastersOnce[channelName].Do(
+		func() {
+			broadcasters[channelName] = &Broadcaster{
+				InputChannel:   make(chan []byte),
+				OutputChannels: make(map[BroadcasterID]chan []byte),
+			}
 
-	return broadcaster
+			broadcasters[channelName].Start()
+		},
+	)
+
+	return broadcasters[channelName]
 }
 
 // AddBroadcastChannel - add channel to  broadcaster

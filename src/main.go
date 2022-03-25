@@ -24,8 +24,7 @@ func main() {
 
 	// Start Redis Client
 	// NOTE: redis is used for websockets
-	redis.GetBroadcaster().Start()
-	redis.GetRedisClient().StartSubscriber()
+	redis.GetRedisClient().StartSubscribers()
 
 	// Start API server
 	api.Start()

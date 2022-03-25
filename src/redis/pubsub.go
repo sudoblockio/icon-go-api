@@ -4,41 +4,34 @@ import (
 	"context"
 	"time"
 
-	"go.uber.org/zap"
-
 	"github.com/sudoblockio/icon-go-api/config"
 )
 
-func (c *Client) Publish(data []byte) {
-	for {
-		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-		defer cancel()
+func (c *Client) StartSubscribers() {
 
-		// Publish
-		err := c.client.Publish(ctx, config.Config.RedisChannel, string(data)).Err()
-		if err != nil {
-			// Failure
-			zap.S().Warn("Redis Publish: Cannot publish message...retrying in 3 second")
-			time.Sleep(3 * time.Second)
+	go c.startSubscriber(config.Config.RedisBlocksChannel)
+	go c.startSubscriber(config.Config.RedisTransactionsChannel)
+	go c.startSubscriber(config.Config.RedisLogsChannel)
+	go c.startSubscriber(config.Config.RedisTokenTransfersChannel)
 
-			continue
-		}
-
-		// Success
-		break
-	}
 }
 
-func (c *Client) StartSubscriber() {
+func (c *Client) startSubscriber(channelName string) {
 
-	go func() {
-		subscriberChannel := c.pubsub.Channel()
-		inputChannel := GetBroadcaster().InputChannel
+	// Init pubsub
+	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
+	defer cancel()
+	pubsub := c.client.Subscribe(
+		ctx,
+		channelName,
+	)
 
-		for {
-			redisMsg := <-subscriberChannel
+	subscriberChannel := pubsub.Channel()
+	inputChannel := GetBroadcaster(channelName).InputChannel
 
-			inputChannel <- []byte(redisMsg.Payload)
-		}
-	}()
+	for {
+		redisMsg := <-subscriberChannel
+
+		inputChannel <- []byte(redisMsg.Payload)
+	}
 }

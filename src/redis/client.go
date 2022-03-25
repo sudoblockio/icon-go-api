@@ -15,7 +15,6 @@ import (
 
 type Client struct {
 	client *redis.Client
-	pubsub *redis.PubSub
 }
 
 var redisClient *Client
@@ -56,16 +55,6 @@ func GetRedisClient() *Client {
 			_, err := redisClient.client.Ping(ctx).Result()
 			if err != nil {
 				zap.S().Warn("RedisClient: Unable to connect to redis", err.Error())
-				return err
-			}
-
-			// Init pubsub
-			redisClient.pubsub = redisClient.client.Subscribe(ctx, config.Config.RedisChannel)
-
-			// Test pubsub
-			_, err = redisClient.pubsub.Receive(ctx)
-			if err != nil {
-				zap.S().Warn("RedisClient: Unable to create pubsub channel")
 				return err
 			}
 

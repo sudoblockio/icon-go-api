@@ -60,9 +60,16 @@ type configType struct {
 	RedisHost                     string `envconfig:"REDIS_HOST" required:"false" default:"redis"`
 	RedisPort                     string `envconfig:"REDIS_PORT" required:"false" default:"6380"`
 	RedisPassword                 string `envconfig:"REDIS_PASSWORD" required:"false" default:""`
-	RedisChannel                  string `envconfig:"REDIS_CHANNEL" required:"false" default:"blocks"`
 	RedisSentinelClientMode       bool   `envconfig:"REDIS_SENTINEL_CLIENT_MODE" required:"false" default:"false"`
 	RedisSentinelClientMasterName string `envconfig:"REDIS_SENTINEL_CLIENT_MASTER_NAME" required:"false" default:"master"`
+
+	// Redis Channels
+	// NOTE must add to redis client manually
+	// src/redis/client.go:63
+	RedisBlocksChannel         string `envconfig:"REDIS_BLOCKS_CHANNEL" required:"false" default:"blocks"`
+	RedisTransactionsChannel   string `envconfig:"REDIS_TRANSACTIONS_CHANNEL" required:"false" default:"transactions"`
+	RedisLogsChannel           string `envconfig:"REDIS_LOGS_CHANNEL" required:"false" default:"logs"`
+	RedisTokenTransfersChannel string `envconfig:"REDIS_TOKEN_TRANSFERS_CHANNEL" required:"false" default:"token_transfers"`
 
 	// GORM
 	GormLoggingThresholdMilli int `envconfig:"GORM_LOGGING_THRESHOLD_MILLI" required:"false" default:"250"`
