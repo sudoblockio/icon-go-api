@@ -58,6 +58,7 @@ func Start() {
 
 	// Add handlers
 	rest.BlocksAddHandlers(app)
+	rest.LogsAddHandlers(app)
 	ws.BlocksAddHandlers(app)
 
 	go app.Listen(":" + config.Config.Port)

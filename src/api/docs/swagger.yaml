@@ -64,6 +64,25 @@ definitions:
       transaction_fees:
         type: string
     type: object
+  models.Log:
+    properties:
+      address:
+        type: string
+      block_number:
+        type: integer
+      block_timestamp:
+        type: integer
+      data:
+        type: string
+      indexed:
+        type: string
+      log_index:
+        type: integer
+      method:
+        type: string
+      transaction_hash:
+        type: string
+    type: object
 info:
   contact: {}
   description: The icon tracker API
@@ -151,6 +170,53 @@ paths:
       summary: Get Block Details
       tags:
       - Blocks
+  /api/v1/logs:
+    get:
+      consumes:
+      - '*/*'
+      description: get historical logs
+      parameters:
+      - description: amount of records
+        in: query
+        name: limit
+        type: integer
+      - description: skip to a record
+        in: query
+        name: skip
+        type: integer
+      - description: skip to a record
+        in: query
+        name: block_number
+        type: integer
+      - description: find by transaction hash
+        in: query
+        name: transaction_hash
+        type: string
+      - description: find by score address
+        in: query
+        name: score_address
+        type: string
+      - description: find by method
+        in: query
+        name: method
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Log'
+            type: array
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get Logs
+      tags:
+      - Logs
   /metadata:
     get:
       consumes:
