@@ -59,7 +59,7 @@ func Start() {
 	// Add handlers
 	rest.BlocksAddHandlers(app)
 	rest.LogsAddHandlers(app)
-	ws.BlocksAddHandlers(app)
+	ws.WebsocketsAddHandlers(app)
 
 	go app.Listen(":" + config.Config.Port)
 }
