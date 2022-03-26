@@ -37,13 +37,6 @@ func GetBlockCrud() *BlockCrud {
 	return blockCrud
 }
 
-// Migrate - migrate blocks table
-func (m *BlockCrud) Migrate() error {
-	// Only using BlockRawORM (ORM version of the proto generated struct) to create the TABLE
-	err := m.db.AutoMigrate(m.modelORM) // Migration and Index creation
-	return err
-}
-
 // SelectMany - select from blocks table
 // Returns: models, error (if present)
 func (m *BlockCrud) SelectMany(
