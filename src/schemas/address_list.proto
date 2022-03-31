@@ -1,0 +1,11 @@
+syntax = "proto3";
+package models;
+option go_package = "./models";
+
+message AddressList {
+
+  string address = 1;
+  //uint64 transaction_count = 2;
+  double balance = 3;
+  string type = 4;
+}

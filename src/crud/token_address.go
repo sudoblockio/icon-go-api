@@ -62,6 +62,24 @@ func (m *TokenAddressCrud) SelectMany(
 	return tokenAddresses, db.Error
 }
 
+// SelectTokensByPublicKey - select token contract addresses by address
+func (m *TokenAddressCrud) SelectManyByAddress(
+	address string,
+) (*[]models.TokenAddress, error) {
+	db := m.db
+
+	// Set table
+	db = db.Model(&models.TokenAddress{})
+
+	// Public key
+	db = db.Where("address = ?", address)
+
+	tokenAddresses := &[]models.TokenAddress{}
+	db = db.Find(tokenAddresses)
+
+	return tokenAddresses, db.Error
+}
+
 // SelectMany - select from token_transfers table
 // Returns: models, error (if present)
 func (m *TokenAddressCrud) SelectManyByTokenContractAddress(

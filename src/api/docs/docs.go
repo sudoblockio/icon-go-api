@@ -16,6 +16,193 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/api/v1/addresses": {
+            "get": {
+                "description": "get list of addresses",
+                "consumes": [
+                    "*/*"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Addresses"
+                ],
+                "summary": "Get Addresses",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "amount of records",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "skip to a record",
+                        "name": "skip",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "contract addresses only",
+                        "name": "is_contract",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "find by address",
+                        "name": "address",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.AddressList"
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/addresses/contracts": {
+            "get": {
+                "description": "get list of contracts",
+                "consumes": [
+                    "*/*"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Addresses"
+                ],
+                "summary": "Get contracts",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "amount of records",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "skip to a record",
+                        "name": "skip",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.ContractList"
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/addresses/details/{address}": {
+            "get": {
+                "description": "get details of an address",
+                "consumes": [
+                    "*/*"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Addresses"
+                ],
+                "summary": "Get Address Details",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "find by address",
+                        "name": "address",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Address"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/addresses/token-addresses/{address}": {
+            "get": {
+                "description": "get list of token contracts by address",
+                "consumes": [
+                    "*/*"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Addresses"
+                ],
+                "summary": "Get Address Tokens",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "address",
+                        "name": "address",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/blocks": {
             "get": {
                 "description": "get historical blocks",
@@ -854,6 +1041,63 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "models.Address": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "balance": {
+                    "type": "number"
+                },
+                "created_timestamp": {
+                    "type": "integer"
+                },
+                "is_contract": {
+                    "type": "boolean"
+                },
+                "is_prep": {
+                    "description": "Goveranance",
+                    "type": "boolean"
+                },
+                "is_token": {
+                    "type": "boolean"
+                },
+                "log_count": {
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "Only relevant in contract addresses",
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "transaction_count": {
+                    "type": "integer"
+                },
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.AddressList": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "balance": {
+                    "type": "number"
+                },
+                "transaction_count": {
+                    "type": "integer"
+                },
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
         "models.Block": {
             "type": "object",
             "properties": {
@@ -940,6 +1184,32 @@ const docTemplate = `{
                 },
                 "transaction_fees": {
                     "type": "string"
+                }
+            }
+        },
+        "models.ContractList": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "balance": {
+                    "type": "number"
+                },
+                "created_timestamp": {
+                    "type": "integer"
+                },
+                "log_count": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "transaction_count": {
+                    "type": "integer"
                 }
             }
         },
@@ -1039,6 +1309,9 @@ const docTemplate = `{
                 "block_timestamp": {
                     "type": "integer"
                 },
+                "cumulative_step_used": {
+                    "type": "string"
+                },
                 "data": {
                     "type": "string"
                 },
@@ -1051,41 +1324,41 @@ const docTemplate = `{
                 "hash": {
                     "type": "string"
                 },
+                "log_index": {
+                    "type": "integer"
+                },
+                "logs_bloom": {
+                    "type": "string"
+                },
                 "method": {
                     "type": "string"
                 },
                 "nid": {
-                    "type": "integer"
+                    "type": "string"
                 },
                 "nonce": {
                     "type": "string"
                 },
-                "receipt_cumulative_step_used": {
-                    "type": "integer"
-                },
-                "receipt_logs": {
+                "score_address": {
                     "type": "string"
-                },
-                "receipt_score_address": {
-                    "type": "string"
-                },
-                "receipt_status": {
-                    "type": "integer"
-                },
-                "receipt_step_price": {
-                    "type": "integer"
-                },
-                "receipt_step_used": {
-                    "type": "integer"
                 },
                 "signature": {
                     "type": "string"
                 },
+                "status": {
+                    "type": "string"
+                },
                 "step_limit": {
-                    "type": "integer"
+                    "type": "string"
+                },
+                "step_price": {
+                    "type": "string"
+                },
+                "step_used": {
+                    "type": "string"
                 },
                 "timestamp": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "to_address": {
                     "type": "string"
@@ -1131,8 +1404,8 @@ const docTemplate = `{
                 "hash": {
                     "type": "string"
                 },
-                "receipt_status": {
-                    "type": "integer"
+                "status": {
+                    "type": "string"
                 },
                 "to_address": {
                     "type": "string"
@@ -1169,8 +1442,8 @@ const docTemplate = `{
                 "method": {
                     "type": "string"
                 },
-                "receipt_status": {
-                    "type": "integer"
+                "status": {
+                    "type": "string"
                 },
                 "to_address": {
                     "type": "string"

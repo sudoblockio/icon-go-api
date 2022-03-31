@@ -60,6 +60,7 @@ func Start() {
 	rest.BlocksAddHandlers(app)
 	rest.TransactionsAddHandlers(app)
 	rest.LogsAddHandlers(app)
+	rest.AddressesAddHandlers(app)
 	ws.WebsocketsAddHandlers(app)
 
 	go app.Listen(":" + config.Config.Port)
