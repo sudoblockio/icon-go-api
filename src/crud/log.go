@@ -11,9 +11,8 @@ import (
 
 // LogCrud - type for log table model
 type LogCrud struct {
-	db       *gorm.DB
-	model    *models.Log
-	modelORM *models.LogORM
+	db    *gorm.DB
+	model *models.Log
 }
 
 var logCrud *LogCrud

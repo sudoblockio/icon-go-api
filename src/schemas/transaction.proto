@@ -1,0 +1,34 @@
+syntax = "proto3";
+package models;
+option go_package = "./models";
+
+message Transaction {
+
+  string hash = 1;
+  int64  log_index = 2;
+  string type = 3;
+  string method = 4;
+  string from_address = 5;
+  string to_address = 6;
+  int64 block_number = 7;
+  string version = 8;
+  string value = 9;
+  double value_decimal = 10;
+  string step_limit = 11;
+  int64 timestamp = 12;
+  int64 block_timestamp = 13;
+  string nid = 14;
+  string nonce = 15;
+  int64 transaction_index = 16;
+  string block_hash = 17;
+  string transaction_fee = 18;
+  string signature = 19;
+  string data_type = 20;
+  string data = 21;
+  string cumulative_step_used = 22;
+  string step_used = 23;
+  string step_price = 24;
+  string score_address = 25;
+  string logs_bloom = 26;
+  string status = 27;
+}

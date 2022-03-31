@@ -19,7 +19,7 @@ require (
 	github.com/prometheus/client_golang v1.12.1
 	github.com/riferrei/srclient v0.3.0 // indirect
 	github.com/stretchr/testify v1.7.1
-	github.com/swaggo/swag v1.8.0 // indirect
+	github.com/swaggo/swag v1.8.1 // indirect
 	go.uber.org/zap v1.21.0
 	google.golang.org/genproto v0.0.0-20220323144105-ec3c684e5b14
 	google.golang.org/protobuf v1.28.0

@@ -200,6 +200,601 @@
                 }
             }
         },
+        "/api/v1/transactions": {
+            "get": {
+                "description": "get historical transactions",
+                "consumes": [
+                    "*/*"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "Get Transactions",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "amount of records",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "skip to a record",
+                        "name": "skip",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "find by from address",
+                        "name": "from",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "find by to address",
+                        "name": "to",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "find by type",
+                        "name": "type",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "find by block number",
+                        "name": "block_number",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "find by block number range",
+                        "name": "start_block_number",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "find by block number range",
+                        "name": "end_block_number",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "find by method",
+                        "name": "method",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "desc or asc",
+                        "name": "sort",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.TransactionList"
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/transactions/address/{address}": {
+            "get": {
+                "description": "get transactions by address",
+                "consumes": [
+                    "*/*"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "Get Transactions by address",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "amount of records",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "skip to a record",
+                        "name": "skip",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "address",
+                        "name": "address",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.TransactionList"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/transactions/block-number/{block_number}": {
+            "get": {
+                "description": "get transactions by block_number",
+                "consumes": [
+                    "*/*"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "Get Transactions by block_number",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "amount of records",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "skip to a record",
+                        "name": "skip",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "block_number",
+                        "name": "block_number",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.TransactionList"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/transactions/details/{hash}": {
+            "get": {
+                "description": "get details of a transaction",
+                "consumes": [
+                    "*/*"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "Get Transaction",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "transaction hash",
+                        "name": "hash",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Transaction"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/transactions/internal/address/{address}": {
+            "get": {
+                "description": "Get internal transactions by address",
+                "consumes": [
+                    "*/*"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "Get internal transactions by address",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "amount of records",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "skip to a record",
+                        "name": "skip",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "find by address",
+                        "name": "address",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.TransactionInternalList"
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/transactions/internal/{hash}": {
+            "get": {
+                "description": "Get internal transactions by hash",
+                "consumes": [
+                    "*/*"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "Get internal transactions by hash",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "amount of records",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "skip to a record",
+                        "name": "skip",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "find by hash",
+                        "name": "hash",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.TransactionInternalList"
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/transactions/token-holders/token-contract/{token_contract_address}": {
+            "get": {
+                "description": "get token holders",
+                "consumes": [
+                    "*/*"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "Get token holders by token contract",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "amount of records",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "skip to a record",
+                        "name": "skip",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "find by token contract address",
+                        "name": "token_contract_address",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.TokenAddress"
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/transactions/token-transfers": {
+            "get": {
+                "description": "get historical token transfers",
+                "consumes": [
+                    "*/*"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "Get token transfers",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "amount of records",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "skip to a record",
+                        "name": "skip",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "find by from address",
+                        "name": "from",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "find by to address",
+                        "name": "to",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "find by block number",
+                        "name": "block_number",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "find by block number range",
+                        "name": "start_block_number",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "find by block number range",
+                        "name": "end_block_number",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "find by token contract",
+                        "name": "token_contract_address",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "find by transaction hash",
+                        "name": "transaction_hash",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.TokenTransfer"
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/transactions/token-transfers/address/{address}": {
+            "get": {
+                "description": "get historical token transfers by address",
+                "consumes": [
+                    "*/*"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "Get token transfer by address",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "amount of records",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "skip to a record",
+                        "name": "skip",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "find by address",
+                        "name": "address",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.TokenTransfer"
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/transactions/token-transfers/token-contract/{token_contract_address}": {
+            "get": {
+                "description": "get historical token transfers by token contract",
+                "consumes": [
+                    "*/*"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "Get token transfers by token contract",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "amount of records",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "skip to a record",
+                        "name": "skip",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "find by token contract address",
+                        "name": "token_contract_address",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.TokenTransfer"
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/metadata": {
             "get": {
                 "description": "get the status of server.",
@@ -254,22 +849,18 @@
             "type": "object",
             "properties": {
                 "block_time": {
-                    "description": "block_times",
                     "type": "integer"
                 },
                 "failed_transaction_count": {
-                    "description": "block_failed_transactions",
                     "type": "integer"
                 },
                 "hash": {
                     "type": "string"
                 },
                 "internal_transaction_amount": {
-                    "description": "block_internal_transactions",
                     "type": "string"
                 },
                 "internal_transaction_count": {
-                    "description": "block_internal_transactions",
                     "type": "integer"
                 },
                 "item_id": {
@@ -301,14 +892,12 @@
                     "type": "integer"
                 },
                 "transaction_amount": {
-                    "description": "block_transactions",
                     "type": "string"
                 },
                 "transaction_count": {
                     "type": "integer"
                 },
                 "transaction_fees": {
-                    "description": "Enriched from external tables",
                     "type": "string"
                 },
                 "type": {
@@ -371,6 +960,223 @@
                 },
                 "transaction_hash": {
                     "type": "string"
+                }
+            }
+        },
+        "models.TokenAddress": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "balance": {
+                    "type": "number"
+                },
+                "token_contract_address": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.TokenTransfer": {
+            "type": "object",
+            "properties": {
+                "block_number": {
+                    "type": "integer"
+                },
+                "block_timestamp": {
+                    "type": "integer"
+                },
+                "from_address": {
+                    "type": "string"
+                },
+                "log_index": {
+                    "type": "integer"
+                },
+                "to_address": {
+                    "type": "string"
+                },
+                "token_contract_address": {
+                    "type": "string"
+                },
+                "token_contract_name": {
+                    "type": "string"
+                },
+                "token_contract_symbol": {
+                    "type": "string"
+                },
+                "transaction_fee": {
+                    "type": "string"
+                },
+                "transaction_hash": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                },
+                "value_decimal": {
+                    "type": "number"
+                }
+            }
+        },
+        "models.Transaction": {
+            "type": "object",
+            "properties": {
+                "block_hash": {
+                    "type": "string"
+                },
+                "block_number": {
+                    "type": "integer"
+                },
+                "block_timestamp": {
+                    "type": "integer"
+                },
+                "data": {
+                    "type": "string"
+                },
+                "data_type": {
+                    "type": "string"
+                },
+                "from_address": {
+                    "type": "string"
+                },
+                "hash": {
+                    "type": "string"
+                },
+                "method": {
+                    "type": "string"
+                },
+                "nid": {
+                    "type": "integer"
+                },
+                "nonce": {
+                    "type": "string"
+                },
+                "receipt_cumulative_step_used": {
+                    "type": "integer"
+                },
+                "receipt_logs": {
+                    "type": "string"
+                },
+                "receipt_score_address": {
+                    "type": "string"
+                },
+                "receipt_status": {
+                    "type": "integer"
+                },
+                "receipt_step_price": {
+                    "type": "integer"
+                },
+                "receipt_step_used": {
+                    "type": "integer"
+                },
+                "signature": {
+                    "type": "string"
+                },
+                "step_limit": {
+                    "type": "integer"
+                },
+                "timestamp": {
+                    "type": "string"
+                },
+                "to_address": {
+                    "type": "string"
+                },
+                "transaction_fee": {
+                    "type": "string"
+                },
+                "transaction_index": {
+                    "type": "integer"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                },
+                "value_decimal": {
+                    "type": "number"
+                },
+                "version": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.TransactionInternalList": {
+            "type": "object",
+            "properties": {
+                "block_hash": {
+                    "type": "string"
+                },
+                "block_number": {
+                    "type": "integer"
+                },
+                "block_timestamp": {
+                    "type": "integer"
+                },
+                "data": {
+                    "type": "string"
+                },
+                "from_address": {
+                    "type": "string"
+                },
+                "hash": {
+                    "type": "string"
+                },
+                "receipt_status": {
+                    "type": "integer"
+                },
+                "to_address": {
+                    "type": "string"
+                },
+                "transaction_index": {
+                    "type": "integer"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.TransactionList": {
+            "type": "object",
+            "properties": {
+                "block_number": {
+                    "type": "integer"
+                },
+                "block_timestamp": {
+                    "type": "integer"
+                },
+                "data": {
+                    "type": "string"
+                },
+                "from_address": {
+                    "type": "string"
+                },
+                "hash": {
+                    "type": "string"
+                },
+                "method": {
+                    "type": "string"
+                },
+                "receipt_status": {
+                    "type": "integer"
+                },
+                "to_address": {
+                    "type": "string"
+                },
+                "transaction_fee": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                },
+                "value_decimal": {
+                    "type": "number"
                 }
             }
         }

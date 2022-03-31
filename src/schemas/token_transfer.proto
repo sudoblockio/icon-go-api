@@ -1,0 +1,19 @@
+syntax = "proto3";
+package models;
+option go_package = "./models";
+
+message TokenTransfer {
+
+  string token_contract_address = 1;
+  string from_address = 2;
+  string to_address = 3;
+  string value = 4;
+  string transaction_hash = 5;
+  int32  log_index = 6;
+  uint64 block_number = 7;
+  double value_decimal = 8;
+  uint64 block_timestamp = 9;
+  string token_contract_name = 10;
+  string transaction_fee = 11;
+  string token_contract_symbol = 12;
+}

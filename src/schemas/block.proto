@@ -2,10 +2,7 @@ syntax = "proto3";
 package models;
 option go_package = "./models";
 
-import "github.com/infobloxopen/protoc-gen-gorm/options/gorm.proto";
-
 message Block {
-  option (gorm.opts) = {ormable: true};
 
   // Base
   string signature = 1;
@@ -14,19 +11,17 @@ message Block {
   uint32 transaction_count = 4;
   string type = 5;
   string version = 6;
-  string peer_id = 7[(gorm.field).tag = {index: "block_idx_peer_id"}];
-  uint32 number = 8 [(gorm.field).tag = {primary_key: true}];
+  string peer_id = 7;
+  uint32 number = 8;
   string merkle_root_hash = 9;
   string item_timestamp = 10;
   string hash = 11;
   string parent_hash = 12;
   uint64 timestamp = 13;
-
-  // Enriched from external tables
-  string transaction_fees = 14;             // block_transactions
-  string transaction_amount = 15;           // block_transactions
-  string internal_transaction_amount = 16;  // block_internal_transactions
-  uint32 internal_transaction_count = 17;   // block_internal_transactions
-  uint32 failed_transaction_count = 18;     // block_failed_transactions
-  uint64 block_time = 19;                   // block_times
+  string transaction_fees = 14;
+  string transaction_amount = 15;
+  string internal_transaction_amount = 16;
+  uint32 internal_transaction_count = 17;
+  uint32 failed_transaction_count = 18;
+  uint64 block_time = 19;
 }

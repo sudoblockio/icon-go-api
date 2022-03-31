@@ -58,6 +58,7 @@ func Start() {
 
 	// Add handlers
 	rest.BlocksAddHandlers(app)
+	rest.TransactionsAddHandlers(app)
 	rest.LogsAddHandlers(app)
 	ws.WebsocketsAddHandlers(app)
 

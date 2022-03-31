@@ -2,18 +2,14 @@ definitions:
   models.Block:
     properties:
       block_time:
-        description: block_times
         type: integer
       failed_transaction_count:
-        description: block_failed_transactions
         type: integer
       hash:
         type: string
       internal_transaction_amount:
-        description: block_internal_transactions
         type: string
       internal_transaction_count:
-        description: block_internal_transactions
         type: integer
       item_id:
         type: string
@@ -35,12 +31,10 @@ definitions:
       timestamp:
         type: integer
       transaction_amount:
-        description: block_transactions
         type: string
       transaction_count:
         type: integer
       transaction_fees:
-        description: Enriched from external tables
         type: string
       type:
         type: string
@@ -82,6 +76,149 @@ definitions:
         type: string
       transaction_hash:
         type: string
+    type: object
+  models.TokenAddress:
+    properties:
+      address:
+        type: string
+      balance:
+        type: number
+      token_contract_address:
+        type: string
+    type: object
+  models.TokenTransfer:
+    properties:
+      block_number:
+        type: integer
+      block_timestamp:
+        type: integer
+      from_address:
+        type: string
+      log_index:
+        type: integer
+      to_address:
+        type: string
+      token_contract_address:
+        type: string
+      token_contract_name:
+        type: string
+      token_contract_symbol:
+        type: string
+      transaction_fee:
+        type: string
+      transaction_hash:
+        type: string
+      value:
+        type: string
+      value_decimal:
+        type: number
+    type: object
+  models.Transaction:
+    properties:
+      block_hash:
+        type: string
+      block_number:
+        type: integer
+      block_timestamp:
+        type: integer
+      data:
+        type: string
+      data_type:
+        type: string
+      from_address:
+        type: string
+      hash:
+        type: string
+      method:
+        type: string
+      nid:
+        type: integer
+      nonce:
+        type: string
+      receipt_cumulative_step_used:
+        type: integer
+      receipt_logs:
+        type: string
+      receipt_score_address:
+        type: string
+      receipt_status:
+        type: integer
+      receipt_step_price:
+        type: integer
+      receipt_step_used:
+        type: integer
+      signature:
+        type: string
+      step_limit:
+        type: integer
+      timestamp:
+        type: string
+      to_address:
+        type: string
+      transaction_fee:
+        type: string
+      transaction_index:
+        type: integer
+      type:
+        type: string
+      value:
+        type: string
+      value_decimal:
+        type: number
+      version:
+        type: string
+    type: object
+  models.TransactionInternalList:
+    properties:
+      block_hash:
+        type: string
+      block_number:
+        type: integer
+      block_timestamp:
+        type: integer
+      data:
+        type: string
+      from_address:
+        type: string
+      hash:
+        type: string
+      receipt_status:
+        type: integer
+      to_address:
+        type: string
+      transaction_index:
+        type: integer
+      type:
+        type: string
+      value:
+        type: string
+    type: object
+  models.TransactionList:
+    properties:
+      block_number:
+        type: integer
+      block_timestamp:
+        type: integer
+      data:
+        type: string
+      from_address:
+        type: string
+      hash:
+        type: string
+      method:
+        type: string
+      receipt_status:
+        type: integer
+      to_address:
+        type: string
+      transaction_fee:
+        type: string
+      type:
+        type: string
+      value:
+        type: string
+      value_decimal:
+        type: number
     type: object
 info:
   contact: {}
@@ -217,6 +354,402 @@ paths:
       summary: Get Logs
       tags:
       - Logs
+  /api/v1/transactions:
+    get:
+      consumes:
+      - '*/*'
+      description: get historical transactions
+      parameters:
+      - description: amount of records
+        in: query
+        name: limit
+        type: integer
+      - description: skip to a record
+        in: query
+        name: skip
+        type: integer
+      - description: find by from address
+        in: query
+        name: from
+        type: string
+      - description: find by to address
+        in: query
+        name: to
+        type: string
+      - description: find by type
+        in: query
+        name: type
+        type: string
+      - description: find by block number
+        in: query
+        name: block_number
+        type: integer
+      - description: find by block number range
+        in: query
+        name: start_block_number
+        type: integer
+      - description: find by block number range
+        in: query
+        name: end_block_number
+        type: integer
+      - description: find by method
+        in: query
+        name: method
+        type: string
+      - description: desc or asc
+        in: query
+        name: sort
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.TransactionList'
+            type: array
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get Transactions
+      tags:
+      - Transactions
+  /api/v1/transactions/address/{address}:
+    get:
+      consumes:
+      - '*/*'
+      description: get transactions by address
+      parameters:
+      - description: amount of records
+        in: query
+        name: limit
+        type: integer
+      - description: skip to a record
+        in: query
+        name: skip
+        type: integer
+      - description: address
+        in: path
+        name: address
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.TransactionList'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get Transactions by address
+      tags:
+      - Transactions
+  /api/v1/transactions/block-number/{block_number}:
+    get:
+      consumes:
+      - '*/*'
+      description: get transactions by block_number
+      parameters:
+      - description: amount of records
+        in: query
+        name: limit
+        type: integer
+      - description: skip to a record
+        in: query
+        name: skip
+        type: integer
+      - description: block_number
+        in: path
+        name: block_number
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.TransactionList'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get Transactions by block_number
+      tags:
+      - Transactions
+  /api/v1/transactions/details/{hash}:
+    get:
+      consumes:
+      - '*/*'
+      description: get details of a transaction
+      parameters:
+      - description: transaction hash
+        in: path
+        name: hash
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Transaction'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get Transaction
+      tags:
+      - Transactions
+  /api/v1/transactions/internal/{hash}:
+    get:
+      consumes:
+      - '*/*'
+      description: Get internal transactions by hash
+      parameters:
+      - description: amount of records
+        in: query
+        name: limit
+        type: integer
+      - description: skip to a record
+        in: query
+        name: skip
+        type: integer
+      - description: find by hash
+        in: path
+        name: hash
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.TransactionInternalList'
+            type: array
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get internal transactions by hash
+      tags:
+      - Transactions
+  /api/v1/transactions/internal/address/{address}:
+    get:
+      consumes:
+      - '*/*'
+      description: Get internal transactions by address
+      parameters:
+      - description: amount of records
+        in: query
+        name: limit
+        type: integer
+      - description: skip to a record
+        in: query
+        name: skip
+        type: integer
+      - description: find by address
+        in: path
+        name: address
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.TransactionInternalList'
+            type: array
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get internal transactions by address
+      tags:
+      - Transactions
+  /api/v1/transactions/token-holders/token-contract/{token_contract_address}:
+    get:
+      consumes:
+      - '*/*'
+      description: get token holders
+      parameters:
+      - description: amount of records
+        in: query
+        name: limit
+        type: integer
+      - description: skip to a record
+        in: query
+        name: skip
+        type: integer
+      - description: find by token contract address
+        in: path
+        name: token_contract_address
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.TokenAddress'
+            type: array
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get token holders by token contract
+      tags:
+      - Transactions
+  /api/v1/transactions/token-transfers:
+    get:
+      consumes:
+      - '*/*'
+      description: get historical token transfers
+      parameters:
+      - description: amount of records
+        in: query
+        name: limit
+        type: integer
+      - description: skip to a record
+        in: query
+        name: skip
+        type: integer
+      - description: find by from address
+        in: query
+        name: from
+        type: string
+      - description: find by to address
+        in: query
+        name: to
+        type: string
+      - description: find by block number
+        in: query
+        name: block_number
+        type: integer
+      - description: find by block number range
+        in: query
+        name: start_block_number
+        type: integer
+      - description: find by block number range
+        in: query
+        name: end_block_number
+        type: integer
+      - description: find by token contract
+        in: query
+        name: token_contract_address
+        type: string
+      - description: find by transaction hash
+        in: query
+        name: transaction_hash
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.TokenTransfer'
+            type: array
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get token transfers
+      tags:
+      - Transactions
+  /api/v1/transactions/token-transfers/address/{address}:
+    get:
+      consumes:
+      - '*/*'
+      description: get historical token transfers by address
+      parameters:
+      - description: amount of records
+        in: query
+        name: limit
+        type: integer
+      - description: skip to a record
+        in: query
+        name: skip
+        type: integer
+      - description: find by address
+        in: path
+        name: address
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.TokenTransfer'
+            type: array
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get token transfer by address
+      tags:
+      - Transactions
+  /api/v1/transactions/token-transfers/token-contract/{token_contract_address}:
+    get:
+      consumes:
+      - '*/*'
+      description: get historical token transfers by token contract
+      parameters:
+      - description: amount of records
+        in: query
+        name: limit
+        type: integer
+      - description: skip to a record
+        in: query
+        name: skip
+        type: integer
+      - description: find by token contract address
+        in: path
+        name: token_contract_address
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.TokenTransfer'
+            type: array
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get token transfers by token contract
+      tags:
+      - Transactions
   /metadata:
     get:
       consumes:

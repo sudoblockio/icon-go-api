@@ -11,9 +11,8 @@ import (
 
 // BlockCrud - type for block table model
 type BlockCrud struct {
-	db       *gorm.DB
-	model    *models.Block
-	modelORM *models.BlockORM
+	db    *gorm.DB
+	model *models.Block
 }
 
 var blockCrud *BlockCrud
@@ -28,9 +27,8 @@ func GetBlockCrud() *BlockCrud {
 		}
 
 		blockCrud = &BlockCrud{
-			db:       dbConn,
-			model:    &models.Block{},
-			modelORM: &models.BlockORM{},
+			db:    dbConn,
+			model: &models.Block{},
 		}
 	})
 
