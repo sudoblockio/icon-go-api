@@ -9,6 +9,7 @@ import (
 
 	"github.com/sudoblockio/icon-go-api/config"
 	"github.com/sudoblockio/icon-go-api/crud"
+	"github.com/sudoblockio/icon-go-api/redis"
 )
 
 // BlocksAddHandlers - add blocks endpoints to fiber router
@@ -104,8 +105,15 @@ func handlerGetBlocks(c *fiber.Ctx) error {
 	}
 
 	// Set X-TOTAL-COUNT
-	// TODO
-	// c.Append("X-TOTAL-COUNT", strconv.FormatUint(uint64(counter), 10))
+	count, err := redis.GetRedisClient().GetCount(config.Config.RedisKeyPrefix + "block_count")
+	if err != nil {
+		count = 0
+		zap.S().Warn(
+			"Endpoint=handlerGetBlocks",
+			" Error=Could not retrieve block count: ", err.Error(),
+		)
+	}
+	c.Append("X-TOTAL-COUNT", strconv.FormatInt(count, 10))
 
 	body, _ := json.Marshal(&blocks)
 	return c.SendString(string(body))
