@@ -62,7 +62,7 @@ type configType struct {
 	RedisPassword                 string `envconfig:"REDIS_PASSWORD" required:"false" default:""`
 	RedisSentinelClientMode       bool   `envconfig:"REDIS_SENTINEL_CLIENT_MODE" required:"false" default:"false"`
 	RedisSentinelClientMasterName string `envconfig:"REDIS_SENTINEL_CLIENT_MASTER_NAME" required:"false" default:"master"`
-	RedisKeyPrefix                string `envconfig:"REDIS_KEY_PREFIX" required:"false" default:"icon_go_worker_"`
+	RedisKeyPrefix                string `envconfig:"REDIS_KEY_PREFIX" required:"false" default:"icon_"`
 
 	// Redis Channels
 	// NOTE must add to redis client manually

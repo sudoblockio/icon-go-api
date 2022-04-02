@@ -2,12 +2,14 @@ package rest
 
 import (
 	"encoding/json"
+	"strconv"
 
 	fiber "github.com/gofiber/fiber/v2"
 	"go.uber.org/zap"
 
 	"github.com/sudoblockio/icon-go-api/config"
 	"github.com/sudoblockio/icon-go-api/crud"
+	"github.com/sudoblockio/icon-go-api/redis"
 )
 
 type LogsQuery struct {
@@ -16,7 +18,7 @@ type LogsQuery struct {
 
 	BlockNumber     uint32 `query:"block_number"`
 	TransactionHash string `query:"transaction_hash"`
-	ScoreAddress    string `query:"score_address"`
+	Address         string `query:"address"`
 	Method          string `query:"method"`
 }
 
@@ -38,7 +40,7 @@ func LogsAddHandlers(app *fiber.App) {
 // @Param skip query int false "skip to a record"
 // @Param block_number query int false "skip to a record"
 // @Param transaction_hash query string false "find by transaction hash"
-// @Param score_address query string false "find by score address"
+// @Param address query string false "find by address"
 // @Param method query string false "find by method"
 // @Router /api/v1/logs [get]
 // @Success 200 {object} []models.Log
@@ -73,11 +75,11 @@ func handlerGetLogs(c *fiber.Ctx) error {
 		params.Skip,
 		params.BlockNumber,
 		params.TransactionHash,
-		params.ScoreAddress,
+		params.Address,
 		params.Method,
 	)
 	if err != nil {
-		zap.S().Warnf("Logs CRUD ERROR: %s", err.Error())
+		zap.S().Warn("Logs CRUD ERROR: ", err.Error())
 		c.Status(500)
 		return c.SendString(`{"error": "could not retrieve logs"}`)
 	}
@@ -88,7 +90,35 @@ func handlerGetLogs(c *fiber.Ctx) error {
 	}
 
 	// Set X-TOTAL-COUNT
-	// TODO
+	if params.TransactionHash != "" {
+		// By Transaction
+		transaction, err := crud.GetTransactionCrud().SelectOne(params.TransactionHash, -1)
+		count := int64(0)
+		if err != nil {
+			zap.S().Warn("Logs CRUD ERROR: ", err.Error())
+		} else {
+			count = transaction.LogCount
+		}
+
+		c.Append("X-TOTAL-COUNT", strconv.FormatInt(count, 10))
+	} else if params.Address != "" {
+		// By Address
+		count, err := redis.GetRedisClient().GetCount(config.Config.RedisKeyPrefix + "log_count_by_address_" + params.Address)
+		if err != nil {
+			count = 0
+			zap.S().Warn("Could not retrieve log count by address: ", params.Address, " Error: ", err.Error())
+		}
+
+		c.Append("X-TOTAL-COUNT", strconv.FormatInt(count, 10))
+	} else {
+		// All
+		count, err := redis.GetRedisClient().GetCount(config.Config.RedisKeyPrefix + "log_count")
+		if err != nil {
+			count = 0
+			zap.S().Warn("Could not retrieve log count: ", err.Error())
+		}
+		c.Append("X-TOTAL-COUNT", strconv.FormatInt(count, 10))
+	}
 
 	body, _ := json.Marshal(logs)
 	return c.SendString(string(body))
