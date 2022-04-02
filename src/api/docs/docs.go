@@ -365,8 +365,8 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "find by score address",
-                        "name": "score_address",
+                        "description": "find by address",
+                        "name": "address",
                         "in": "query"
                     },
                     {
@@ -1048,6 +1048,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "balance": {
+                    "description": "uint64 transaction_count = 3;\nuint64 log_count = 4;",
                     "type": "number"
                 },
                 "created_timestamp": {
@@ -1063,18 +1064,12 @@ const docTemplate = `{
                 "is_token": {
                     "type": "boolean"
                 },
-                "log_count": {
-                    "type": "integer"
-                },
                 "name": {
                     "description": "Only relevant in contract addresses",
                     "type": "string"
                 },
                 "status": {
                     "type": "string"
-                },
-                "transaction_count": {
-                    "type": "integer"
                 },
                 "type": {
                     "type": "string"
@@ -1088,10 +1083,8 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "balance": {
+                    "description": "uint64 transaction_count = 2;",
                     "type": "number"
-                },
-                "transaction_count": {
-                    "type": "integer"
                 },
                 "type": {
                     "type": "string"
@@ -1194,12 +1187,10 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "balance": {
+                    "description": "uint64 transaction_count = 2;\nuint64 log_count = 3;",
                     "type": "number"
                 },
                 "created_timestamp": {
-                    "type": "integer"
-                },
-                "log_count": {
                     "type": "integer"
                 },
                 "name": {
@@ -1207,9 +1198,6 @@ const docTemplate = `{
                 },
                 "status": {
                     "type": "string"
-                },
-                "transaction_count": {
-                    "type": "integer"
                 }
             }
         },
@@ -1323,6 +1311,9 @@ const docTemplate = `{
                 },
                 "hash": {
                     "type": "string"
+                },
+                "log_count": {
+                    "type": "integer"
                 },
                 "log_index": {
                     "type": "integer"
