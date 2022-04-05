@@ -9,6 +9,7 @@ import (
 
 	"github.com/sudoblockio/icon-go-api/config"
 	"github.com/sudoblockio/icon-go-api/crud"
+	"github.com/sudoblockio/icon-go-api/redis"
 )
 
 type TransactionsQuery struct {
@@ -124,7 +125,12 @@ func handlerGetTransactions(c *fiber.Ctx) error {
 	}
 
 	// X-TOTAL-COUNT
-	// TODO
+	count, err := redis.GetRedisClient().GetCount(config.Config.RedisKeyPrefix + "transaction_count")
+	if err != nil {
+		count = 0
+		zap.S().Warn("Could not retrieve transaction count: ", err.Error())
+	}
+	c.Append("X-TOTAL-COUNT", strconv.FormatInt(count, 10))
 
 	body, _ := json.Marshal(&transactions)
 	return c.SendString(string(body))
@@ -230,7 +236,14 @@ func handlerGetTransactionBlockNumber(c *fiber.Ctx) error {
 	}
 
 	// X-TOTAL-COUNT
-	// TODO
+	block, err := crud.GetBlockCrud().SelectOne(uint32(blockNumber))
+	count := int64(0)
+	if err != nil {
+		zap.S().Warn("Could not retrieve transaction count: ", err.Error())
+	} else {
+		count = int64(block.TransactionCount)
+	}
+	c.Append("X-TOTAL-COUNT", strconv.FormatInt(count, 10))
 
 	body, _ := json.Marshal(&transactions)
 	return c.SendString(string(body))
@@ -290,7 +303,12 @@ func handlerGetTransactionAddress(c *fiber.Ctx) error {
 	}
 
 	// X-TOTAL-COUNT
-	// TODO
+	count, err := redis.GetRedisClient().GetCount(config.Config.RedisKeyPrefix + "transaction_regular_count_by_address_" + address)
+	if err != nil {
+		count = 0
+		zap.S().Warn("Could not retrieve transaction count: ", err.Error())
+	}
+	c.Append("X-TOTAL-COUNT", strconv.FormatInt(count, 10))
 
 	body, _ := json.Marshal(&transactions)
 	return c.SendString(string(body))
@@ -422,7 +440,12 @@ func handlerGetInternalTransactionsAddress(c *fiber.Ctx) error {
 	}
 
 	// X-TOTAL-COUNT
-	// TODO
+	count, err := redis.GetRedisClient().GetCount(config.Config.RedisKeyPrefix + "transaction_internal_count_by_address_" + address)
+	if err != nil {
+		count = 0
+		zap.S().Warn("Could not retrieve transaction count: ", err.Error())
+	}
+	c.Append("X-TOTAL-COUNT", strconv.FormatInt(count, 10))
 
 	body, _ := json.Marshal(&internalTransactions)
 	return c.SendString(string(body))
@@ -495,7 +518,12 @@ func handlerGetTokenTransfers(c *fiber.Ctx) error {
 	}
 
 	// X-TOTAL-COUNT
-	// TODO
+	count, err := redis.GetRedisClient().GetCount(config.Config.RedisKeyPrefix + "token_transfer_count")
+	if err != nil {
+		count = 0
+		zap.S().Warn("Could not retrieve transaction count: ", err.Error())
+	}
+	c.Append("X-TOTAL-COUNT", strconv.FormatInt(count, 10))
 
 	body, _ := json.Marshal(&tokenTransfers)
 	return c.SendString(string(body))
@@ -562,7 +590,12 @@ func handlerGetTokenTransfersAddress(c *fiber.Ctx) error {
 	}
 
 	// X-TOTAL-COUNT
-	// TODO
+	count, err := redis.GetRedisClient().GetCount(config.Config.RedisKeyPrefix + "token_transfer_count_by_address_" + address)
+	if err != nil {
+		count = 0
+		zap.S().Warn("Could not retrieve transaction count: ", err.Error())
+	}
+	c.Append("X-TOTAL-COUNT", strconv.FormatInt(count, 10))
 
 	body, _ := json.Marshal(&tokenTransfers)
 	return c.SendString(string(body))
@@ -629,7 +662,12 @@ func handlerGetTokenTransfersTokenContract(c *fiber.Ctx) error {
 	}
 
 	// X-TOTAL-COUNT
-	// TODO
+	count, err := redis.GetRedisClient().GetCount(config.Config.RedisKeyPrefix + "token_transfer_count_by_token_contract_" + tokenContractAddress)
+	if err != nil {
+		count = 0
+		zap.S().Warn("Could not retrieve transaction count: ", err.Error())
+	}
+	c.Append("X-TOTAL-COUNT", strconv.FormatInt(count, 10))
 
 	body, _ := json.Marshal(&tokenTransfers)
 	return c.SendString(string(body))
