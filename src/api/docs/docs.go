@@ -173,7 +173,7 @@ const docTemplate = `{
                 "tags": [
                     "Addresses"
                 ],
-                "summary": "Get Address Tokens",
+                "summary": "Get Token Addresses",
                 "parameters": [
                     {
                         "type": "string",

@@ -2,12 +2,14 @@ package rest
 
 import (
 	"encoding/json"
+	"strconv"
 
 	fiber "github.com/gofiber/fiber/v2"
 	"go.uber.org/zap"
 
 	"github.com/sudoblockio/icon-go-api/config"
 	"github.com/sudoblockio/icon-go-api/crud"
+	"github.com/sudoblockio/icon-go-api/redis"
 )
 
 type AddressesQuery struct {
@@ -82,7 +84,12 @@ func handlerGetAddresses(c *fiber.Ctx) error {
 	}
 
 	// Set X-TOTAL-COUNT
-	// TODO
+	count, err := redis.GetRedisClient().GetCount(config.Config.RedisKeyPrefix + "address_count")
+	if err != nil {
+		count = 0
+		zap.S().Warn("Error: ", err.Error())
+	}
+	c.Append("X-TOTAL-COUNT", strconv.FormatInt(count, 10))
 
 	body, _ := json.Marshal(addresses)
 	return c.SendString(string(body))
@@ -182,14 +189,19 @@ func handlerGetContracts(c *fiber.Ctx) error {
 	}
 
 	// Set X-TOTAL-COUNT
-	// TODO
+	count, err := redis.GetRedisClient().GetCount(config.Config.RedisKeyPrefix + "address_contract_count")
+	if err != nil {
+		count = 0
+		zap.S().Warn("Error: ", err.Error())
+	}
+	c.Append("X-TOTAL-COUNT", strconv.FormatInt(count, 10))
 
 	body, _ := json.Marshal(contracts)
 	return c.SendString(string(body))
 }
 
 // Token Addresses
-// @Summary Get Address Tokens
+// @Summary Get Token Addresses
 // @Description get list of token contracts by address
 // @Tags Addresses
 // @BasePath /api/v1
@@ -214,9 +226,6 @@ func handlerGetTokenAddresses(c *fiber.Ctx) error {
 		// No Content
 		c.Status(204)
 	}
-
-	// Set X-TOTAL-COUNT
-	// TODO
 
 	// []models.TokenAddress -> []string
 	var tokenContractAddresses []string

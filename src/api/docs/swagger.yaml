@@ -403,7 +403,7 @@ paths:
           schema:
             additionalProperties: true
             type: object
-      summary: Get Address Tokens
+      summary: Get Token Addresses
       tags:
       - Addresses
   /api/v1/blocks:
