@@ -6,10 +6,10 @@ option go_package = "./models";
 message ContractList {
 
   string address = 1;
-  //uint64 transaction_count = 2;
-  //uint64 log_count = 3;
+  int64 transaction_count = 2;
+  int64 log_count = 3;
   double balance = 4;
   string name = 5;
   string status = 6;
-  uint64 created_timestamp = 7;
+  int64 created_timestamp = 7;
 }

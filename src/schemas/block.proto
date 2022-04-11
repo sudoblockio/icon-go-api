@@ -8,20 +8,20 @@ message Block {
   string signature = 1;
   string item_id = 2;
   string next_leader = 3;
-  uint32 transaction_count = 4;
+  int64 transaction_count = 4;
   string type = 5;
   string version = 6;
   string peer_id = 7;
-  uint32 number = 8;
+  int64 number = 8;
   string merkle_root_hash = 9;
   string item_timestamp = 10;
   string hash = 11;
   string parent_hash = 12;
-  uint64 timestamp = 13;
+  int64 timestamp = 13;
   string transaction_fees = 14;
   string transaction_amount = 15;
   string internal_transaction_amount = 16;
-  uint32 internal_transaction_count = 17;
-  uint32 failed_transaction_count = 18;
-  uint64 block_time = 19;
+  int64 internal_transaction_count = 17;
+  int64 failed_transaction_count = 18;
+  int64 block_time = 19;
 }

@@ -9,11 +9,11 @@ message TransactionInternalList {
   string from_address = 2;
   string to_address = 3;
   string value = 4;
-  uint64 block_timestamp = 5;
+  int64 block_timestamp = 5;
   string hash = 6;
-  uint32 transaction_index = 7;
+  int64 transaction_index = 7;
   string block_hash = 8;
-  uint64 block_number = 9;
+  int64 block_number = 9;
   string data = 10;
   string status = 11;
 }

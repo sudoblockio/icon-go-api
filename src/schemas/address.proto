@@ -6,15 +6,15 @@ message Address {
 
   string address = 1;
   bool is_contract = 2;
-  //uint64 transaction_count = 3;
-  //uint64 log_count = 4;
+  int64 transaction_count = 3;
+  int64 log_count = 4;
   double balance = 5;
   string type = 6;
 
   // Only relevant in contract addresses
   string name = 7;
   string status = 8;
-  uint64 created_timestamp = 9;
+  int64 created_timestamp = 9;
   bool is_token = 10;
 
   // Goveranance 

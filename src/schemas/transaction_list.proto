@@ -7,9 +7,9 @@ message TransactionList {
   string from_address = 1;
   string to_address = 2;
   string value = 3;
-  uint64 block_timestamp = 4;
+  int64 block_timestamp = 4;
   string hash = 5;
-  uint64 block_number = 6;
+  int64 block_number = 6;
   string transaction_fee = 7;
   string status = 8;
   string type = 9;
