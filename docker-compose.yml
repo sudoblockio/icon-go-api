@@ -16,9 +16,9 @@ x-env: &env
   # DB
   DB_DRIVER: "postgres"
   DB_HOST: "postgres"
-  DB_PORT: "5432"
+  DB_PORT: "${POSTGRES_EXTRERNAL_PORT:-5432}"
   DB_USER: "postgres"
-  DB_PASSWORD: "changeme"
+  DB_PASSWORD: "${POSTGRES_PASSWORD:-changeme}"
   DB_DBNAME: "postgres"
   DB_SSL_MODE: "disable"
   DB_TIMEZONE: "UTC"
@@ -26,10 +26,6 @@ x-env: &env
   # Redis
   REDIS_HOST: "redis"
   REDIS_PORT: "6379"
-  REDIS_PASSWORD: ""
-  REDIS_CHANNEL: "blocks"
-  REDIS_SENTINEL_CLIENT_MODE: "false"
-  REDIS_SENTINEL_CLIENT_MASTER_NAME: "master"
 
 services:
   api:
