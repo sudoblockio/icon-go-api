@@ -21,5 +21,9 @@ FROM ubuntu as prod
 # For SSL certs
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
-COPY --from=builder /build/main /
-CMD ["/main"]
+RUN useradd -ms /bin/bash icon
+USER icon
+WORKDIR /home/icon
+
+COPY --from=builder /build/main ./
+CMD ["./main"]
