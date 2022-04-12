@@ -11,7 +11,7 @@ type configType struct {
 	NetworkName string `envconfig:"NETWORK_NAME" required:"false" default:"mainnnet"`
 
 	// Ports
-	Port        string `envconfig:"PORT" required:"false" default:"8000"`
+	APIPort     string `envconfig:"API_PORT" required:"false" default:"8000"`
 	HealthPort  string `envconfig:"HEALTH_PORT" required:"false" default:"8180"`
 	MetricsPort string `envconfig:"METRICS_PORT" required:"false" default:"9400"`
 

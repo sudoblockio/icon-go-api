@@ -63,7 +63,7 @@ func Start() {
 	rest.AddressesAddHandlers(app)
 	ws.WebsocketsAddHandlers(app)
 
-	go app.Listen(":" + config.Config.Port)
+	go app.Listen(":" + config.Config.APIPort)
 }
 
 // Version
