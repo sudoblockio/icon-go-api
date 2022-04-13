@@ -1,0 +1,52 @@
+name: release
+
+on:
+  release:
+    types: [created]
+    tags:
+      - "v*.*.*"
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Bring up DBs
+        run: make up-dbs
+
+      - name: Check DBs
+        run: make ps
+
+      - name: Run tests
+        run: cd src && go test ./... -v
+
+      - name: Bring up stack
+        run: make up
+
+      - name: Check stack
+        run: make ps
+
+      - name: Run tests
+        run: cd tests && go test ./... -v
+
+      - name: Tag name
+        id: source
+        run: |
+          echo ::set-output name=TAG::${GITHUB_REF#refs/tags/}
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile
+          target: prod
+          push: true
+          tags: sudoblock/icon-go-api:latest, sudoblock/icon-go-api:${{ steps.source.outputs.TAG }}
