@@ -141,6 +141,6 @@ jobs:
         run: |
           git pull
           git add -A
-          git commit -m "addresses ${{ matrix.cluster }}/${{ matrix.ne:twork_name }}-${{ matrix.network_version }} deployment image version to ${{needs.docker.outputs.tag}}"
+          git commit -m "addresses ${{ matrix.cluster }}/${{ matrix.network_name }}-${{ matrix.network_version }} deployment image version to ${{needs.docker.outputs.tag}}"
           git push origin
         working-directory: charts
