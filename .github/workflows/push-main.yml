@@ -93,6 +93,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: docker
     strategy:
+      max-parallel: 1
       matrix:
         include:
           - cluster: dev-lax
@@ -153,22 +154,22 @@ jobs:
           branch: main
           createPR: 'false'
           updateFile: true
-#          message: "tracker api ${{ matrix.cluster }}/${{ matrix.network_name }}-${{ matrix.network_version }} deployment image version to ${{needs.docker.outputs.tag}}"
-#          token: '${{ secrets.ICON_CHARTS_PAT }}'
-
-          commitChange: false
-
-      - name: Configure credentials
-        uses: oleksiyrudenko/gha-git-credentials@v2-latest
-        with:
+          message: "tracker api ${{ matrix.cluster }}/${{ matrix.network_name }}-${{ matrix.network_version }} deployment image version to ${{needs.docker.outputs.tag}}"
           token: '${{ secrets.ICON_CHARTS_PAT }}'
-          global: true
 
-      - name: Commit all updates
-        run: |
-          git pull
-          git pull --tags -f
-          git add -A
-          git commit -m "tracker api ${{ matrix.cluster }}/${{ matrix.network_name }}-${{ matrix.network_version }} deployment image version to ${{needs.docker.outputs.tag}}"
-          git push origin
-        working-directory: charts
+#          commitChange: false
+
+#      - name: Configure credentials
+#        uses: oleksiyrudenko/gha-git-credentials@v2-latest
+#        with:
+#          token: '${{ secrets.ICON_CHARTS_PAT }}'
+#          global: true
+#
+#      - name: Commit all updates
+#        run: |
+#          git pull
+#          git pull --tags -f
+#          git add -A
+#          git commit -m "tracker api ${{ matrix.cluster }}/${{ matrix.network_name }}-${{ matrix.network_version }} deployment image version to ${{needs.docker.outputs.tag}}"
+#          git push origin
+#        working-directory: charts
