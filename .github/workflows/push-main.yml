@@ -101,6 +101,36 @@ jobs:
           - cluster: dev-lax
             network_name: sejong
             network_version: v2
+          - cluster: dev-lax
+            network_name: lisbon
+            network_version: v2
+          - cluster: dev-lax
+            network_name: berlin
+            network_version: v2
+          - cluster: prod-lax
+            network_name: mainnet
+            network_version: v2
+          - cluster: prod-lax
+            network_name: sejong
+            network_version: v2
+          - cluster: prod-lax
+            network_name: lisbon
+            network_version: v2
+          - cluster: prod-lax
+            network_name: berlin
+            network_version: v2
+          - cluster: prod-ams
+            network_name: mainnet
+            network_version: v2
+          - cluster: prod-ams
+            network_name: sejong
+            network_version: v2
+          - cluster: prod-ams
+            network_name: lisbon
+            network_version: v2
+          - cluster: prod-ams
+            network_name: berlin
+            network_version: v2
 
     steps:
 
@@ -118,7 +148,7 @@ jobs:
           workDir: charts
           repository: sudoblockio/icon-charts
           valueFile: 'deployments/${{ matrix.cluster }}/${{ matrix.network_name }}-${{ matrix.network_version }}/api/tags.yaml'
-          propertyPath: 'deployment.image.tag'
+          propertyPath: 'api.image.tag'
           value: ${{needs.docker.outputs.tag}}
           branch: main
           createPR: 'false'
@@ -135,6 +165,6 @@ jobs:
         run: |
           git pull
           git add -A
-          git commit -m "addresses ${{ matrix.cluster }}/${{ matrix.network_name }}-${{ matrix.network_version }} deployment image version to ${{needs.docker.outputs.tag}}"
+          git commit -m "tracker api ${{ matrix.cluster }}/${{ matrix.network_name }}-${{ matrix.network_version }} deployment image version to ${{needs.docker.outputs.tag}}"
           git push origin
         working-directory: charts
