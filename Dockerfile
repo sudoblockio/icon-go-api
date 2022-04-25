@@ -20,6 +20,7 @@ FROM ubuntu as prod
 
 # For SSL certs
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+EXPOSE 8000
 
 RUN useradd -ms /bin/bash icon
 USER icon
