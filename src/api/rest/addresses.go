@@ -75,6 +75,10 @@ func handlerGetAddresses(c *fiber.Ctx) error {
 	if err != nil {
 		zap.S().Warnf("Addresses CRUD ERROR: %s", err.Error())
 		c.Status(500)
+		zap.S().Warn(
+			"Endpoint=handlerGetAddresses",
+			" Error=Could not retrieve addresses: ", err.Error(),
+		)
 		return c.SendString(`{"error": "could not retrieve addresses"}`)
 	}
 
@@ -127,8 +131,10 @@ func handlerGetAddressDetails(c *fiber.Ctx) error {
 	)
 	if err != nil {
 		c.Status(500)
-
-		zap.S().Warnf("Addresses CRUD ERROR: %s", err.Error())
+		zap.S().Warn(
+			"Endpoint=handlerGetAddressDetails",
+			" Error=Could not retrieve addresses: ", err.Error(),
+		)
 		return c.SendString(`{"error": "could not retrieve addresses"}`)
 	}
 
@@ -178,9 +184,12 @@ func handlerGetContracts(c *fiber.Ctx) error {
 		params.Skip,
 	)
 	if err != nil {
-		zap.S().Warnf("Addresses CRUD ERROR: %s", err.Error())
 		c.Status(500)
-		return c.SendString(`{"error": "could not retrieve addresses"}`)
+		zap.S().Warn(
+			"Endpoint=handlerGetContracts",
+			" Error=Could not retrieve contracts: ", err.Error(),
+		)
+		return c.SendString(`{"error": "could not retrieve contracts"}`)
 	}
 
 	if len(*contracts) == 0 {
@@ -217,8 +226,11 @@ func handlerGetTokenAddresses(c *fiber.Ctx) error {
 	// Get TokenAddresses
 	tokenAddresss, err := crud.GetTokenAddressCrud().SelectManyByAddress(addressString)
 	if err != nil {
-		zap.S().Warnf("AddressTokens CRUD ERROR: %s", err.Error())
 		c.Status(500)
+		zap.S().Warn(
+			"Endpoint=handlerGetContracts",
+			" Error=Could not retrieve token addresses: ", err.Error(),
+		)
 		return c.SendString(`{"error": "could not retrieve addresses"}`)
 	}
 

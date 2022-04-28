@@ -79,8 +79,11 @@ func handlerGetLogs(c *fiber.Ctx) error {
 		params.Method,
 	)
 	if err != nil {
-		zap.S().Warn("Logs CRUD ERROR: ", err.Error())
 		c.Status(500)
+		zap.S().Warn(
+			"Endpoint=handlerGetLogs",
+			" Error=Could not retrieve logs: ", err.Error(),
+		)
 		return c.SendString(`{"error": "could not retrieve logs"}`)
 	}
 

@@ -114,8 +114,11 @@ func handlerGetTransactions(c *fiber.Ctx) error {
 		params.Sort,
 	)
 	if err != nil {
-		zap.S().Warnf("Transactions CRUD ERROR: %s", err.Error())
 		c.Status(500)
+		zap.S().Warn(
+			"Endpoint=handlerGetTransactions",
+			" Error=Could not retrieve transactions: ", err.Error(),
+		)
 		return c.SendString(`{"error": "could not retrieve transactions"}`)
 	}
 
@@ -230,8 +233,11 @@ func handlerGetTransactionBlockNumber(c *fiber.Ctx) error {
 		"desc",
 	)
 	if err != nil {
-		zap.S().Warnf("Transactions CRUD ERROR: %s", err.Error())
 		c.Status(500)
+		zap.S().Warn(
+			"Endpoint=handlerGetTransactionBlockNumber",
+			" Error=Could not retrieve transactions: ", err.Error(),
+		)
 		return c.SendString(`{"error": "could not retrieve transactions"}`)
 	}
 
@@ -299,6 +305,10 @@ func handlerGetTransactionAddress(c *fiber.Ctx) error {
 	)
 	if err != nil {
 		c.Status(500)
+		zap.S().Warn(
+			"Endpoint=handlerGetTransactionAddress",
+			" Error=Could not retrieve transactions: ", err.Error(),
+		)
 		return c.SendString(`{"error": "no transactions found"}`)
 	}
 
@@ -369,6 +379,10 @@ func handlerGetInternalTransactionsByHash(c *fiber.Ctx) error {
 	)
 	if err != nil {
 		c.Status(500)
+		zap.S().Warn(
+			"Endpoint=handlerGetInternalTransactionsByHash",
+			" Error=Could not retrieve transactions: ", err.Error(),
+		)
 		return c.SendString(`{"error": "no internal transaction found"}`)
 	}
 
@@ -431,6 +445,10 @@ func handlerGetInternalTransactionsAddress(c *fiber.Ctx) error {
 	)
 	if err != nil {
 		c.Status(500)
+		zap.S().Warn(
+			"Endpoint=handlerGetInternalTransactionsAddress",
+			" Error=Could not retrieve transactions: ", err.Error(),
+		)
 		return c.SendString(`{"error": "no internal transaction found"}`)
 	}
 
@@ -507,8 +525,11 @@ func handlerGetTokenTransfers(c *fiber.Ctx) error {
 		params.TokenContractAddress,
 	)
 	if err != nil {
-		zap.S().Warnf("Transactions CRUD ERROR: %s", err.Error())
 		c.Status(500)
+		zap.S().Warn(
+			"Endpoint=handlerGetTokenTransfers",
+			" Error=Could not retrieve token transfers: ", err.Error(),
+		)
 		return c.SendString(`{"error": "could not retrieve transactions"}`)
 	}
 
@@ -579,8 +600,11 @@ func handlerGetTokenTransfersAddress(c *fiber.Ctx) error {
 		address,
 	)
 	if err != nil {
-		zap.S().Warnf("Transactions CRUD ERROR: %s", err.Error())
 		c.Status(500)
+		zap.S().Warn(
+			"Endpoint=handlerGetTokenTransfersAddress",
+			" Error=Could not retrieve token transfers: ", err.Error(),
+		)
 		return c.SendString(`{"error": "could not retrieve transactions"}`)
 	}
 
@@ -651,8 +675,11 @@ func handlerGetTokenTransfersTokenContract(c *fiber.Ctx) error {
 		tokenContractAddress,
 	)
 	if err != nil {
-		zap.S().Warnf("Transactions CRUD ERROR: %s", err.Error())
 		c.Status(500)
+		zap.S().Warn(
+			"Endpoint=handlerGetTokenTransfersTokenContract",
+			" Error=Could not retrieve token transfers: ", err.Error(),
+		)
 		return c.SendString(`{"error": "could not retrieve transactions"}`)
 	}
 
@@ -723,8 +750,11 @@ func handlerGetTokenAddressesTokenContract(c *fiber.Ctx) error {
 		tokenContractAddress,
 	)
 	if err != nil {
-		zap.S().Warnf("Transactions CRUD ERROR: %s", err.Error())
 		c.Status(500)
+		zap.S().Warn(
+			"Endpoint=handlerGetTokenAddressesTokenContract",
+			" Error=Could not retrieve token transfers: ", err.Error(),
+		)
 		return c.SendString(`{"error": "could not retrieve transactions"}`)
 	}
 

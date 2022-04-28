@@ -97,7 +97,11 @@ func handlerGetBlocks(c *fiber.Ctx) error {
 	)
 	if err != nil {
 		c.Status(500)
-		return c.SendString(`{"error": "could retrieve blocks"}`)
+		zap.S().Warn(
+			"Endpoint=handlerGetBlocks",
+			" Error=Could not retrieve blocks: ", err.Error(),
+		)
+		return c.SendString(`{"error": "could not retrieve blocks"}`)
 	}
 	if len(*blocks) == 0 {
 		// No Content
