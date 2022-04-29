@@ -128,7 +128,7 @@ func handlerGetTransactions(c *fiber.Ctx) error {
 	}
 
 	// X-TOTAL-COUNT
-	count, err := redis.GetRedisClient().GetCount(config.Config.RedisKeyPrefix + "transaction_count")
+	count, err := redis.GetRedisClient().GetCount(config.Config.RedisKeyPrefix + "transaction_regular_count")
 	if err != nil {
 		count = 0
 		zap.S().Warn("Could not retrieve transaction count: ", err.Error())
