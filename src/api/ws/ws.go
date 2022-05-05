@@ -34,6 +34,8 @@ func handlerWebsocket(channelName string) func(*websocket.Conn) {
 	return func(c *websocket.Conn) {
 		// Add broadcaster
 		msgChan := make(chan []byte)
+
+		// If a msg comes into channel name (new subscriber), then send a message to the message channel
 		broadcasterID := redis.GetBroadcaster(channelName).AddBroadcastChannel(msgChan)
 		defer func() {
 			// Remove broadcaster
@@ -44,6 +46,8 @@ func handlerWebsocket(channelName string) func(*websocket.Conn) {
 		clientCloseSig := make(chan bool)
 		go func() {
 			for {
+				// TODO: If applying filters, this is where you would take the msg, read the filter, and store it outside of
+				//  the goroutine.
 				_, _, err := c.ReadMessage()
 				if err != nil {
 					clientCloseSig <- true
@@ -55,6 +59,9 @@ func handlerWebsocket(channelName string) func(*websocket.Conn) {
 		for {
 			// Read
 			msg := <-msgChan
+
+			// TODO: If building in filters, this is where you would apply the filter.
+			// TODO: If filter is nil, don't broadcast
 
 			// Broadcast
 			err := c.WriteMessage(websocket.TextMessage, msg)

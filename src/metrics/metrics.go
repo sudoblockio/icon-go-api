@@ -12,6 +12,7 @@ import (
 )
 
 // Metrics
+// TODO: Implement metrics
 var (
 	MaxBlockNumberBlocksRawGauge = promauto.NewGauge(prometheus.GaugeOpts{
 		Name:        "max_block_number_blocks_raw",

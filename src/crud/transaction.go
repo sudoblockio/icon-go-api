@@ -126,6 +126,8 @@ func (m *TransactionCrud) SelectManyByAddress(
 	db = db.Order("block_number DESC")
 
 	// Address
+	// This replaces a common query with select * from __ where from_address = ... or to_address = ... sort by block_number
+	//  which was really slow so we do this subquery to speed up requests from the single page view.
 	db = db.Where(`hash
 	IN (
 		SELECT

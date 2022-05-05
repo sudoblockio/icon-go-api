@@ -8,7 +8,7 @@ import (
 
 type configType struct {
 	Name        string `envconfig:"NAME" required:"false" default:"icon-go-api"`
-	NetworkName string `envconfig:"NETWORK_NAME" required:"false" default:"mainnnet"`
+	NetworkName string `envconfig:"NETWORK_NAME" required:"false" default:"mainnet"`
 
 	// Ports
 	APIPort     string `envconfig:"API_PORT" required:"false" default:"8000"`

@@ -67,8 +67,11 @@ func (b *Broadcaster) Start() {
 
 			for id, channel := range b.OutputChannels {
 				select {
-				case channel <- msg:
-				case <-time.After(time.Second * 1):
+				// TODO: Determine how to make this non-blocking as if a client is dropped, it could hold up all the
+				//	other channels for the time out (1s).
+				//	Should wrap this in a goroutine so that each client's timeout is assessed in parallel
+				case channel <- msg: // If you get a msg, broadcast it
+				case <-time.After(time.Second * 1): // If a client does not consume within 1s, drop the connection
 					b.RemoveBroadcastChannel(id)
 				}
 			}
