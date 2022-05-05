@@ -4,9 +4,6 @@ definitions:
       address:
         type: string
       balance:
-        description: |-
-          uint64 transaction_count = 3;
-          uint64 log_count = 4;
         type: number
       created_timestamp:
         type: integer
@@ -17,11 +14,15 @@ definitions:
         type: boolean
       is_token:
         type: boolean
+      log_count:
+        type: integer
       name:
         description: Only relevant in contract addresses
         type: string
       status:
         type: string
+      transaction_count:
+        type: integer
       type:
         type: string
     type: object
@@ -30,8 +31,9 @@ definitions:
       address:
         type: string
       balance:
-        description: uint64 transaction_count = 2;
         type: number
+      transaction_count:
+        type: integer
       type:
         type: string
     type: object
@@ -99,16 +101,17 @@ definitions:
       address:
         type: string
       balance:
-        description: |-
-          uint64 transaction_count = 2;
-          uint64 log_count = 3;
         type: number
       created_timestamp:
+        type: integer
+      log_count:
         type: integer
       name:
         type: string
       status:
         type: string
+      transaction_count:
+        type: integer
     type: object
   models.Log:
     properties:
