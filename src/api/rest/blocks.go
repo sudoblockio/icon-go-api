@@ -19,6 +19,7 @@ func BlocksAddHandlers(app *fiber.App) {
 
 	app.Get(prefix+"/", handlerGetBlocks)
 	app.Get(prefix+"/:number", handlerGetBlockDetails)
+	app.Get(prefix+"/time/:timestamp", handlerGetBlockTimestampDetails)
 }
 
 // Parameters for handlerGetBlocks
@@ -150,6 +151,42 @@ func handlerGetBlockDetails(c *fiber.Ctx) error {
 	}
 
 	block, err := crud.GetBlockCrud().SelectOne(uint32(number))
+	if err != nil {
+		c.Status(404)
+		return c.SendString(`{"error": "no block found"}`)
+	}
+
+	body, _ := json.Marshal(&block)
+	return c.SendString(string(body))
+}
+
+// Block by Timestamp Details
+// @Summary Get Block Details By Nearest Timestamp
+// @Description get details of a block based on timestamp
+// @Tags Blocks
+// @BasePath /api/v1
+// @Accept */*
+// @Produce json
+// @Param timestamp path int true "timestamp"
+// @Router /api/v1/blocks/timestamp/{timestamp} [get]
+// @Success 200 {object} models.Block
+// @Failure 422 {object} map[string]interface{}
+func handlerGetBlockTimestampDetails(c *fiber.Ctx) error {
+	timestampRaw := c.Params("timestamp")
+
+	if timestampRaw == "" {
+		c.Status(422)
+		return c.SendString(`{"error": "number required"}`)
+	}
+
+	// Is number?
+	timestamp, err := strconv.ParseUint(timestampRaw, 10, 32)
+	if err != nil {
+		c.Status(422)
+		return c.SendString(`{"error": "invalid number"}`)
+	}
+
+	block, err := crud.GetBlockCrud().SelectOneByTimestamp(uint64(timestamp))
 	if err != nil {
 		c.Status(404)
 		return c.SendString(`{"error": "no block found"}`)

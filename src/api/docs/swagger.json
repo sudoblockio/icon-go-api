@@ -277,6 +277,45 @@
                 }
             }
         },
+        "/api/v1/blocks/timestamp/{timestamp}": {
+            "get": {
+                "description": "get details of a block based on timestamp",
+                "consumes": [
+                    "*/*"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Blocks"
+                ],
+                "summary": "Get Block Details By Nearest Timestamp",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "timestamp",
+                        "name": "timestamp",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Block"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/blocks/{number}": {
             "get": {
                 "description": "get details of a block",

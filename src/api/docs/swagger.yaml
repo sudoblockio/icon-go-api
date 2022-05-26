@@ -490,6 +490,32 @@ paths:
       summary: Get Block Details
       tags:
       - Blocks
+  /api/v1/blocks/timestamp/{timestamp}:
+    get:
+      consumes:
+      - '*/*'
+      description: get details of a block based on timestamp
+      parameters:
+      - description: timestamp
+        in: path
+        name: timestamp
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Block'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get Block Details By Nearest Timestamp
+      tags:
+      - Blocks
   /api/v1/logs:
     get:
       consumes:
