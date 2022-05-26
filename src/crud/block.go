@@ -114,16 +114,11 @@ func (m *BlockCrud) SelectOne(
 }
 
 // SelectOne - select from blocks table
-func (m *BlockCrud) SelectOneByTimestamp(
-	timestamp uint64,
-) (*models.Block, error) {
+func (m *BlockCrud) SelectOneByTimestamp(timestamp uint64) (*models.Block, error) {
 	db := m.db
 
-	var result models.Block
-	db.Raw("SELECT * FROM blocks WHERE timestamp < ? ORDER BY timestamp DESC LIMIT 1;", timestamp).Scan(&result)
-
 	block := &models.Block{}
-	db = db.First(block)
+	db.Raw("SELECT * FROM blocks WHERE timestamp < ? ORDER BY timestamp DESC LIMIT 1;", timestamp).Scan(&block)
 
 	return block, db.Error
 }
