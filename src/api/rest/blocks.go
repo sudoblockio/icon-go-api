@@ -19,7 +19,7 @@ func BlocksAddHandlers(app *fiber.App) {
 
 	app.Get(prefix+"/", handlerGetBlocks)
 	app.Get(prefix+"/:number", handlerGetBlockDetails)
-	app.Get(prefix+"/time/:timestamp", handlerGetBlockTimestampDetails)
+	app.Get(prefix+"/timestamp/:timestamp", handlerGetBlockTimestampDetails)
 }
 
 // Parameters for handlerGetBlocks
@@ -180,7 +180,7 @@ func handlerGetBlockTimestampDetails(c *fiber.Ctx) error {
 	}
 
 	// Is number?
-	timestamp, err := strconv.ParseUint(timestampRaw, 10, 32)
+	timestamp, err := strconv.ParseUint(timestampRaw, 10, 64)
 	if err != nil {
 		c.Status(422)
 		return c.SendString(`{"error": "invalid number"}`)
