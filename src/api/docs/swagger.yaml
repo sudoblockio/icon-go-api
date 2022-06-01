@@ -494,7 +494,8 @@ paths:
     get:
       consumes:
       - '*/*'
-      description: get details of a block based on timestamp
+      description: get details of a block based on timestamp in millisecond epoch
+        time
       parameters:
       - description: timestamp
         in: path
@@ -790,6 +791,42 @@ paths:
             additionalProperties: true
             type: object
       summary: Get internal transactions by address
+      tags:
+      - Transactions
+  /api/v1/transactions/internal/block-number/{block_number}:
+    get:
+      consumes:
+      - '*/*'
+      description: Get internal transactions by block number
+      parameters:
+      - description: amount of records
+        in: query
+        name: limit
+        type: integer
+      - description: skip to a record
+        in: query
+        name: skip
+        type: integer
+      - description: block_number
+        in: path
+        name: block_number
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.TransactionInternalList'
+            type: array
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get internal transactions by block number
       tags:
       - Transactions
   /api/v1/transactions/token-holders/token-contract/{token_contract_address}:

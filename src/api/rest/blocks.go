@@ -162,7 +162,7 @@ func handlerGetBlockDetails(c *fiber.Ctx) error {
 
 // Block by Timestamp Details
 // @Summary Get Block Details By Nearest Timestamp
-// @Description get details of a block based on timestamp
+// @Description get details of a block based on timestamp in millisecond epoch time
 // @Tags Blocks
 // @BasePath /api/v1
 // @Accept */*

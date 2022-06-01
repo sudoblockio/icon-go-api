@@ -288,7 +288,7 @@ const docTemplate = `{
         },
         "/api/v1/blocks/timestamp/{timestamp}": {
             "get": {
-                "description": "get details of a block based on timestamp",
+                "description": "get details of a block based on timestamp in millisecond epoch time",
                 "consumes": [
                     "*/*"
                 ],
@@ -701,6 +701,60 @@ const docTemplate = `{
                         "type": "string",
                         "description": "find by address",
                         "name": "address",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.TransactionInternalList"
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/transactions/internal/block-number/{block_number}": {
+            "get": {
+                "description": "Get internal transactions by block number",
+                "consumes": [
+                    "*/*"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "Get internal transactions by block number",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "amount of records",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "skip to a record",
+                        "name": "skip",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "block_number",
+                        "name": "block_number",
                         "in": "path",
                         "required": true
                     }

@@ -2,6 +2,7 @@ package rest
 
 import (
 	"encoding/json"
+	"fmt"
 	"strconv"
 
 	fiber "github.com/gofiber/fiber/v2"
@@ -37,6 +38,7 @@ func TransactionsAddHandlers(app *fiber.App) {
 	app.Get(prefix+"/address/:address", handlerGetTransactionAddress)
 	app.Get(prefix+"/internal/:hash", handlerGetInternalTransactionsByHash)
 	app.Get(prefix+"/internal/address/:address", handlerGetInternalTransactionsAddress)
+	app.Get(prefix+"/internal/block-number/:block_number", handlerGetInternalTransactionsBlockNumber)
 	app.Get(prefix+"/token-transfers", handlerGetTokenTransfers)
 	app.Get(prefix+"/token-transfers/address/:address", handlerGetTokenTransfersAddress)
 	app.Get(prefix+"/token-transfers/token-contract/:token_contract_address", handlerGetTokenTransfersTokenContract)
@@ -94,7 +96,7 @@ func handlerGetTransactions(c *fiber.Ctx) error {
 	}
 
 	// NOTE: casting string types for type field
-	if params.Type == "regular" {
+	if params.Type == "regular" || params.Type == "" {
 		params.Type = "transaction"
 	} else if params.Type == "internal" {
 		params.Type = "log"
@@ -225,7 +227,7 @@ func handlerGetTransactionBlockNumber(c *fiber.Ctx) error {
 		params.Skip,
 		"",
 		"",
-		"",
+		"transaction",
 		blockNumber,
 		0,
 		0,
@@ -376,6 +378,7 @@ func handlerGetInternalTransactionsByHash(c *fiber.Ctx) error {
 		params.Limit,
 		params.Skip,
 		hash,
+		0,
 	)
 	if err != nil {
 		c.Status(500)
@@ -435,7 +438,7 @@ func handlerGetInternalTransactionsAddress(c *fiber.Ctx) error {
 	}
 	if params.Skip < 0 || params.Skip > config.Config.MaxPageSkip {
 		c.Status(422)
-		return c.SendString(`{"error": "invalid skip"}`)
+		return c.SendString(fmt.Sprintf(`{"error": "invalid skip, must be less than %d"}`, config.Config.MaxPageSkip))
 	}
 
 	internalTransactions, err := crud.GetTransactionCrud().SelectManyInternalByAddress(
@@ -462,6 +465,85 @@ func handlerGetInternalTransactionsAddress(c *fiber.Ctx) error {
 	if err != nil {
 		count = 0
 		zap.S().Warn("Could not retrieve transaction count: ", err.Error())
+	}
+	c.Append("X-TOTAL-COUNT", strconv.FormatInt(count, 10))
+
+	body, _ := json.Marshal(&internalTransactions)
+	return c.SendString(string(body))
+}
+
+// Internal transactions by block number
+// @Summary Get internal transactions by block number
+// @Description Get internal transactions by block number
+// @Tags Transactions
+// @BasePath /api/v1
+// @Accept */*
+// @Produce json
+// @Param limit query int false "amount of records"
+// @Param skip query int false "skip to a record"
+// @Param block_number path string true "block_number"
+// @Router /api/v1/transactions/internal/block-number/{block_number} [get]
+// @Success 200 {object} []models.TransactionInternalList
+// @Failure 422 {object} map[string]interface{}
+func handlerGetInternalTransactionsBlockNumber(c *fiber.Ctx) error {
+	blockNumberRaw := c.Params("block_number")
+	if blockNumberRaw == "" {
+		c.Status(422)
+		return c.SendString(`{"error": "block number required"}`)
+	}
+
+	blockNumber, err := strconv.Atoi(blockNumberRaw)
+
+	params := new(TransactionsQuery)
+	if err := c.QueryParser(params); err != nil {
+		zap.S().Warnf("Transactions Get Handler ERROR: %s", err.Error())
+
+		c.Status(422)
+		return c.SendString(`{"error": "could not parse query parameters"}`)
+	}
+
+	// Default Params
+	if params.Limit <= 0 {
+		params.Limit = 25
+	}
+
+	// Check Params
+	if params.Limit < 1 || params.Limit > config.Config.MaxPageSize {
+		c.Status(422)
+		return c.SendString(`{"error": "limit must be greater than 0 and less than 101"}`)
+	}
+	if params.Skip < 0 || params.Skip > config.Config.MaxPageSkip {
+		c.Status(422)
+		return c.SendString(`{"error": "invalid skip"}`)
+	}
+
+	internalTransactions, err := crud.GetTransactionCrud().SelectManyInternal(
+		params.Limit,
+		params.Skip,
+		"",
+		blockNumber,
+	)
+	if err != nil {
+		c.Status(500)
+		zap.S().Warn(
+			"Endpoint=handlerGetInternalTransactionsBlock",
+			" Error=Could not retrieve transactions: ", err.Error(),
+		)
+		return c.SendString(`{"error": "no internal transaction found"}`)
+	}
+
+	if len(*internalTransactions) == 0 {
+		// No Content
+		c.Status(204)
+	}
+
+	// X-TOTAL-COUNT
+	block, err := crud.GetBlockCrud().SelectOne(uint32(blockNumber))
+	count := int64(0)
+	if err != nil {
+		zap.S().Warn("Could not retrieve transaction count: ", err.Error())
+	} else {
+		count = block.InternalTransactionCount
 	}
 	c.Append("X-TOTAL-COUNT", strconv.FormatInt(count, 10))
 

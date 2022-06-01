@@ -156,6 +156,7 @@ func (m *TransactionCrud) SelectManyInternal(
 	limit int,
 	skip int,
 	hash string,
+	blockNumber int,
 ) (*[]models.TransactionInternalList, error) {
 	db := m.db
 
@@ -168,6 +169,11 @@ func (m *TransactionCrud) SelectManyInternal(
 	// Hash
 	if hash != "" {
 		db = db.Where("hash = ?", hash)
+	}
+
+	// Block Number
+	if blockNumber != 0 {
+		db = db.Where("block_number = ?", blockNumber)
 	}
 
 	// Internal transactions only
