@@ -102,6 +102,9 @@ func (m *AddressCrud) SelectManyContracts(
 	// Is contract
 	db = db.Where("is_contract = ?", true)
 
+	// Order by name with nulls in the back
+	db = db.Order("nullif(name, '') nulls last")
+
 	// Limit
 	db = db.Limit(limit)
 
