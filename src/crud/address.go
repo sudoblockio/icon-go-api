@@ -1,6 +1,7 @@
 package crud
 
 import (
+	"fmt"
 	"sync"
 
 	"go.uber.org/zap"
@@ -88,6 +89,7 @@ func (m *AddressCrud) SelectMany(
 
 // SelectManyContracts - select many from addreses table
 func (m *AddressCrud) SelectManyContracts(
+	nameSearch string,
 	limit int,
 	skip int,
 ) (*[]models.ContractList, error) {
@@ -96,11 +98,13 @@ func (m *AddressCrud) SelectManyContracts(
 	// Set table
 	db = db.Model(&models.Address{})
 
-	// Order balances
-	// db = db.Order("transaction_count DESC")
+	// Support search functionality
+	if nameSearch != "" {
+		db.Where("LOWER(name) LIKE LOWER(?)", fmt.Sprintf("%%%s%%", nameSearch))
+	}
 
 	// Is contract
-	db = db.Where("is_contract = ?", true)
+	db = db.Where("is_contract = true")
 
 	// Order by name with nulls in the back
 	db = db.Order("nullif(name, '') nulls last")

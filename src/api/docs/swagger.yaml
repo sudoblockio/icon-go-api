@@ -330,6 +330,10 @@ paths:
       - '*/*'
       description: get list of contracts
       parameters:
+      - description: contract name search
+        in: query
+        name: name_search
+        type: string
       - description: amount of records
         in: query
         name: limit

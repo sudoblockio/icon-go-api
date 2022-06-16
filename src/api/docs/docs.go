@@ -90,6 +90,12 @@ const docTemplate = `{
                 "summary": "Get contracts",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "contract name search",
+                        "name": "name_search",
+                        "in": "query"
+                    },
+                    {
                         "type": "integer",
                         "description": "amount of records",
                         "name": "limit",

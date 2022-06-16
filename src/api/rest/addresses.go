@@ -142,6 +142,12 @@ func handlerGetAddressDetails(c *fiber.Ctx) error {
 	return c.SendString(string(body))
 }
 
+type ContractsQuery struct {
+	Limit      int    `query:"limit"`
+	Skip       int    `query:"skip"`
+	NameSearch string `query:"name_search"`
+}
+
 // Contract
 // @Summary Get contracts
 // @Description get list of contracts
@@ -149,13 +155,14 @@ func handlerGetAddressDetails(c *fiber.Ctx) error {
 // @BasePath /api/v1
 // @Accept */*
 // @Produce json
+// @Param name_search query string false "contract name search"
 // @Param limit query int false "amount of records"
 // @Param skip query int false "skip to a record"
 // @Router /api/v1/addresses/contracts [get]
 // @Success 200 {object} []models.ContractList
 // @Failure 422 {object} map[string]interface{}
 func handlerGetContracts(c *fiber.Ctx) error {
-	params := new(AddressesQuery)
+	params := new(ContractsQuery)
 	if err := c.QueryParser(params); err != nil {
 		zap.S().Warnf("Addresses Get Handler ERROR: %s", err.Error())
 
@@ -180,6 +187,7 @@ func handlerGetContracts(c *fiber.Ctx) error {
 
 	// Get contracts
 	contracts, err := crud.GetAddressCrud().SelectManyContracts(
+		params.NameSearch,
 		params.Limit,
 		params.Skip,
 	)
