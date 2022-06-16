@@ -11,7 +11,7 @@ type configType struct {
 	NetworkName string `envconfig:"NETWORK_NAME" required:"false" default:"mainnet"`
 
 	// Ports
-	APIPort     string `envconfig:"API_PORT" required:"false" default:"8000"`
+	APIPort     string `envconfig:"API_PORT" required:"false" default:"8001"`
 	HealthPort  string `envconfig:"HEALTH_PORT" required:"false" default:"8180"`
 	MetricsPort string `envconfig:"METRICS_PORT" required:"false" default:"9400"`
 
@@ -57,8 +57,8 @@ type configType struct {
 	DbMaxOpenConnections int    `envconfig:"DB_MAX_OPEN_CONNECTIONS" required:"false" default:"10"`
 
 	// Redis
-	RedisHost                     string `envconfig:"REDIS_HOST" required:"false" default:"redis"`
-	RedisPort                     string `envconfig:"REDIS_PORT" required:"false" default:"6380"`
+	RedisHost                     string `envconfig:"REDIS_HOST" required:"false" default:"localhost"`
+	RedisPort                     string `envconfig:"REDIS_PORT" required:"false" default:"6379"`
 	RedisPassword                 string `envconfig:"REDIS_PASSWORD" required:"false" default:""`
 	RedisSentinelClientMode       bool   `envconfig:"REDIS_SENTINEL_CLIENT_MODE" required:"false" default:"false"`
 	RedisSentinelClientMasterName string `envconfig:"REDIS_SENTINEL_CLIENT_MASTER_NAME" required:"false" default:"master"`
@@ -74,6 +74,9 @@ type configType struct {
 
 	// GORM
 	GormLoggingThresholdMilli int `envconfig:"GORM_LOGGING_THRESHOLD_MILLI" required:"false" default:"250"`
+
+	// For testing only
+	ServiceUrl string `envconfig:"SERVICE_URL" required:"false" default:"http://localhost:8000"`
 }
 
 // Config - runtime config struct
