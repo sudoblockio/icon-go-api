@@ -59,11 +59,21 @@ func (m *AddressCrud) SelectMany(
 	limit int,
 	skip int,
 	address string,
+	isContract *bool,
+	isToken *bool,
 ) (*[]models.AddressList, error) {
 	db := m.db
 
 	// Set table
 	db = db.Model(&models.Address{})
+
+	if isContract != nil {
+		db = db.Where("is_contract = ?", &isContract)
+	}
+
+	if isToken != nil {
+		db = db.Where("is_token = ?", &isToken)
+	}
 
 	// Order balances
 	db = db.Order("balance DESC")
@@ -90,6 +100,9 @@ func (m *AddressCrud) SelectMany(
 // SelectManyContracts - select many from addreses table
 func (m *AddressCrud) SelectManyContracts(
 	nameSearch string,
+	tokenStandard string,
+	isToken *bool,
+	isNft *bool,
 	limit int,
 	skip int,
 ) (*[]models.ContractList, error) {
@@ -101,6 +114,19 @@ func (m *AddressCrud) SelectManyContracts(
 	// Support search functionality
 	if nameSearch != "" {
 		db.Where("LOWER(name) LIKE LOWER(?)", fmt.Sprintf("%%%s%%", nameSearch))
+	}
+
+	if tokenStandard != "" {
+		db.Where("is_token = true")
+		db.Where("token_standard = ?", tokenStandard)
+	}
+
+	if isToken != nil {
+		db = db.Where("is_contract = ?", &isToken)
+	}
+
+	if isNft != nil {
+		db = db.Where("is_nft = ?", &isNft)
 	}
 
 	// Is contract

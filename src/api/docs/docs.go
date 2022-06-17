@@ -49,6 +49,12 @@ const docTemplate = `{
                         "in": "query"
                     },
                     {
+                        "type": "boolean",
+                        "description": "token addresses only",
+                        "name": "is_token",
+                        "in": "query"
+                    },
+                    {
                         "type": "string",
                         "description": "find by address",
                         "name": "address",
@@ -93,6 +99,24 @@ const docTemplate = `{
                         "type": "string",
                         "description": "contract name search",
                         "name": "name_search",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "tokens only",
+                        "name": "is_token",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "NFTs only",
+                        "name": "is_nft",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "token standard, one of irc2,irc3,irc31",
+                        "name": "token_standard",
                         "in": "query"
                     },
                     {

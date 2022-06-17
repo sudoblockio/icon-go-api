@@ -13,9 +13,11 @@ import (
 )
 
 type AddressesQuery struct {
-	Limit   int    `query:"limit"`
-	Skip    int    `query:"skip"`
-	Address string `query:"address"`
+	Limit      int    `query:"limit"`
+	Skip       int    `query:"skip"`
+	Address    string `query:"address"`
+	IsContract *bool  `query:"is_contract"`
+	IsToken    *bool  `query:"is_token"`
 }
 
 func AddressesAddHandlers(app *fiber.App) {
@@ -38,6 +40,7 @@ func AddressesAddHandlers(app *fiber.App) {
 // @Param limit query int false "amount of records"
 // @Param skip query int false "skip to a record"
 // @Param is_contract query bool false "contract addresses only"
+// @Param is_token query bool false "token addresses only"
 // @Param address query string false "find by address"
 // @Router /api/v1/addresses [get]
 // @Success 200 {object} []models.AddressList
@@ -71,6 +74,8 @@ func handlerGetAddresses(c *fiber.Ctx) error {
 		params.Limit,
 		params.Skip,
 		params.Address,
+		params.IsContract,
+		params.IsToken,
 	)
 	if err != nil {
 		zap.S().Warnf("Addresses CRUD ERROR: %s", err.Error())
@@ -143,9 +148,12 @@ func handlerGetAddressDetails(c *fiber.Ctx) error {
 }
 
 type ContractsQuery struct {
-	Limit      int    `query:"limit"`
-	Skip       int    `query:"skip"`
-	NameSearch string `query:"name_search"`
+	Limit         int    `query:"limit"`
+	Skip          int    `query:"skip"`
+	NameSearch    string `query:"name_search"`
+	IsToken       *bool  `query:"is_token"`
+	IsNft         *bool  `query:"is_nft"`
+	TokenStandard string `query:"token_standard"`
 }
 
 // Contract
@@ -156,6 +164,9 @@ type ContractsQuery struct {
 // @Accept */*
 // @Produce json
 // @Param name_search query string false "contract name search"
+// @Param is_token query bool false "tokens only"
+// @Param is_nft query bool false "NFTs only"
+// @Param token_standard query string false "token standard, one of irc2,irc3,irc31"
 // @Param limit query int false "amount of records"
 // @Param skip query int false "skip to a record"
 // @Router /api/v1/addresses/contracts [get]
@@ -168,6 +179,10 @@ func handlerGetContracts(c *fiber.Ctx) error {
 
 		c.Status(422)
 		return c.SendString(`{"error": "could not parse query parameters"}`)
+	}
+
+	if params.TokenStandard != "" {
+		params.IsToken = newTrue()
 	}
 
 	// Default Params
@@ -188,6 +203,9 @@ func handlerGetContracts(c *fiber.Ctx) error {
 	// Get contracts
 	contracts, err := crud.GetAddressCrud().SelectManyContracts(
 		params.NameSearch,
+		params.TokenStandard,
+		params.IsToken,
+		params.IsNft,
 		params.Limit,
 		params.Skip,
 	)

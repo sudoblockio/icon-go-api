@@ -303,6 +303,10 @@ paths:
         in: query
         name: is_contract
         type: boolean
+      - description: token addresses only
+        in: query
+        name: is_token
+        type: boolean
       - description: find by address
         in: query
         name: address
@@ -333,6 +337,18 @@ paths:
       - description: contract name search
         in: query
         name: name_search
+        type: string
+      - description: tokens only
+        in: query
+        name: is_token
+        type: boolean
+      - description: NFTs only
+        in: query
+        name: is_nft
+        type: boolean
+      - description: token standard, one of irc2,irc3,irc31
+        in: query
+        name: token_standard
         type: string
       - description: amount of records
         in: query
