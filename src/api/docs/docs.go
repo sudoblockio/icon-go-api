@@ -116,7 +116,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "contract name search",
-                        "name": "name_search",
+                        "name": "search",
                         "in": "query"
                     },
                     {

@@ -178,7 +178,7 @@ func handlerGetAddressDetails(c *fiber.Ctx) error {
 type ContractsQuery struct {
 	Limit         int    `query:"limit"`
 	Skip          int    `query:"skip"`
-	NameSearch    string `query:"name_search"`
+	Search        string `query:"search"`
 	IsToken       *bool  `query:"is_token"`
 	IsNft         *bool  `query:"is_nft"`
 	TokenStandard string `query:"token_standard"`
@@ -191,7 +191,7 @@ type ContractsQuery struct {
 // @BasePath /api/v1
 // @Accept */*
 // @Produce json
-// @Param name_search query string false "contract name search"
+// @Param search query string false "contract name search"
 // @Param is_token query bool false "tokens only"
 // @Param is_nft query bool false "NFTs only"
 // @Param token_standard query string false "token standard, one of irc2,irc3,irc31"
@@ -230,7 +230,7 @@ func handlerGetContracts(c *fiber.Ctx) error {
 
 	// Get contracts
 	contracts, err := crud.GetAddressCrud().SelectManyContracts(
-		params.NameSearch,
+		params.Search,
 		params.TokenStandard,
 		params.IsToken,
 		params.IsNft,

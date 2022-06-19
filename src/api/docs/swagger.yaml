@@ -349,7 +349,7 @@ paths:
       parameters:
       - description: contract name search
         in: query
-        name: name_search
+        name: search
         type: string
       - description: tokens only
         in: query

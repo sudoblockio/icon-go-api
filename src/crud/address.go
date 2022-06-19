@@ -130,7 +130,7 @@ func (m *AddressCrud) SelectMany(
 
 // SelectManyContracts - select many from addreses table
 func (m *AddressCrud) SelectManyContracts(
-	nameSearch string,
+	search string,
 	tokenStandard string,
 	isToken *bool,
 	isNft *bool,
@@ -143,8 +143,8 @@ func (m *AddressCrud) SelectManyContracts(
 	db = db.Model(&models.Address{})
 
 	// Support search functionality
-	if nameSearch != "" {
-		db.Where("LOWER(name) LIKE LOWER(?)", fmt.Sprintf("%%%s%%", nameSearch))
+	if search != "" {
+		db.Where("LOWER(name) LIKE LOWER(?)", fmt.Sprintf("%%%s%%", search))
 	}
 
 	if tokenStandard != "" {
