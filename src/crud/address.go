@@ -61,6 +61,9 @@ func (m *AddressCrud) SelectMany(
 	address string,
 	isContract *bool,
 	isToken *bool,
+	isNft *bool,
+	tokenStandard string,
+	sort string,
 ) (*[]models.AddressList, error) {
 	db := m.db
 
@@ -75,12 +78,18 @@ func (m *AddressCrud) SelectMany(
 		db = db.Where("is_token = ?", &isToken)
 	}
 
-	// Order balances
-	db = db.Order("balance DESC")
+	if isNft != nil {
+		db = db.Where("is_nft = ?", &isNft)
+	}
 
 	// Address
 	if address != "" {
 		db = db.Where("address = ?", address)
+	}
+
+	// Token Standard
+	if tokenStandard != "" {
+		db = db.Where("token_standard = ?", tokenStandard)
 	}
 
 	// Limit
@@ -89,6 +98,28 @@ func (m *AddressCrud) SelectMany(
 	// Skip
 	if skip != 0 {
 		db = db.Offset(skip)
+	}
+
+	// Order by
+	if sort == "" {
+		db = db.Order("balance DESC")
+	} else {
+		orderVal := sort[0:1]
+
+		var orderCol string
+		var order string
+
+		if orderVal == "+" {
+			orderCol = sort[1:]
+			order = "ASC"
+		} else if orderVal == "-" {
+			orderCol = sort[1:]
+			order = "DESC"
+		} else {
+			orderCol = sort
+			order = "DESC"
+		}
+		db = db.Order(fmt.Sprintf("%s %s", orderCol, order))
 	}
 
 	addresses := &[]models.AddressList{}

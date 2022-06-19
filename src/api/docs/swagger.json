@@ -23,32 +23,50 @@
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "amount of records",
+                        "description": "Amount of records",
                         "name": "limit",
                         "in": "query"
                     },
                     {
                         "type": "integer",
-                        "description": "skip to a record",
+                        "description": "Skip to a record",
                         "name": "skip",
                         "in": "query"
                     },
                     {
+                        "type": "string",
+                        "description": "Find by address",
+                        "name": "address",
+                        "in": "query"
+                    },
+                    {
                         "type": "boolean",
-                        "description": "contract addresses only",
+                        "description": "Contract addresses only",
                         "name": "is_contract",
                         "in": "query"
                     },
                     {
                         "type": "boolean",
-                        "description": "token addresses only",
+                        "description": "Token addresses only",
                         "name": "is_token",
                         "in": "query"
                     },
                     {
+                        "type": "boolean",
+                        "description": "NFT addresses only",
+                        "name": "is_nft",
+                        "in": "query"
+                    },
+                    {
                         "type": "string",
-                        "description": "find by address",
-                        "name": "address",
+                        "description": "Token standard, either irc2, irc3, irc31",
+                        "name": "token_standard",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Field to sort by. name, balance, transaction_count, transaction_internal_count, token_transfer_count. Use leading +/- for sort direction or omit for descending.",
+                        "name": "sort",
                         "in": "query"
                     }
                 ],

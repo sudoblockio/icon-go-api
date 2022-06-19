@@ -291,25 +291,38 @@ paths:
       - '*/*'
       description: get list of addresses
       parameters:
-      - description: amount of records
+      - description: Amount of records
         in: query
         name: limit
         type: integer
-      - description: skip to a record
+      - description: Skip to a record
         in: query
         name: skip
         type: integer
-      - description: contract addresses only
+      - description: Find by address
+        in: query
+        name: address
+        type: string
+      - description: Contract addresses only
         in: query
         name: is_contract
         type: boolean
-      - description: token addresses only
+      - description: Token addresses only
         in: query
         name: is_token
         type: boolean
-      - description: find by address
+      - description: NFT addresses only
         in: query
-        name: address
+        name: is_nft
+        type: boolean
+      - description: Token standard, either irc2, irc3, irc31
+        in: query
+        name: token_standard
+        type: string
+      - description: Field to sort by. name, balance, transaction_count, transaction_internal_count,
+          token_transfer_count. Use leading +/- for sort direction or omit for descending.
+        in: query
+        name: sort
         type: string
       produces:
       - application/json

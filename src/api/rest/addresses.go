@@ -13,11 +13,14 @@ import (
 )
 
 type AddressesQuery struct {
-	Limit      int    `query:"limit"`
-	Skip       int    `query:"skip"`
-	Address    string `query:"address"`
-	IsContract *bool  `query:"is_contract"`
-	IsToken    *bool  `query:"is_token"`
+	Limit         int    `query:"limit"`
+	Skip          int    `query:"skip"`
+	Address       string `query:"address"`
+	IsContract    *bool  `query:"is_contract"`
+	IsToken       *bool  `query:"is_token"`
+	IsNft         *bool  `query:"is_nft"`
+	TokenStandard string `query:"token_standard"`
+	Sort          string `query:"sort"`
 }
 
 func AddressesAddHandlers(app *fiber.App) {
@@ -37,11 +40,14 @@ func AddressesAddHandlers(app *fiber.App) {
 // @BasePath /api/v1
 // @Accept */*
 // @Produce json
-// @Param limit query int false "amount of records"
-// @Param skip query int false "skip to a record"
-// @Param is_contract query bool false "contract addresses only"
-// @Param is_token query bool false "token addresses only"
-// @Param address query string false "find by address"
+// @Param limit query int false "Amount of records"
+// @Param skip query int false "Skip to a record"
+// @Param address query string false "Find by address"
+// @Param is_contract query bool false "Contract addresses only"
+// @Param is_token query bool false "Token addresses only"
+// @Param is_nft query bool false "NFT addresses only"
+// @Param token_standard query string false "Token standard, either irc2, irc3, irc31"
+// @Param sort query string false "Field to sort by. name, balance, transaction_count, transaction_internal_count, token_transfer_count. Use leading +/- for sort direction or omit for descending."
 // @Router /api/v1/addresses [get]
 // @Success 200 {object} []models.AddressList
 // @Failure 422 {object} map[string]interface{}
@@ -69,6 +75,24 @@ func handlerGetAddresses(c *fiber.Ctx) error {
 		return c.SendString(`{"error": "invalid skip"}`)
 	}
 
+	if params.Sort != "" {
+		// Check if the sort is valid. Needed so that unindexes params are not sorted on.
+		var sortParam string
+		sortFirstChar := params.Sort[0:1]
+		if sortFirstChar == "+" {
+			sortParam = params.Sort[1:]
+		} else if sortFirstChar == "-" {
+			sortParam = params.Sort[1:]
+		} else {
+			sortParam = params.Sort
+		}
+
+		if !stringInSlice(sortParam, addressSortParams) {
+			c.Status(422)
+			return c.SendString(`{"error": "invalid sort parameter"}`)
+		}
+	}
+
 	// Get Addresses
 	addresses, err := crud.GetAddressCrud().SelectMany(
 		params.Limit,
@@ -76,6 +100,9 @@ func handlerGetAddresses(c *fiber.Ctx) error {
 		params.Address,
 		params.IsContract,
 		params.IsToken,
+		params.IsNft,
+		params.TokenStandard,
+		params.Sort,
 	)
 	if err != nil {
 		zap.S().Warnf("Addresses CRUD ERROR: %s", err.Error())
@@ -92,6 +119,7 @@ func handlerGetAddresses(c *fiber.Ctx) error {
 		c.Status(204)
 	}
 
+	// TODO: RM and replace with concurrent count?
 	// Set X-TOTAL-COUNT
 	count, err := redis.GetRedisClient().GetCount(config.Config.RedisKeyPrefix + "address_count")
 	if err != nil {
