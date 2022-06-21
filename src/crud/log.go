@@ -41,6 +41,8 @@ func (m *LogCrud) SelectMany(
 	limit int,
 	skip int,
 	blockNumber uint32,
+	blockStart uint32,
+	blockEnd uint32,
 	transactionHash string,
 	scoreAddress string,
 	method string,
@@ -56,6 +58,16 @@ func (m *LogCrud) SelectMany(
 	// Number
 	if blockNumber != 0 {
 		db = db.Where("block_number = ?", blockNumber)
+	}
+
+	// Number Start
+	if blockStart != 0 {
+		db = db.Where("block_number >= ?", blockStart)
+	}
+
+	// Number End
+	if blockEnd != 0 {
+		db = db.Where("block_number <= ?", blockEnd)
 	}
 
 	// Hash

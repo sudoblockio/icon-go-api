@@ -440,8 +440,20 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "skip to a record",
+                        "description": "skip to a block",
                         "name": "block_number",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "For block range queries, a start block. Invalid with block_number",
+                        "name": "block_start",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "For block range queries, an end block. Invalid with block_number",
+                        "name": "block_end",
                         "in": "query"
                     },
                     {

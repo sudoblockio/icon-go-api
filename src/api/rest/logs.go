@@ -17,6 +17,8 @@ type LogsQuery struct {
 	Skip  int `query:"skip"`
 
 	BlockNumber     uint32 `query:"block_number"`
+	BlockStart      uint32 `query:"block_start"`
+	BlockEnd        uint32 `query:"block_end"`
 	TransactionHash string `query:"transaction_hash"`
 	Address         string `query:"address"`
 	Method          string `query:"method"`
@@ -38,7 +40,9 @@ func LogsAddHandlers(app *fiber.App) {
 // @Produce json
 // @Param limit query int false "amount of records"
 // @Param skip query int false "skip to a record"
-// @Param block_number query int false "skip to a record"
+// @Param block_number query int false "skip to a block"
+// @Param block_start query int false "For block range queries, a start block. Invalid with block_number"
+// @Param block_end query int false "For block range queries, an end block. Invalid with block_number"
 // @Param transaction_hash query string false "find by transaction hash"
 // @Param address query string false "find by address"
 // @Param method query string false "find by method"
@@ -69,11 +73,18 @@ func handlerGetLogs(c *fiber.Ctx) error {
 		return c.SendString(`{"error": "invalid skip"}`)
 	}
 
+	if params.BlockNumber != 0 && (params.BlockEnd != 0 || params.BlockStart != 0) {
+		c.Status(422)
+		return c.SendString(`{"error": "can't supply both block_number and block_start or block_end'"}`)
+	}
+
 	// Get Logs
 	logs, err := crud.GetLogCrud().SelectMany(
 		params.Limit,
 		params.Skip,
 		params.BlockNumber,
+		params.BlockStart,
+		params.BlockEnd,
 		params.TransactionHash,
 		params.Address,
 		params.Method,

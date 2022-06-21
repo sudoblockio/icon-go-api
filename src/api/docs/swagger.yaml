@@ -564,9 +564,17 @@ paths:
         in: query
         name: skip
         type: integer
-      - description: skip to a record
+      - description: skip to a block
         in: query
         name: block_number
+        type: integer
+      - description: For block range queries, a start block. Invalid with block_number
+        in: query
+        name: block_start
+        type: integer
+      - description: For block range queries, an end block. Invalid with block_number
+        in: query
+        name: block_end
         type: integer
       - description: find by transaction hash
         in: query
