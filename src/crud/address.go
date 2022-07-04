@@ -128,7 +128,7 @@ func (m *AddressCrud) SelectMany(
 	return addresses, db.Error
 }
 
-func (m *AddressCrud) CountRegularSearch(
+func (m *AddressCrud) CountWithParamsSearch(
 	search string,
 	tokenStandard string,
 	isToken *bool,
