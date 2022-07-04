@@ -251,13 +251,31 @@ func handlerGetContracts(c *fiber.Ctx) error {
 		c.Status(204)
 	}
 
-	// Set X-TOTAL-COUNT
-	count, err := redis.GetRedisClient().GetCount(config.Config.RedisKeyPrefix + "address_contract_count")
-	if err != nil {
-		count = 0
-		zap.S().Warn("Error: ", err.Error())
+	if params.Search != "" || params.TokenStandard != "" || params.IsToken != nil || params.IsNft != nil {
+		count, err := crud.GetAddressCrud().CountWithParamsSearch(
+			params.Search,
+			params.TokenStandard,
+			params.IsToken,
+			params.IsNft,
+		)
+		if err != nil {
+			c.Status(500)
+			zap.S().Warn(
+				"Endpoint=handlerGetContracts",
+				" Error=Could not retrieve contracts: ", err.Error(),
+			)
+			return c.SendString(`{"error": "could not count contracts"}`)
+		}
+		c.Append("X-TOTAL-COUNT", strconv.FormatInt(count, 10))
+	} else {
+		// Set X-TOTAL-COUNT
+		count, err := redis.GetRedisClient().GetCount(config.Config.RedisKeyPrefix + "address_contract_count")
+		if err != nil {
+			count = 0
+			zap.S().Warn("Error: ", err.Error())
+		}
+		c.Append("X-TOTAL-COUNT", strconv.FormatInt(count, 10))
 	}
-	c.Append("X-TOTAL-COUNT", strconv.FormatInt(count, 10))
 
 	body, _ := json.Marshal(contracts)
 	return c.SendString(string(body))

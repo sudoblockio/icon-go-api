@@ -128,6 +128,41 @@ func (m *AddressCrud) SelectMany(
 	return addresses, db.Error
 }
 
+func (m *AddressCrud) CountRegularSearch(
+	search string,
+	tokenStandard string,
+	isToken *bool,
+	isNft *bool,
+) (int64, error) {
+	db := m.db
+	db = db.Model(&models.Address{})
+
+	// Support search functionality
+	if search != "" {
+		db.Where("LOWER(name) LIKE LOWER(?)", fmt.Sprintf("%%%s%%", search))
+	}
+
+	if tokenStandard != "" {
+		db.Where("is_token = true")
+		db.Where("token_standard = ?", tokenStandard)
+	}
+
+	if isToken != nil {
+		db = db.Where("is_contract = ?", &isToken)
+	}
+
+	if isNft != nil {
+		db = db.Where("is_nft = ?", &isNft)
+	}
+
+	// Is contract
+	db = db.Where("is_contract = true")
+
+	var count int64
+	db = db.Count(&count)
+	return count, db.Error
+}
+
 // SelectManyContracts - select many from addreses table
 func (m *AddressCrud) SelectManyContracts(
 	search string,
@@ -138,8 +173,6 @@ func (m *AddressCrud) SelectManyContracts(
 	skip int,
 ) (*[]models.ContractList, error) {
 	db := m.db
-
-	// Set table
 	db = db.Model(&models.Address{})
 
 	// Support search functionality
