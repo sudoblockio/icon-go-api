@@ -12,4 +12,6 @@ message ContractList {
   string name = 5;
   string status = 6;
   int64 created_timestamp = 7;
+  bool is_token = 8;
+  string token_standard = 9;
 }

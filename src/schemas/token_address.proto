@@ -7,4 +7,5 @@ message TokenAddress {
   string address = 1;
   string token_contract_address = 2; 
   double balance = 3;
+  string token_standard = 4;
 }

@@ -16,4 +16,5 @@ message TransactionList {
   string method = 10;
   double value_decimal = 11;
   string data = 12;
+  int32 transaction_type = 13;
 }
