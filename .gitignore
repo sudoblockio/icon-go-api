@@ -61,6 +61,7 @@ coverage.xml
 
 # dotenv
 .env
+.env.test
 
 # virtualenv
 .venv

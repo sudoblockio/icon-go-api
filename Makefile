@@ -32,10 +32,7 @@ clean:
 	docker volume rm $(docker volume ls -q)
 
 build-swagger:  ## Build the swagger docs
-	go get github.com/swaggo/swag/cmd/swag; \
-    go get github.com/alecthomas/template; \
-    go get github.com/riferrei/srclient@v0.3.0; \
-    cd src/api && swag init -g routes/api.go
+	cd src/api && bash generateSwagDocs.sh
 
 build:  ## Build everything
 	docker-compose build
