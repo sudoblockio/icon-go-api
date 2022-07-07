@@ -1,4 +1,5 @@
-//+build unit
+//go:build unit
+// +build unit
 
 package metrics
 
@@ -23,12 +24,11 @@ func TestMetricsApiStart(t *testing.T) {
 	config.ReadEnvironment()
 
 	// Start metrics server
-	MetricsApiStart()
+	Start()
 
-	metrics["requests_amount"].Inc()
-	metrics["kafka_messages_consumed"].Inc()
-	metrics["websockets_connected"].Inc()
-	metrics["websockets_bytes_written"].Inc()
+	MaxBlockNumberTransactionsRawGauge.Inc()
+	MaxBlockNumberBlocksRawGauge.Set(2)
+	MaxBlockNumberLogsRawGauge.Set(2)
 
 	resp, err := http.Get(fmt.Sprintf("http://localhost:%s%s", config.Config.MetricsPort, config.Config.MetricsPrefix))
 	assert.Equal(nil, err)

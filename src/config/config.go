@@ -1,7 +1,10 @@
 package config
 
 import (
+	"github.com/joho/godotenv"
 	"log"
+	"os"
+	"regexp"
 
 	"github.com/kelseyhightower/envconfig"
 )
@@ -82,8 +85,20 @@ type configType struct {
 // Config - runtime config struct
 var Config configType
 
+func loadEnv() {
+	// Only for local tests - Env vars for actual runtime
+	// Source: https://github.com/joho/godotenv/issues/43#issuecomment-503183127
+	re := regexp.MustCompile(`^(.*src)`)
+	cwd, _ := os.Getwd()
+	rootPath := re.Find([]byte(cwd))
+	godotenv.Load(string(rootPath) + `/../.env.test`)
+}
+
 // ReadEnvironment - Read and store runtime config
 func ReadEnvironment() {
+	// For local tests
+	loadEnv()
+
 	err := envconfig.Process("", &Config)
 	if err != nil {
 		log.Fatalf("ERROR: envconfig - %s\n", err.Error())

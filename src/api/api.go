@@ -4,10 +4,10 @@ import (
 	"encoding/json"
 	"strings"
 
-	swagger "github.com/arsmn/fiber-swagger/v2"
 	fiber "github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/compress"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/swagger"
 	"go.uber.org/zap"
 
 	_ "github.com/sudoblockio/icon-go-api/api/docs" // import for swagger docs
@@ -20,7 +20,7 @@ import (
 // @title Icon Go API
 // @version 2.0
 // @description The icon tracker API
-func Start() {
+func Start() *fiber.App {
 
 	app := fiber.New()
 
@@ -50,7 +50,7 @@ func Start() {
 	}))
 
 	// Swagger docs
-	app.Get(config.Config.RestPrefix+"/docs/*", swagger.Handler)
+	app.Get(config.Config.RestPrefix+"/docs/*", swagger.HandlerDefault)
 
 	// Add version handlers
 	app.Get("/version", handlerVersion)
@@ -64,6 +64,8 @@ func Start() {
 	ws.WebsocketsAddHandlers(app)
 
 	go app.Listen(":" + config.Config.APIPort)
+
+	return app
 }
 
 // Version

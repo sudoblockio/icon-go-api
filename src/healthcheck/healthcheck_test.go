@@ -1,4 +1,5 @@
-//+build unit
+//go:build unit
+// +build unit
 
 package healthcheck
 
@@ -6,11 +7,9 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/sudoblockio/icon-go-api/config"
-
 	"github.com/stretchr/testify/assert"
-
 	"github.com/sudoblockio/icon-go-api/api"
+	"github.com/sudoblockio/icon-go-api/config"
 )
 
 func init() {
@@ -21,7 +20,7 @@ func TestHealthCheck(t *testing.T) {
 	assert := assert.New(t)
 
 	// Start api
-	routes.Start()
+	api.Start()
 
 	// Start healthcheck
 	Start()
