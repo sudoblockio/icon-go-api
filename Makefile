@@ -16,7 +16,7 @@ test-integration:  ## Run integration tests - Need DB compose up
 	cd src && go test ./... -v --tags=integration
 	#ginkgo -r -tags integration --randomizeAllSpecs --randomizeSuites --failOnPending --cover --trace --race --progress -v
 
-test-coverage:  ## Run unit tests - Need DB compose up
+test-coverage: up-dbs ## Run unit tests - Need DB compose up
 	cd src && go test ./... -v -race -covermode=atomic -coverprofile=../coverage.out
 
 pull:
