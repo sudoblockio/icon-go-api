@@ -67,7 +67,8 @@ func TransactionsAddHandlers(app *fiber.App) {
 // @Failure 422 {object} map[string]interface{}
 func handlerGetTransactions(c *fiber.Ctx) error {
 	params := new(TransactionsQuery)
-	if err := c.QueryParser(params); err != nil {
+	err := c.QueryParser(params)
+	if err != nil {
 		zap.S().Warnf("Transactions Get Handler ERROR: %s", err.Error())
 
 		c.Status(422)
@@ -845,8 +846,16 @@ func handlerGetTokenAddressesTokenContract(c *fiber.Ctx) error {
 		c.Status(204)
 	}
 
-	// X-TOTAL-COUNT
-	// TODO
+	// Get Transactions
+	count, err := crud.GetTokenAddressCrud().CountBy(
+		"",
+		tokenContractAddress,
+	)
+	if err != nil {
+		count = 0
+		zap.S().Warn("Could not retrieve token contract address holders count: ", err.Error())
+	}
+	c.Append("X-TOTAL-COUNT", strconv.FormatInt(count, 10))
 
 	body, _ := json.Marshal(&tokenAddresses)
 	return c.SendString(string(body))

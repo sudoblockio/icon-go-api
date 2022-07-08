@@ -110,3 +110,23 @@ func (m *TokenAddressCrud) SelectManyByTokenContractAddress(
 
 	return tokenAddresses, db.Error
 }
+
+func (m *TokenAddressCrud) CountBy(
+	address string,
+	tokenContractAddress string,
+) (int64, error) {
+	db := m.db
+	db = db.Model(&models.TokenAddress{})
+
+	if address != "" {
+		db = db.Where("address = ?", address)
+	}
+
+	if tokenContractAddress != "" {
+		db = db.Where("token_contract_address = ?", tokenContractAddress)
+	}
+
+	var count int64
+	db = db.Count(&count)
+	return count, db.Error
+}
