@@ -133,6 +133,7 @@ func (m *AddressCrud) CountWithParamsSearch(
 	tokenStandard string,
 	isToken *bool,
 	isNft *bool,
+	isContract *bool,
 ) (int64, error) {
 	db := m.db
 	db = db.Model(&models.Address{})
@@ -148,11 +149,15 @@ func (m *AddressCrud) CountWithParamsSearch(
 	}
 
 	if isToken != nil {
-		db = db.Where("is_contract = ?", &isToken)
+		db = db.Where("is_token = ?", &isToken)
 	}
 
 	if isNft != nil {
 		db = db.Where("is_nft = ?", &isNft)
+	}
+
+	if isContract != nil {
+		db = db.Where("is_contract = ?", &isContract)
 	}
 
 	// Is contract

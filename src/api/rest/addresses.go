@@ -257,6 +257,7 @@ func handlerGetContracts(c *fiber.Ctx) error {
 			params.TokenStandard,
 			params.IsToken,
 			params.IsNft,
+			newTrue(),
 		)
 		if err != nil {
 			c.Status(500)
