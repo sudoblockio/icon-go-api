@@ -36,7 +36,8 @@ func TestRestApiBase(t *testing.T) {
 
 	for _, test := range tests {
 		req := httptest.NewRequest("GET", test.route, nil)
-		resp, _ := app.Test(req, 1)
+		resp, err := app.Test(req, 10)
+		assert.Equalf(t, nil, err, "app.Test(req)")
 		assert.Equalf(t, test.expectedCode, resp.StatusCode, test.description)
 	}
 }
