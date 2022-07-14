@@ -176,7 +176,7 @@ func (m *AddressCrud) SelectManyContracts(
 	isNft *bool,
 	limit int,
 	skip int,
-) (*[]models.Address, error) {
+) (*[]models.ContractList, error) {
 	db := m.db
 	db = db.Model(&models.Address{})
 
@@ -212,7 +212,7 @@ func (m *AddressCrud) SelectManyContracts(
 		db = db.Offset(skip)
 	}
 
-	contracts := &[]models.Address{}
+	contracts := &[]models.ContractList{}
 	db = db.Find(contracts)
 
 	return contracts, db.Error
