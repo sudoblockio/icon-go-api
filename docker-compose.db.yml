@@ -148,7 +148,7 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2181
 
   kafka:
-    image: confluentinc/cp-enterprise-kafka:${CP_ENTERPRISE_KAFKA_TAG:-latest}
+    image: confluentinc/cp-server:7.2.0
     hostname: kafka
     depends_on:
       - zookeeper
@@ -173,9 +173,10 @@ services:
       KAFKA_CONFLUENT_SUPPORT_CUSTOMER_ID: anonymous
       KAFKA_CONFLUENT_METRICS_REPORTER_BOOTSTRAP_SERVERS: kafka:9092
       KAFKA_CONFLUENT_METRICS_REPORTER_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_CONFLUENT_METRICS_ENABLE: 'true'
+      KAFKA_CONFLUENT_METRICS_ENABLE: 'false'
       KAFKA_CONFLUENT_SUPPORT_METRICS_ENABLE: 'false'
       KAFKA_MESSAGE_MAX_BYTES: "67109632"
+      KAFKA_CONFLUENT_LICENSE_TOPIC_REPLICATION_FACTOR: 1
 
   #########
   # Redis #
