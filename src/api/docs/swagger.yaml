@@ -104,11 +104,15 @@ definitions:
         type: number
       created_timestamp:
         type: integer
+      is_token:
+        type: boolean
       log_count:
         type: integer
       name:
         type: string
       status:
+        type: string
+      token_standard:
         type: string
       transaction_count:
         type: integer
@@ -139,6 +143,8 @@ definitions:
       balance:
         type: number
       token_contract_address:
+        type: string
+      token_standard:
         type: string
     type: object
   models.TokenTransfer:
@@ -272,6 +278,8 @@ definitions:
         type: string
       transaction_fee:
         type: string
+      transaction_type:
+        type: integer
       type:
         type: string
       value:
@@ -760,6 +768,34 @@ paths:
             additionalProperties: true
             type: object
       summary: Get Transaction
+      tags:
+      - Transactions
+  /api/v1/transactions/icx/{address}:
+    get:
+      consumes:
+      - '*/*'
+      description: get ICX transactions to or from an address
+      parameters:
+      - description: address
+        in: path
+        name: address
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Transaction'
+            type: array
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get ICX Transactions by Address
       tags:
       - Transactions
   /api/v1/transactions/internal/{hash}:

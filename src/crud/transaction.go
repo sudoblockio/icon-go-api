@@ -150,6 +150,58 @@ func (m *TransactionCrud) SelectManyByAddress(
 	return transactions, db.Error
 }
 
+// CountManyIcxByAddress - select from transactions table
+// Returns: int64, error (if present)
+func (m *TransactionCrud) CountManyIcxByAddress(address string) (int64, error) {
+	db := m.db
+
+	db = db.Model(&models.Transaction{}).Where("type='transaction'")
+	db = db.Model(&models.Transaction{}).Where("to_address = ? or from_address = ?", address, address)
+	db = db.Model(&models.Transaction{}).Where("value_decimal != 0")
+
+	var count int64
+	db = db.Count(&count)
+	return count, db.Error
+}
+
+// SelectManyIcxByAddress - select from transactions table
+// Returns: models, error (if present)
+func (m *TransactionCrud) SelectManyIcxByAddress(
+	limit int,
+	skip int,
+	address string,
+) (*[]models.TransactionList, error) {
+	db := m.db
+
+	// Set table
+	db = db.Model(&[]models.Transaction{})
+
+	// Latest transactions first
+	db = db.Order("block_number DESC")
+
+	// Address
+	db = db.Where("from_address = ? OR to_address = ?", address, address)
+
+	// Type
+	db = db.Where("type = ?", "transaction")
+
+	// Non-zero ICX amount
+	db = db.Where("value_decimal != 0")
+
+	// Limit is required and defaulted to 1
+	db = db.Limit(limit)
+
+	// Skip
+	if skip != 0 {
+		db = db.Offset(skip)
+	}
+
+	transactions := &[]models.TransactionList{}
+	db = db.Find(transactions)
+
+	return transactions, db.Error
+}
+
 // SelectManyInternal- select many internal transaction table
 // Returns: models, error (if present)
 func (m *TransactionCrud) SelectManyInternal(

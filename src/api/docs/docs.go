@@ -731,6 +731,48 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/transactions/icx/{address}": {
+            "get": {
+                "description": "get ICX transactions to or from an address",
+                "consumes": [
+                    "*/*"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "Get ICX Transactions by Address",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "address",
+                        "name": "address",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Transaction"
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/transactions/internal/address/{address}": {
             "get": {
                 "description": "Get internal transactions by address",
@@ -1352,6 +1394,9 @@ const docTemplate = `{
                 "created_timestamp": {
                     "type": "integer"
                 },
+                "is_token": {
+                    "type": "boolean"
+                },
                 "log_count": {
                     "type": "integer"
                 },
@@ -1359,6 +1404,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "status": {
+                    "type": "string"
+                },
+                "token_standard": {
                     "type": "string"
                 },
                 "transaction_count": {
@@ -1405,6 +1453,9 @@ const docTemplate = `{
                     "type": "number"
                 },
                 "token_contract_address": {
+                    "type": "string"
+                },
+                "token_standard": {
                     "type": "string"
                 }
             }
@@ -1606,6 +1657,9 @@ const docTemplate = `{
                 },
                 "transaction_fee": {
                     "type": "string"
+                },
+                "transaction_type": {
+                    "type": "integer"
                 },
                 "type": {
                     "type": "string"

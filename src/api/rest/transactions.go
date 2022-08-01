@@ -34,6 +34,7 @@ func TransactionsAddHandlers(app *fiber.App) {
 
 	app.Get(prefix+"/", handlerGetTransactions)
 	app.Get(prefix+"/details/:hash", handlerGetTransaction)
+	app.Get(prefix+"/icx/:address", handlerGetIcxTransactionsAddress)
 	app.Get(prefix+"/block-number/:block_number", handlerGetTransactionBlockNumber)
 	app.Get(prefix+"/address/:address", handlerGetTransactionAddress)
 	app.Get(prefix+"/internal/:hash", handlerGetInternalTransactionsByHash)
@@ -170,6 +171,72 @@ func handlerGetTransaction(c *fiber.Ctx) error {
 	}
 
 	body, _ := json.Marshal(&transaction)
+	return c.SendString(string(body))
+}
+
+// Transaction ICX by Address
+// @Summary Get ICX Transactions by Address
+// @Description get ICX transactions to or from an address
+// @Tags Transactions
+// @BasePath /api/v1
+// @Accept */*
+// @Produce json
+// @Param address path string true "address"
+// @Router /api/v1/transactions/icx/{address} [get]
+// @Success 200 {object} []models.Transaction
+// @Failure 422 {object} map[string]interface{}
+func handlerGetIcxTransactionsAddress(c *fiber.Ctx) error {
+	address := c.Params("address")
+	if address == "" {
+		c.Status(422)
+		return c.SendString(`{"error": "address required"}`)
+	}
+
+	params := new(TransactionsQuery)
+	if err := c.QueryParser(params); err != nil {
+		zap.S().Warnf("Transactions Get Handler ERROR: %s", err.Error())
+
+		c.Status(422)
+		return c.SendString(`{"error": "could not parse query parameters"}`)
+	}
+
+	// Default Params
+	if params.Limit <= 0 {
+		params.Limit = 25
+	}
+
+	// Check Params
+	if params.Limit < 1 || params.Limit > config.Config.MaxPageSize {
+		c.Status(422)
+		return c.SendString(`{"error": "limit must be greater than 0 and less than 101"}`)
+	}
+	if params.Skip < 0 || params.Skip > config.Config.MaxPageSkip {
+		c.Status(422)
+		return c.SendString(`{"error": "invalid skip"}`)
+	}
+
+	transactions, err := crud.GetTransactionCrud().SelectManyIcxByAddress(
+		params.Limit,
+		params.Skip,
+		address,
+	)
+	if err != nil {
+		c.Status(500)
+		zap.S().Warn(
+			"Endpoint=handlerGetTransactionAddress",
+			" Error=Could not retrieve transactions: ", err.Error(),
+		)
+		return c.SendString(`{"error": "no transactions found"}`)
+	}
+
+	count, err := crud.GetTransactionCrud().CountManyIcxByAddress(address)
+	if err != nil {
+		c.Status(500)
+		return c.SendString(`{"error": "count server error"}`)
+	}
+	c.Append("X-TOTAL-COUNT", strconv.FormatInt(count, 10))
+
+	body, _ := json.Marshal(&transactions)
 	return c.SendString(string(body))
 }
 
