@@ -746,6 +746,18 @@ const docTemplate = `{
                 "summary": "Get ICX Transactions by Address",
                 "parameters": [
                     {
+                        "type": "integer",
+                        "description": "amount of records",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "skip to a record",
+                        "name": "skip",
+                        "in": "query"
+                    },
+                    {
                         "type": "string",
                         "description": "address",
                         "name": "address",

@@ -181,6 +181,8 @@ func handlerGetTransaction(c *fiber.Ctx) error {
 // @BasePath /api/v1
 // @Accept */*
 // @Produce json
+// @Param limit query int false "amount of records"
+// @Param skip query int false "skip to a record"
 // @Param address path string true "address"
 // @Router /api/v1/transactions/icx/{address} [get]
 // @Success 200 {object} []models.Transaction

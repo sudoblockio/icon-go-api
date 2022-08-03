@@ -776,6 +776,14 @@ paths:
       - '*/*'
       description: get ICX transactions to or from an address
       parameters:
+      - description: amount of records
+        in: query
+        name: limit
+        type: integer
+      - description: skip to a record
+        in: query
+        name: skip
+        type: integer
       - description: address
         in: path
         name: address
