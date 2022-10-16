@@ -5,7 +5,7 @@ test: up-dbs test-unit test-integration
 up-dbs:  ## Bring up the DBs
 	docker-compose -f docker-compose.db.yml up -d
 	echo "Waiting for backend to populate some records..."
-	sleep 20
+	sleep 5
 
 down-dbs:  ## Take down the DBs
 	docker-compose -f docker-compose.db.yml down

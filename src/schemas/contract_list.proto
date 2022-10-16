@@ -14,4 +14,5 @@ message ContractList {
   int64 created_timestamp = 7;
   bool is_token = 8;
   string token_standard = 9;
+  string symbol = 10;
 }
