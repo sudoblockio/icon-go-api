@@ -10,13 +10,20 @@ message Address {
   int64 log_count = 4;
   double balance = 5;
   string type = 6;
-
-  // Only relevant in contract addresses
   string name = 7;
   string status = 8;
   int64 created_timestamp = 9;
   bool is_token = 10;
-
-  // Goveranance 
   bool is_prep = 11;
+  bool is_nft = 12;
+  int64 transaction_internal_count = 13;
+  int64 token_transfer_count = 14;
+  int64 contract_updated_block = 15;
+  string contract_type = 16;
+  string symbol = 17;
+  string token_standard = 18;
+  string audit_tx_hash = 20;
+  string code_hash = 21;
+  string deploy_tx_hash = 22;
+  string owner = 23;
 }

@@ -8,4 +8,8 @@ message AddressList {
   int64 transaction_count = 2;
   double balance = 3;
   string type = 4;
+  bool is_contract = 5;
+  bool is_token = 6;
+  bool is_nft = 7;
+  string token_standard = 8;
 }

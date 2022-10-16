@@ -5,6 +5,8 @@ go 1.16
 require (
 	github.com/DATA-DOG/go-sqlmock v1.5.0 // indirect
 	github.com/InVisionApp/go-health/v2 v2.1.2
+	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751 // indirect
+	github.com/arsmn/fiber-swagger/v2 v2.20.0 // indirect
 	github.com/cenkalti/backoff v2.2.1+incompatible
 	github.com/cenkalti/backoff/v4 v4.1.3
 	github.com/go-openapi/spec v0.20.6 // indirect
@@ -14,6 +16,7 @@ require (
 	github.com/gofiber/fiber/v2 v2.35.0
 	github.com/gofiber/swagger v0.0.1
 	github.com/gofiber/websocket/v2 v2.0.23
+	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/go-cmp v0.5.6 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/joho/godotenv v1.4.0
@@ -22,11 +25,12 @@ require (
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/prometheus/client_golang v1.12.2
 	github.com/prometheus/common v0.36.0 // indirect
+	github.com/riferrei/srclient v0.3.0 // indirect
 	github.com/savsgio/gotils v0.0.0-20220530130905-52f3993e8d6d // indirect
 	github.com/sirupsen/logrus v1.8.0 // indirect
 	github.com/stretchr/testify v1.7.1
 	github.com/swaggo/files v0.0.0-20220610200504-28940afbdbfe // indirect
-	github.com/swaggo/swag v1.8.3
+	github.com/swaggo/swag v1.8.6
 	go.uber.org/atomic v1.9.0 // indirect
 	go.uber.org/multierr v1.8.0 // indirect
 	go.uber.org/zap v1.21.0
