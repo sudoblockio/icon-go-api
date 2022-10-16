@@ -5,8 +5,6 @@ go 1.16
 require (
 	github.com/DATA-DOG/go-sqlmock v1.5.0 // indirect
 	github.com/InVisionApp/go-health/v2 v2.1.2
-	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751 // indirect
-	github.com/arsmn/fiber-swagger/v2 v2.20.0 // indirect
 	github.com/cenkalti/backoff v2.2.1+incompatible
 	github.com/cenkalti/backoff/v4 v4.1.3
 	github.com/go-openapi/spec v0.20.6 // indirect
@@ -25,7 +23,6 @@ require (
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/prometheus/client_golang v1.12.2
 	github.com/prometheus/common v0.36.0 // indirect
-	github.com/riferrei/srclient v0.3.0 // indirect
 	github.com/savsgio/gotils v0.0.0-20220530130905-52f3993e8d6d // indirect
 	github.com/sirupsen/logrus v1.8.0 // indirect
 	github.com/stretchr/testify v1.7.1
