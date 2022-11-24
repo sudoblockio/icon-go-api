@@ -486,6 +486,36 @@
                 }
             }
         },
+        "/api/v1/stats/circulating-supply": {
+            "get": {
+                "description": "get stats for ICON",
+                "consumes": [
+                    "*/*"
+                ],
+                "tags": [
+                    "Stats"
+                ],
+                "summary": "Get Stats",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.TransactionList"
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/transactions": {
             "get": {
                 "description": "get historical transactions",
@@ -1245,17 +1275,34 @@
                 "address": {
                     "type": "string"
                 },
+                "audit_tx_hash": {
+                    "type": "string"
+                },
                 "balance": {
                     "type": "number"
+                },
+                "code_hash": {
+                    "type": "string"
+                },
+                "contract_type": {
+                    "type": "string"
+                },
+                "contract_updated_block": {
+                    "type": "integer"
                 },
                 "created_timestamp": {
                     "type": "integer"
                 },
+                "deploy_tx_hash": {
+                    "type": "string"
+                },
                 "is_contract": {
                     "type": "boolean"
                 },
+                "is_nft": {
+                    "type": "boolean"
+                },
                 "is_prep": {
-                    "description": "Goveranance",
                     "type": "boolean"
                 },
                 "is_token": {
@@ -1265,13 +1312,27 @@
                     "type": "integer"
                 },
                 "name": {
-                    "description": "Only relevant in contract addresses",
+                    "type": "string"
+                },
+                "owner": {
                     "type": "string"
                 },
                 "status": {
                     "type": "string"
                 },
+                "symbol": {
+                    "type": "string"
+                },
+                "token_standard": {
+                    "type": "string"
+                },
+                "token_transfer_count": {
+                    "type": "integer"
+                },
                 "transaction_count": {
+                    "type": "integer"
+                },
+                "transaction_internal_count": {
                     "type": "integer"
                 },
                 "type": {
@@ -1287,6 +1348,18 @@
                 },
                 "balance": {
                     "type": "number"
+                },
+                "is_contract": {
+                    "type": "boolean"
+                },
+                "is_nft": {
+                    "type": "boolean"
+                },
+                "is_token": {
+                    "type": "boolean"
+                },
+                "token_standard": {
+                    "type": "string"
                 },
                 "transaction_count": {
                     "type": "integer"
@@ -1407,6 +1480,9 @@
                     "type": "string"
                 },
                 "status": {
+                    "type": "string"
+                },
+                "symbol": {
                     "type": "string"
                 },
                 "token_standard": {

@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"regexp"
+	"time"
 
 	"github.com/kelseyhightower/envconfig"
 )
@@ -80,6 +81,11 @@ type configType struct {
 
 	// For testing only
 	ServiceUrl string `envconfig:"SERVICE_URL" required:"false" default:"http://localhost:8000"`
+
+	// RPC
+	IconNodeServiceURL           []string      `envconfig:"ICON_NODE_SERVICE_URL" required:"false" default:"https://api.icon.community/api/v3"`
+	IconNodeRpcRetrySleepSeconds time.Duration `envconfig:"ICON_NODE_RPC_SLEEP_SECONDS" required:"false" default:"1s"`
+	IconNodeRpcRetryAttempts     int           `envconfig:"ICON_NODE_RPC_RETRY_ATTEMPTS" required:"false" default:"20"`
 }
 
 // Config - runtime config struct

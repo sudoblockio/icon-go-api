@@ -61,6 +61,7 @@ func Start() *fiber.App {
 	rest.TransactionsAddHandlers(app)
 	rest.LogsAddHandlers(app)
 	rest.AddressesAddHandlers(app)
+	rest.StatsAddHandlers(app)
 	ws.WebsocketsAddHandlers(app)
 
 	go app.Listen(":" + config.Config.APIPort)
