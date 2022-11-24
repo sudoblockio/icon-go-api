@@ -24,8 +24,8 @@ type TransactionsQuery struct {
 	EndBlockNumber       int    `query:"end_block_number"`
 	Method               string `query:"method"`
 	TransactionHash      string `query:"transaction_hash"`
-	Sort                 string `query:sort`
-	TokenContractAddress string `query:token_contract_address`
+	Sort                 string `query:"sort"`
+	TokenContractAddress string `query:"token_contract_address"`
 }
 
 func TransactionsAddHandlers(app *fiber.App) {

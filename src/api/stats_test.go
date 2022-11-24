@@ -3,13 +3,12 @@ package api
 import (
 	"github.com/stretchr/testify/assert"
 	"github.com/sudoblockio/icon-go-api/config"
-	"github.com/sudoblockio/icon-go-api/metrics"
 	"go.uber.org/zap"
 	"net/http/httptest"
 	"testing"
 )
 
-func TestRestStatsCirculatingSupply(t *testing.T) {
+func TestRestStats(t *testing.T) {
 	config.ReadEnvironment()
 
 	tests := []struct {
@@ -23,9 +22,6 @@ func TestRestStatsCirculatingSupply(t *testing.T) {
 			expectedCode: 200,
 		},
 	}
-
-	metrics.Start()
-
 	app := Start()
 
 	for _, test := range tests {
