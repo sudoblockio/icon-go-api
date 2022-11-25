@@ -497,7 +497,7 @@ const docTemplate_swagger = `{
         },
         "/api/v1/stats/circulating-supply": {
             "get": {
-                "description": "get stats for ICON",
+                "description": "get circulating supply (total supply - burn wallet balance)",
                 "consumes": [
                     "*/*"
                 ],
@@ -509,10 +509,34 @@ const docTemplate_swagger = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/models.TransactionList"
-                            }
+                            "type": "number"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/stats/market-cap": {
+            "get": {
+                "description": "get mkt cap (Coin Gecko Price * circulating supply)",
+                "consumes": [
+                    "*/*"
+                ],
+                "tags": [
+                    "Stats"
+                ],
+                "summary": "Get Stats",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "number"
                         }
                     },
                     "422": {

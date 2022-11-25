@@ -647,14 +647,30 @@ paths:
     get:
       consumes:
       - '*/*'
-      description: get stats for ICON
+      description: get circulating supply (total supply - burn wallet balance)
       responses:
         "200":
           description: OK
           schema:
-            items:
-              $ref: '#/definitions/models.TransactionList'
-            type: array
+            type: number
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get Stats
+      tags:
+      - Stats
+  /api/v1/stats/market-cap:
+    get:
+      consumes:
+      - '*/*'
+      description: get mkt cap (Coin Gecko Price * circulating supply)
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: number
         "422":
           description: Unprocessable Entity
           schema:

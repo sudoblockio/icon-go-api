@@ -21,12 +21,17 @@ func TestRestStats(t *testing.T) {
 			route:        "/api/v1/stats/circulating-supply",
 			expectedCode: 200,
 		},
+		{
+			description:  "mkt cap",
+			route:        "/api/v1/stats/market-cap",
+			expectedCode: 200,
+		},
 	}
 	app := Start()
 
 	for _, test := range tests {
 		req := httptest.NewRequest("GET", test.route, nil)
-		resp, err := app.Test(req, 1000)
+		resp, err := app.Test(req, 10000)
 
 		if err != nil {
 			zap.Error(err)
