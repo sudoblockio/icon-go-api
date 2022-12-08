@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.3.0](https://github.com/sudoblockio/icon-go-api/compare/v0.2.0...v0.3.0) (2022-12-08)
+
+
+### Features
+
+* add mkt cap stats endpoint ([b3bf738](https://github.com/sudoblockio/icon-go-api/commit/b3bf73882bb3271d2b26f665e68a67edf7d20e23))
+* add stats endpoint with mkt cap ([6f2d97a](https://github.com/sudoblockio/icon-go-api/commit/6f2d97a43e48d2363d6d214ad5f53b922cc53638))
+
+
+### Bug Fixes
+
+* omit  in sort string on /addresses and switch meaning of ~/code/sudoblockio/icon-explorer/api/src/api [#20](https://github.com/sudoblockio/icon-go-api/issues/20) ([54e0e26](https://github.com/sudoblockio/icon-go-api/commit/54e0e26f15a19a4b78f5d932bd2fd15e9d98a1b8))
+
 ## [0.2.0](https://github.com/sudoblockio/icon-go-api/compare/v0.1.6...v0.2.0) (2022-11-24)
 
 
