@@ -47,7 +47,7 @@ func AddressesAddHandlers(app *fiber.App) {
 // @Param is_token query bool false "Token addresses only"
 // @Param is_nft query bool false "NFT addresses only"
 // @Param token_standard query string false "Token standard, either irc2, irc3, irc31"
-// @Param sort query string false "Field to sort by. name, balance, transaction_count, transaction_internal_count, token_transfer_count. Use leading +/- for sort direction or omit for descending."
+// @Param sort query string false "Field to sort by. name, balance, transaction_count, transaction_internal_count, token_transfer_count. Use leading `-` (ie -balance) for sort direction or omit for descending."
 // @Router /api/v1/addresses [get]
 // @Success 200 {object} []models.AddressList
 // @Failure 422 {object} map[string]interface{}
@@ -79,9 +79,7 @@ func handlerGetAddresses(c *fiber.Ctx) error {
 		// Check if the sort is valid. Needed so that unindexes params are not sorted on.
 		var sortParam string
 		sortFirstChar := params.Sort[0:1]
-		if sortFirstChar == "+" {
-			sortParam = params.Sort[1:]
-		} else if sortFirstChar == "-" {
+		if sortFirstChar == "-" {
 			sortParam = params.Sort[1:]
 		} else {
 			sortParam = params.Sort

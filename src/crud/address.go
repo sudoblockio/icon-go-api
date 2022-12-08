@@ -109,12 +109,9 @@ func (m *AddressCrud) SelectMany(
 		var orderCol string
 		var order string
 
-		if orderVal == "+" {
+		if orderVal == "-" {
 			orderCol = sort[1:]
 			order = "ASC"
-		} else if orderVal == "-" {
-			orderCol = sort[1:]
-			order = "DESC"
 		} else {
 			orderCol = sort
 			order = "DESC"
