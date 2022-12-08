@@ -74,7 +74,7 @@ const docTemplate_swagger = `{
                     },
                     {
                         "type": "string",
-                        "description": "Field to sort by. name, balance, transaction_count, transaction_internal_count, token_transfer_count. Use leading +/- for sort direction or omit for descending.",
+                        "description": "Field to sort by. name, balance, transaction_count, transaction_internal_count, token_transfer_count. Use leading ` + "`" + `-` + "`" + ` (ie -balance) for sort direction or omit for descending.",
                         "name": "sort",
                         "in": "query"
                     }
@@ -483,6 +483,34 @@ const docTemplate_swagger = `{
                             "items": {
                                 "$ref": "#/definitions/models.Log"
                             }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/stats": {
+            "get": {
+                "description": "get json with a summary of stats",
+                "consumes": [
+                    "*/*"
+                ],
+                "tags": [
+                    "Stats"
+                ],
+                "summary": "Get Stats",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
                         }
                     },
                     "422": {

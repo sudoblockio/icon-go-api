@@ -4,22 +4,38 @@ import (
 	"encoding/json"
 	"github.com/gofiber/fiber/v2"
 	"github.com/sudoblockio/icon-go-api/config"
-	"io/ioutil"
-	"log"
-	"net/http"
 	"strconv"
-	"time"
 )
 
 func StatsAddHandlers(app *fiber.App) {
 	prefix := config.Config.RestPrefix + "/stats"
 
+	app.Get(prefix+"/", handlerGetStats)
 	app.Get(prefix+"/circulating-supply", handlerGetCirculatingSupply)
 	app.Get(prefix+"/market-cap", handlerGetMarketCap)
 }
 
-var CirculatingSupply float64
-var LastUpdatedTimeCirculatingSupply time.Time
+// Stats
+// @Summary Get Stats
+// @Description get json with a summary of stats
+// @Tags Stats
+// @BasePath /api/v1
+// @Accept */*
+// @Router /api/v1/stats [get]
+// @Success 200 {object} map[string]interface{}
+// @Failure 422 {object} map[string]interface{}
+func handlerGetStats(c *fiber.Ctx) error {
+	UpdateCirculatingSupply()
+	UpdateMarketCap()
+
+	stats := map[string]interface{}{
+		"circulating-supply": CirculatingSupply,
+		"market-cap":         MarketCap,
+	}
+	body, _ := json.Marshal(stats)
+
+	return c.SendString(string(body))
+}
 
 // Circulating Supply
 // @Summary Get Stats
@@ -31,20 +47,9 @@ var LastUpdatedTimeCirculatingSupply time.Time
 // @Success 200 {object} float64
 // @Failure 422 {object} map[string]interface{}
 func handlerGetCirculatingSupply(c *fiber.Ctx) error {
-	timeDiff := time.Now().Sub(LastUpdatedTimeCirculatingSupply)
-	if timeDiff > 1*time.Hour {
-		circulatingSupply, err := getCirculatingSupply()
-		if err != nil {
-			return c.SendString(strconv.FormatFloat(CirculatingSupply, 'f', -1, 64))
-		}
-		CirculatingSupply = circulatingSupply
-		LastUpdatedTimeCirculatingSupply = time.Now()
-	}
+	UpdateCirculatingSupply()
 	return c.SendString(strconv.FormatFloat(CirculatingSupply, 'f', -1, 64))
 }
-
-var MarketCap float64
-var LastUpdatedTimeMarketCap time.Time
 
 // Market Cap
 // @Summary Get Stats
@@ -56,37 +61,6 @@ var LastUpdatedTimeMarketCap time.Time
 // @Success 200 {object} float64
 // @Failure 422 {object} map[string]interface{}
 func handlerGetMarketCap(c *fiber.Ctx) error {
-	timeDiff := time.Now().Sub(LastUpdatedTimeMarketCap)
-	if timeDiff > 1*time.Hour {
-		resp, err := http.Get("https://api.coingecko.com/api/v3/coins/icon")
-		if err != nil {
-			log.Fatalln(err)
-		}
-		body, err := ioutil.ReadAll(resp.Body)
-		if err != nil {
-			return c.SendString(strconv.FormatFloat(MarketCap, 'f', -1, 64))
-		}
-
-		response := make(map[string]interface{})
-		err = json.Unmarshal(body, &response)
-		if err != nil {
-			return c.SendString(strconv.FormatFloat(MarketCap, 'f', -1, 64))
-		}
-		usdPrice, ok := response["market_data"].(map[string]interface{})["current_price"].(map[string]interface{})["usd"].(float64)
-		if !ok {
-			return nil
-		}
-		if CirculatingSupply == 0.0 {
-			circulatingSupply, err := getCirculatingSupply()
-			if err != nil {
-				return c.SendString(strconv.FormatFloat(MarketCap, 'f', -1, 64))
-			}
-			CirculatingSupply = circulatingSupply
-			LastUpdatedTimeCirculatingSupply = time.Now()
-		}
-
-		MarketCap = CirculatingSupply * usdPrice
-		LastUpdatedTimeMarketCap = time.Now()
-	}
+	UpdateMarketCap()
 	return c.SendString(strconv.FormatFloat(MarketCap, 'f', -1, 64))
 }

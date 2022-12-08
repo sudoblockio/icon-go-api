@@ -86,6 +86,10 @@ type configType struct {
 	IconNodeServiceURL           []string      `envconfig:"ICON_NODE_SERVICE_URL" required:"false" default:"https://api.icon.community/api/v3"`
 	IconNodeRpcRetrySleepSeconds time.Duration `envconfig:"ICON_NODE_RPC_SLEEP_SECONDS" required:"false" default:"1s"`
 	IconNodeRpcRetryAttempts     int           `envconfig:"ICON_NODE_RPC_RETRY_ATTEMPTS" required:"false" default:"20"`
+
+	// Stats endpoints
+	StatsMarketCapUpdateTime         time.Duration `envconfig:"STATS_MARKET_CAP_UPDATE_TIME" required:"false" default:"1h"`
+	StatsCirculatingSupplyUpdateTime time.Duration `envconfig:"STATS_CIRCULATING_SUPPLY_UPDATE_TIME" required:"false" default:"1h"`
 }
 
 // Config - runtime config struct
@@ -97,7 +101,7 @@ func loadEnv() {
 	re := regexp.MustCompile(`^(.*src)`)
 	cwd, _ := os.Getwd()
 	rootPath := re.Find([]byte(cwd))
-	godotenv.Load(string(rootPath) + `/../.env.test`)
+	_ = godotenv.Load(string(rootPath) + `/../.env.test`)
 }
 
 // ReadEnvironment - Read and store runtime config

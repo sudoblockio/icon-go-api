@@ -358,7 +358,8 @@ paths:
         name: token_standard
         type: string
       - description: Field to sort by. name, balance, transaction_count, transaction_internal_count,
-          token_transfer_count. Use leading +/- for sort direction or omit for descending.
+          token_transfer_count. Use leading `-` (ie -balance) for sort direction or
+          omit for descending.
         in: query
         name: sort
         type: string
@@ -643,6 +644,25 @@ paths:
       summary: Get Logs
       tags:
       - Logs
+  /api/v1/stats:
+    get:
+      consumes:
+      - '*/*'
+      description: get json with a summary of stats
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get Stats
+      tags:
+      - Stats
   /api/v1/stats/circulating-supply:
     get:
       consumes:

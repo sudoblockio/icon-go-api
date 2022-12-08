@@ -1,9 +1,5 @@
 package rest
 
-import (
-	"github.com/sudoblockio/icon-go-api/service"
-)
-
 // https://stackoverflow.com/a/28818489/12642712
 func newTrue() *bool {
 	b := true
@@ -19,18 +15,4 @@ func stringInSlice(a string, list []string) bool {
 		}
 	}
 	return false
-}
-
-func getCirculatingSupply() (float64, error) {
-	totalSupply, err := service.IconNodeServiceGetTotalSupply()
-	if err != nil {
-		return 0, err
-	}
-
-	burnBalance, err := service.IconNodeServiceGetBalance("hx1000000000000000000000000000000000000000")
-	if err != nil {
-		return 0, err
-	}
-	circulatingSupply := totalSupply - burnBalance
-	return circulatingSupply, err
 }
