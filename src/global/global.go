@@ -7,7 +7,7 @@ import (
 )
 
 // Version - service version
-const Version = "v0.1.0"
+const Version = "v0.1.0" // x-release-please-version
 
 // WaitShutdownSig - wait for system shutdown signal
 func WaitShutdownSig() {
