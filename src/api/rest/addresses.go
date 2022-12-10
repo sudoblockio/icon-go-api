@@ -76,7 +76,7 @@ func handlerGetAddresses(c *fiber.Ctx) error {
 	}
 
 	if params.Sort != "" {
-		// Check if the sort is valid. Needed so that unindexes params are not sorted on.
+		// Check if the sort is valid. Needed so that unindexed params are not sorted on.
 		var sortParam string
 		sortFirstChar := params.Sort[0:1]
 		if sortFirstChar == "-" {
@@ -180,6 +180,7 @@ type ContractsQuery struct {
 	IsToken       *bool  `query:"is_token"`
 	IsNft         *bool  `query:"is_nft"`
 	TokenStandard string `query:"token_standard"`
+	Sort          string `query:"sort"`
 }
 
 // Contract
@@ -195,6 +196,7 @@ type ContractsQuery struct {
 // @Param token_standard query string false "token standard, one of irc2,irc3,irc31"
 // @Param limit query int false "amount of records"
 // @Param skip query int false "skip to a record"
+// @Param sort query string false "Field to sort by. name, balance, transaction_count, transaction_internal_count, token_transfer_count. Use leading `-` (ie -balance) for sort direction or omit for descending."
 // @Router /api/v1/addresses/contracts [get]
 // @Success 200 {object} []models.ContractList
 // @Failure 422 {object} map[string]interface{}
@@ -226,6 +228,22 @@ func handlerGetContracts(c *fiber.Ctx) error {
 		return c.SendString(`{"error": "invalid skip"}`)
 	}
 
+	if params.Sort != "" {
+		// Check if the sort is valid. Needed so that unindexed params are not sorted on.
+		var sortParam string
+		sortFirstChar := params.Sort[0:1]
+		if sortFirstChar == "-" {
+			sortParam = params.Sort[1:]
+		} else {
+			sortParam = params.Sort
+		}
+
+		if !stringInSlice(sortParam, addressSortParams) {
+			c.Status(422)
+			return c.SendString(`{"error": "invalid sort parameter"}`)
+		}
+	}
+
 	// Get contracts
 	contracts, err := crud.GetAddressCrud().SelectManyContracts(
 		params.Search,
@@ -234,6 +252,7 @@ func handlerGetContracts(c *fiber.Ctx) error {
 		params.IsNft,
 		params.Limit,
 		params.Skip,
+		params.Sort,
 	)
 	if err != nil {
 		c.Status(500)

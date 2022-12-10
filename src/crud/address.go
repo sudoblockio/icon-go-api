@@ -165,7 +165,7 @@ func (m *AddressCrud) CountWithParamsSearch(
 	return count, db.Error
 }
 
-// SelectManyContracts - select many from addreses table
+// SelectManyContracts - select many from addresses table
 func (m *AddressCrud) SelectManyContracts(
 	search string,
 	tokenStandard string,
@@ -173,6 +173,7 @@ func (m *AddressCrud) SelectManyContracts(
 	isNft *bool,
 	limit int,
 	skip int,
+	sort string,
 ) (*[]models.ContractList, error) {
 	db := m.db
 	db = db.Model(&models.Address{})
@@ -198,8 +199,25 @@ func (m *AddressCrud) SelectManyContracts(
 	// Is contract
 	db = db.Where("is_contract = true")
 
-	// Order by name with nulls in the back
-	db = db.Order("nullif(name, '') nulls last")
+	// Order by
+	if sort == "" {
+		// Order by name with nulls in the back
+		db = db.Order("nullif(name, '') nulls last")
+	} else {
+		orderVal := sort[0:1]
+
+		var orderCol string
+		var order string
+
+		if orderVal == "-" {
+			orderCol = sort[1:]
+			order = "ASC"
+		} else {
+			orderCol = sort
+			order = "DESC"
+		}
+		db = db.Order(fmt.Sprintf("%s %s", orderCol, order))
+	}
 
 	// Limit
 	db = db.Limit(limit)

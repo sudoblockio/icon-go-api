@@ -148,6 +148,12 @@ const docTemplate_swagger = `{
                         "description": "skip to a record",
                         "name": "skip",
                         "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Field to sort by. name, balance, transaction_count, transaction_internal_count, token_transfer_count. Use leading ` + "`" + `-` + "`" + ` (ie -balance) for sort direction or omit for descending.",
+                        "name": "sort",
+                        "in": "query"
                     }
                 ],
                 "responses": {
