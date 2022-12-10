@@ -3,7 +3,10 @@ package rest
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/sudoblockio/icon-go-api/models"
 	"strconv"
+	"sync"
+	"time"
 
 	fiber "github.com/gofiber/fiber/v2"
 	"go.uber.org/zap"
@@ -44,6 +47,16 @@ func TransactionsAddHandlers(app *fiber.App) {
 	app.Get(prefix+"/token-transfers/address/:address", handlerGetTokenTransfersAddress)
 	app.Get(prefix+"/token-transfers/token-contract/:token_contract_address", handlerGetTokenTransfersTokenContract)
 	app.Get(prefix+"/token-holders/token-contract/:token_contract_address", handlerGetTokenAddressesTokenContract)
+}
+
+type TransactionResult struct {
+	Val *[]models.TransactionList
+	Err error
+}
+
+type TransactionCountResult struct {
+	Val int64
+	Err error
 }
 
 // Transactions
@@ -104,39 +117,75 @@ func handlerGetTransactions(c *fiber.Ctx) error {
 		params.Type = "log"
 	}
 
+	var wg sync.WaitGroup
+	wg.Add(2)
+
+	transactionResultChan := make(chan TransactionResult)
+	transactionCountResultChan := make(chan TransactionCountResult)
+
 	// Get Transactions
-	transactions, err := crud.GetTransactionCrud().SelectMany(
-		params.Limit,
-		params.Skip,
-		params.From,
-		params.To,
-		params.Type,
-		params.BlockNumber,
-		params.StartBlockNumber,
-		params.EndBlockNumber,
-		params.Method,
-		params.Sort,
-	)
-	if err != nil {
-		c.Status(500)
-		zap.S().Warn(
-			"Endpoint=handlerGetTransactions",
-			" Error=Could not retrieve transactions: ", err.Error(),
+	go func() {
+		transactions, err := crud.GetTransactionCrud().SelectMany(
+			params.Limit,
+			params.Skip,
+			params.From,
+			params.To,
+			params.Type,
+			params.BlockNumber,
+			params.StartBlockNumber,
+			params.EndBlockNumber,
+			params.Method,
+			params.Sort,
 		)
-		return c.SendString(`{"error": "could not retrieve transactions"}`)
+		transactionResultChan <- TransactionResult{Val: transactions, Err: err}
+		wg.Done()
+	}()
+
+	// Get Count
+	timeout := time.After(1 * time.Second)
+	go func() {
+		transactionCount, err := crud.GetTransactionCrud().CountMany(
+			params.From,
+			params.To,
+			params.Type,
+			params.BlockNumber,
+			params.StartBlockNumber,
+			params.EndBlockNumber,
+			params.Method,
+		)
+		transactionCountResultChan <- TransactionCountResult{Val: *transactionCount, Err: err}
+
+		wg.Done()
+	}()
+
+	var count int64
+	select {
+	case <-timeout:
+		count, err = redis.GetRedisClient().GetCount(config.Config.RedisKeyPrefix + "transaction_regular_count")
+		if err != nil {
+			count = 0
+			zap.S().Warn("Could not retrieve transaction count: ", err.Error())
+		}
+	case TransactionCountResult := <-transactionCountResultChan:
+		if TransactionCountResult.Err != nil {
+			c.Status(500)
+			zap.S().Warn(
+				"Endpoint=handlerGetTransactions",
+				" Error=Could not retrieve transactions: ", err.Error(),
+			)
+			return c.SendString(`{"error": "could not retrieve transactions"}`)
+		}
+		count = TransactionCountResult.Val
 	}
+
+	transactionResult := <-transactionResultChan
+	transactions := transactionResult.Val
 
 	if len(*transactions) == 0 {
 		// No Content
 		c.Status(204)
 	}
 
-	// X-TOTAL-COUNT
-	count, err := redis.GetRedisClient().GetCount(config.Config.RedisKeyPrefix + "transaction_regular_count")
-	if err != nil {
-		count = 0
-		zap.S().Warn("Could not retrieve transaction count: ", err.Error())
-	}
 	c.Append("X-TOTAL-COUNT", strconv.FormatInt(count, 10))
 
 	body, _ := json.Marshal(&transactions)
