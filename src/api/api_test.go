@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func TestRestApiBase(t *testing.T) {
+func TestRestApi(t *testing.T) {
 	config.ReadEnvironment()
 
 	tests := []struct {
@@ -30,13 +30,43 @@ func TestRestApiBase(t *testing.T) {
 			route:        "/not-found",
 			expectedCode: 404,
 		},
+		{
+			description:  "addresses",
+			route:        "/api/v1/addresses",
+			expectedCode: 200,
+		},
+		{
+			description:  "addresses contracts",
+			route:        "/api/v1/addresses/contracts",
+			expectedCode: 200,
+		},
+		{
+			description:  "txs",
+			route:        "/api/v1/transactions",
+			expectedCode: 200,
+		},
+		{
+			description:  "txs internal",
+			route:        "/api/v1/transactions/internal",
+			expectedCode: 200,
+		},
+		{
+			description:  "token-transfers",
+			route:        "/api/v1/transactions/token-transfers",
+			expectedCode: 200,
+		},
+		{
+			description:  "logs",
+			route:        "/api/v1/logs",
+			expectedCode: 200,
+		},
 	}
 
 	app := Start()
 
 	for _, test := range tests {
 		req := httptest.NewRequest("GET", test.route, nil)
-		resp, err := app.Test(req, 10)
+		resp, err := app.Test(req, 10000)
 		assert.Equalf(t, nil, err, "app.Test(req)")
 		assert.Equalf(t, test.expectedCode, resp.StatusCode, test.description)
 	}
