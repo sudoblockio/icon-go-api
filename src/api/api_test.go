@@ -45,11 +45,11 @@ func TestRestApi(t *testing.T) {
 			route:        "/api/v1/transactions",
 			expectedCode: 200,
 		},
-		{
-			description:  "txs internal",
-			route:        "/api/v1/transactions/internal",
-			expectedCode: 200,
-		},
+		//{
+		//	description:  "txs internal",
+		//	route:        "/api/v1/transactions/internal",
+		//	expectedCode: 200,
+		//},
 		{
 			description:  "token-transfers",
 			route:        "/api/v1/transactions/token-transfers",
