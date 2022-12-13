@@ -410,6 +410,12 @@ paths:
         in: query
         name: skip
         type: integer
+      - description: Field to sort by. name, balance, transaction_count, transaction_internal_count,
+          token_transfer_count. Use leading `-` (ie -balance) for sort direction or
+          omit for descending.
+        in: query
+        name: sort
+        type: string
       produces:
       - application/json
       responses:
