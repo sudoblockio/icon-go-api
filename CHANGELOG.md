@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/sudoblockio/icon-go-api/compare/v0.3.0...v0.4.0) (2022-12-13)
+
+
+### Features
+
+* add sort to addresses/contracts [#18](https://github.com/sudoblockio/icon-go-api/issues/18) ([4875b36](https://github.com/sudoblockio/icon-go-api/commit/4875b366e8d782117384cae68cc92f5a399340cd))
+
 ## [0.3.0](https://github.com/sudoblockio/icon-go-api/compare/v0.2.0...v0.3.0) (2022-12-08)
 
 
