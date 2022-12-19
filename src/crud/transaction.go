@@ -148,11 +148,12 @@ func (m *TransactionCrud) CountMany(
 	}
 
 	// Strict timeout as some of these queries can take a while
-	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
 	defer cancel()
 
-	var count int64
+	count := int64(0)
 	db = db.WithContext(ctx).Count(&count)
+
 	return &count, db.Error
 }
 
