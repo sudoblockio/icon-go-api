@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.1](https://github.com/sudoblockio/icon-go-api/compare/v0.4.0...v0.4.1) (2022-12-20)
+
+
+### Bug Fixes
+
+* rm the MaxPageSkip on addresses ([2e6d4c2](https://github.com/sudoblockio/icon-go-api/commit/2e6d4c294ecaa08caa9612c1ffef23f8f7beed70))
+
 ## [0.4.0](https://github.com/sudoblockio/icon-go-api/compare/v0.3.0...v0.4.0) (2022-12-13)
 
 
