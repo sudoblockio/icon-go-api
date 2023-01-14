@@ -128,6 +128,7 @@ func (m *AddressCrud) SelectMany(
 func (m *AddressCrud) CountWithParamsSearch(
 	search string,
 	tokenStandard string,
+	status string,
 	isToken *bool,
 	isNft *bool,
 	isContract *bool,
@@ -143,6 +144,10 @@ func (m *AddressCrud) CountWithParamsSearch(
 	if tokenStandard != "" {
 		db.Where("is_token = true")
 		db.Where("token_standard = ?", tokenStandard)
+	}
+
+	if status != "" {
+		db.Where("status = ?", status)
 	}
 
 	if isToken != nil {
@@ -171,6 +176,7 @@ func (m *AddressCrud) SelectManyContracts(
 	tokenStandard string,
 	isToken *bool,
 	isNft *bool,
+	status string,
 	limit int,
 	skip int,
 	sort string,
@@ -186,6 +192,10 @@ func (m *AddressCrud) SelectManyContracts(
 	if tokenStandard != "" {
 		db.Where("is_token = true")
 		db.Where("token_standard = ?", tokenStandard)
+	}
+
+	if status != "" {
+		db.Where("status = ?", status)
 	}
 
 	if isToken != nil {

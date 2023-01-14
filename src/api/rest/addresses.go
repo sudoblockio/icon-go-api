@@ -176,6 +176,7 @@ type ContractsQuery struct {
 	IsToken       *bool  `query:"is_token"`
 	IsNft         *bool  `query:"is_nft"`
 	TokenStandard string `query:"token_standard"`
+	Status        string `query:"status"`
 	Sort          string `query:"sort"`
 }
 
@@ -190,6 +191,7 @@ type ContractsQuery struct {
 // @Param is_token query bool false "tokens only"
 // @Param is_nft query bool false "NFTs only"
 // @Param token_standard query string false "token standard, one of irc2,irc3,irc31"
+// @Param status query string false "contract status, one of active, rejected, or pending"
 // @Param limit query int false "amount of records"
 // @Param skip query int false "skip to a record"
 // @Param sort query string false "Field to sort by. name, balance, transaction_count, transaction_internal_count, token_transfer_count. Use leading `-` (ie -balance) for sort direction or omit for descending."
@@ -246,6 +248,7 @@ func handlerGetContracts(c *fiber.Ctx) error {
 		params.TokenStandard,
 		params.IsToken,
 		params.IsNft,
+		params.Status,
 		params.Limit,
 		params.Skip,
 		params.Sort,
@@ -268,6 +271,7 @@ func handlerGetContracts(c *fiber.Ctx) error {
 		count, err := crud.GetAddressCrud().CountWithParamsSearch(
 			params.Search,
 			params.TokenStandard,
+			params.Status,
 			params.IsToken,
 			params.IsNft,
 			newTrue(),
