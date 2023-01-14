@@ -402,6 +402,10 @@ paths:
         in: query
         name: token_standard
         type: string
+      - description: contract status, one of active, rejected, or pending
+        in: query
+        name: status
+        type: string
       - description: amount of records
         in: query
         name: limit

@@ -138,6 +138,12 @@ const docTemplate_swagger = `{
                         "in": "query"
                     },
                     {
+                        "type": "string",
+                        "description": "contract status, one of active, rejected, or pending",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
                         "type": "integer",
                         "description": "amount of records",
                         "name": "limit",
