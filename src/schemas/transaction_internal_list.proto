@@ -16,4 +16,5 @@ message TransactionInternalList {
   int64 block_number = 9;
   string data = 10;
   string status = 11;
+  string method = 12;
 }
