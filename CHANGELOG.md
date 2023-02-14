@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.2](https://github.com/sudoblockio/icon-go-api/compare/v0.4.1...v0.4.2) (2023-02-14)
+
+
+### Bug Fixes
+
+* build ([1d0c464](https://github.com/sudoblockio/icon-go-api/commit/1d0c4641b0aa72466f88dcebb21b74c5543d6713))
+
 ## [0.4.1](https://github.com/sudoblockio/icon-go-api/compare/v0.4.0...v0.4.1) (2022-12-20)
 
 
