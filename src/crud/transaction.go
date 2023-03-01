@@ -1,7 +1,9 @@
 package crud
 
 import (
+	"context"
 	"sync"
+	"time"
 
 	"go.uber.org/zap"
 	"gorm.io/gorm"
@@ -110,6 +112,51 @@ func (m *TransactionCrud) SelectMany(
 	return transactions, db.Error
 }
 
+// CountMany - select from transactions table
+// Returns: models, error (if present)
+func (m *TransactionCrud) CountMany(
+	from string,
+	to string,
+	_type string,
+	blockNumber int,
+	startBlockNumber int,
+	endBlockNumber int,
+	method string,
+) (*int64, error) {
+	db := m.db
+	db = db.Model(&[]models.Transaction{})
+	if from != "" {
+		db = db.Where("from_address = ?", from)
+	}
+	if to != "" {
+		db = db.Where("to_address = ?", to)
+	}
+	if _type != "" {
+		db = db.Where("type = ?", _type)
+	}
+	if blockNumber != 0 {
+		db = db.Where("block_number = ?", blockNumber)
+	}
+	if startBlockNumber != 0 {
+		db = db.Where("block_number >= ?", startBlockNumber)
+	}
+	if endBlockNumber != 0 {
+		db = db.Where("block_number <= ?", endBlockNumber)
+	}
+	if method != "" {
+		db = db.Where("method = ?", method)
+	}
+
+	// Strict timeout as some of these queries can take a while
+	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+	defer cancel()
+
+	count := int64(0)
+	db = db.WithContext(ctx).Count(&count)
+
+	return &count, db.Error
+}
+
 // SelectManyByAddress - select from transactions table
 // Returns: models, error (if present)
 func (m *TransactionCrud) SelectManyByAddress(
@@ -202,7 +249,7 @@ func (m *TransactionCrud) SelectManyIcxByAddress(
 	return transactions, db.Error
 }
 
-// SelectManyInternal- select many internal transaction table
+// SelectManyInternal - select many internal transaction table
 // Returns: models, error (if present)
 func (m *TransactionCrud) SelectManyInternal(
 	limit int,
