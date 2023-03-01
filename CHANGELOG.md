@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.3](https://github.com/sudoblockio/icon-go-api/compare/v0.4.2...v0.4.3) (2023-03-01)
+
+
+### Bug Fixes
+
+* add transaction_index to token_transfers to allow sorting [#71](https://github.com/sudoblockio/icon-go-api/issues/71) ([a25b10a](https://github.com/sudoblockio/icon-go-api/commit/a25b10a7e583aa1fb98e30988ba9ab551747a39c))
+
 ## [0.4.2](https://github.com/sudoblockio/icon-go-api/compare/v0.4.1...v0.4.2) (2023-02-14)
 
 
