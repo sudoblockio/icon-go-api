@@ -78,8 +78,8 @@ func (m *TokenTransferCrud) SelectMany(
 
 	// Latest transactions first
 	db = db.Order("block_number desc")
-	db = db.Order("log_index desc")
 	db = db.Order("transaction_index desc")
+	db = db.Order("log_index desc")
 
 	// from
 	if from != "" {
