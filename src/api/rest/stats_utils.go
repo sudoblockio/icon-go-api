@@ -14,9 +14,11 @@ import (
 )
 
 var CirculatingSupply float64
+var TotalSupply float64
 
 func GetCirculatingSupply() (float64, error) {
 	totalSupply, err := service.IconNodeServiceGetTotalSupply()
+	TotalSupply = totalSupply
 	if err != nil {
 		return 0, err
 	}

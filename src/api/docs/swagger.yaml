@@ -187,6 +187,8 @@ definitions:
         type: string
       log_index:
         type: integer
+      nft_id:
+        type: integer
       to_address:
         type: string
       token_contract_address:
@@ -199,6 +201,8 @@ definitions:
         type: string
       transaction_hash:
         type: string
+      transaction_index:
+        type: integer
       value:
         type: string
       value_decimal:
@@ -276,6 +280,8 @@ definitions:
       from_address:
         type: string
       hash:
+        type: string
+      method:
         type: string
       status:
         type: string
@@ -696,6 +702,24 @@ paths:
       consumes:
       - '*/*'
       description: get mkt cap (Coin Gecko Price * circulating supply)
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: number
+        "422":
+          description: Unprocessable Entity
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Get Stats
+      tags:
+      - Stats
+  /api/v1/stats/total-supply:
+    get:
+      consumes:
+      - '*/*'
+      description: get total supply
       responses:
         "200":
           description: OK

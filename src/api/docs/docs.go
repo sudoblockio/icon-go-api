@@ -589,6 +589,33 @@ const docTemplate_swagger = `{
                 }
             }
         },
+        "/api/v1/stats/total-supply": {
+            "get": {
+                "description": "get total supply",
+                "consumes": [
+                    "*/*"
+                ],
+                "tags": [
+                    "Stats"
+                ],
+                "summary": "Get Stats",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/transactions": {
             "get": {
                 "description": "get historical transactions",
@@ -1627,6 +1654,9 @@ const docTemplate_swagger = `{
                 "log_index": {
                     "type": "integer"
                 },
+                "nft_id": {
+                    "type": "integer"
+                },
                 "to_address": {
                     "type": "string"
                 },
@@ -1644,6 +1674,9 @@ const docTemplate_swagger = `{
                 },
                 "transaction_hash": {
                     "type": "string"
+                },
+                "transaction_index": {
+                    "type": "integer"
                 },
                 "value": {
                     "type": "string"
@@ -1761,6 +1794,9 @@ const docTemplate_swagger = `{
                     "type": "string"
                 },
                 "hash": {
+                    "type": "string"
+                },
+                "method": {
                     "type": "string"
                 },
                 "status": {

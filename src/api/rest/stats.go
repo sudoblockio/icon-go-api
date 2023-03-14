@@ -12,6 +12,7 @@ func StatsAddHandlers(app *fiber.App) {
 
 	app.Get(prefix+"/", handlerGetStats)
 	app.Get(prefix+"/circulating-supply", handlerGetCirculatingSupply)
+	app.Get(prefix+"/total-supply", handlerGetTotalSupply)
 	app.Get(prefix+"/market-cap", handlerGetMarketCap)
 }
 
@@ -49,6 +50,20 @@ func handlerGetStats(c *fiber.Ctx) error {
 func handlerGetCirculatingSupply(c *fiber.Ctx) error {
 	UpdateCirculatingSupply()
 	return c.SendString(strconv.FormatFloat(CirculatingSupply, 'f', -1, 64))
+}
+
+// Total Supply
+// @Summary Get Stats
+// @Description get total supply
+// @Tags Stats
+// @BasePath /api/v1
+// @Accept */*
+// @Router /api/v1/stats/total-supply [get]
+// @Success 200 {object} float64
+// @Failure 422 {object} map[string]interface{}
+func handlerGetTotalSupply(c *fiber.Ctx) error {
+	UpdateCirculatingSupply()
+	return c.SendString(strconv.FormatFloat(TotalSupply, 'f', -1, 64))
 }
 
 // Market Cap
