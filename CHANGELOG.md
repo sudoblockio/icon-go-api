@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.4](https://github.com/sudoblockio/icon-go-api/compare/v0.4.3...v0.4.4) (2023-03-14)
+
+
+### Bug Fixes
+
+* add total-supply endpoint ([90764f5](https://github.com/sudoblockio/icon-go-api/commit/90764f5e6bc1ba0ed684a8762792ad9bd26c32db))
+
 ## [0.4.3](https://github.com/sudoblockio/icon-go-api/compare/v0.4.2...v0.4.3) (2023-03-01)
 
 
