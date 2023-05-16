@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.5](https://github.com/sudoblockio/icon-go-api/compare/v0.4.4...v0.4.5) (2023-04-22)
+
+
+### Bug Fixes
+
+* bump the MaxPageSkip to 1.5M ([cfe77bf](https://github.com/sudoblockio/icon-go-api/commit/cfe77bfce7de2598c5ba6a2c6da860b1ca29a525))
+
 ## [0.4.4](https://github.com/sudoblockio/icon-go-api/compare/v0.4.3...v0.4.4) (2023-03-14)
 
 
