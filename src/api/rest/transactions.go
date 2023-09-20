@@ -62,7 +62,7 @@ type TransactionCountResult struct {
 // @Description get historical transactions
 // @Tags Transactions
 // @BasePath /api/v1
-// @Accept */*
+// @Accept application/json,text/csv
 // @Produce json
 // @Param limit query int false "amount of records"
 // @Param skip query int false "skip to a record"
@@ -76,6 +76,7 @@ type TransactionCountResult struct {
 // @Param sort query string false "desc or asc"
 // @Router /api/v1/transactions [get]
 // @Success 200 {object} []models.TransactionList
+// @Success 200 {string} string "CSV Response"
 // @Failure 422 {object} map[string]interface{}
 func handlerGetTransactions(c *fiber.Ctx) error {
 	params := new(TransactionsQuery)
@@ -195,7 +196,16 @@ func handlerGetTransactions(c *fiber.Ctx) error {
 
 	c.Append("X-TOTAL-COUNT", strconv.FormatInt(count, 10))
 
-	body, _ := json.Marshal(&transactions)
+	if c.Get("Accept") == "text/csv" {
+		return respondWithCSV(c, *transactions)
+	}
+
+	// Continue with JSON response if not CSV
+	body, err := json.Marshal(&transactions)
+	if err != nil {
+		return c.SendString(`{"error": "parsing error"}`)
+	}
+
 	return c.SendString(string(body))
 }
 
@@ -294,7 +304,16 @@ func handlerGetIcxTransactionsAddress(c *fiber.Ctx) error {
 	}
 	c.Append("X-TOTAL-COUNT", strconv.FormatInt(count, 10))
 
-	body, _ := json.Marshal(&transactions)
+	if c.Get("Accept") == "text/csv" {
+		return respondWithCSV(c, *transactions)
+	}
+
+	// Continue with JSON response if not CSV
+	body, err := json.Marshal(transactions)
+	if err != nil {
+		return c.SendString(`{"error": "parsing error"}`)
+	}
+
 	return c.SendString(string(body))
 }
 
@@ -754,7 +773,16 @@ func handlerGetTokenTransfers(c *fiber.Ctx) error {
 	}
 	c.Append("X-TOTAL-COUNT", strconv.FormatInt(count, 10))
 
-	body, _ := json.Marshal(&tokenTransfers)
+	if c.Get("Accept") == "text/csv" {
+		return respondWithCSV(c, *tokenTransfers)
+	}
+
+	// Continue with JSON response if not CSV
+	body, err := json.Marshal(&tokenTransfers)
+	if err != nil {
+		return c.SendString(`{"error": "parsing error"}`)
+	}
+
 	return c.SendString(string(body))
 }
 

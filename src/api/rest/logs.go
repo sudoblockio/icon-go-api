@@ -133,7 +133,15 @@ func handlerGetLogs(c *fiber.Ctx) error {
 		}
 		c.Append("X-TOTAL-COUNT", strconv.FormatInt(count, 10))
 	}
+	if c.Get("Accept") == "text/csv" {
+		return respondWithCSV(c, *logs)
+	}
 
-	body, _ := json.Marshal(logs)
+	// Continue with JSON response if not CSV
+	body, err := json.Marshal(&logs)
+	if err != nil {
+		return c.SendString(`{"error": "parsing error"}`)
+	}
+
 	return c.SendString(string(body))
 }

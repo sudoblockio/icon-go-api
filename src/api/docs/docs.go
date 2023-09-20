@@ -620,7 +620,8 @@ const docTemplate_swagger = `{
             "get": {
                 "description": "get historical transactions",
                 "consumes": [
-                    "*/*"
+                    "application/json",
+                    "text/csv"
                 ],
                 "produces": [
                     "application/json"
@@ -693,12 +694,9 @@ const docTemplate_swagger = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "CSV Response",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/models.TransactionList"
-                            }
+                            "type": "string"
                         }
                     },
                     "422": {

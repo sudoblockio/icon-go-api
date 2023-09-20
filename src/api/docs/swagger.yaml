@@ -736,7 +736,8 @@ paths:
   /api/v1/transactions:
     get:
       consumes:
-      - '*/*'
+      - application/json
+      - text/csv
       description: get historical transactions
       parameters:
       - description: amount of records
@@ -783,11 +784,9 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK
+          description: CSV Response
           schema:
-            items:
-              $ref: '#/definitions/models.TransactionList'
-            type: array
+            type: string
         "422":
           description: Unprocessable Entity
           schema:

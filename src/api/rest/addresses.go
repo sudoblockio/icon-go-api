@@ -122,7 +122,16 @@ func handlerGetAddresses(c *fiber.Ctx) error {
 	}
 	c.Append("X-TOTAL-COUNT", strconv.FormatInt(count, 10))
 
-	body, _ := json.Marshal(addresses)
+	if c.Get("Accept") == "text/csv" {
+		return respondWithCSV(c, *addresses)
+	}
+
+	// Continue with JSON response if not CSV
+	body, err := json.Marshal(addresses)
+	if err != nil {
+		return c.SendString(`{"error": "parsing error"}`)
+	}
+
 	return c.SendString(string(body))
 }
 
@@ -165,7 +174,12 @@ func handlerGetAddressDetails(c *fiber.Ctx) error {
 		return c.SendString(`{"error": "could not retrieve addresses"}`)
 	}
 
-	body, _ := json.Marshal(address)
+	// Continue with JSON response if not CSV
+	body, err := json.Marshal(address)
+	if err != nil {
+		return c.SendString(`{"error": "parsing error"}`)
+	}
+
 	return c.SendString(string(body))
 }
 
@@ -295,7 +309,16 @@ func handlerGetContracts(c *fiber.Ctx) error {
 		c.Append("X-TOTAL-COUNT", strconv.FormatInt(count, 10))
 	}
 
-	body, _ := json.Marshal(contracts)
+	if c.Get("Accept") == "text/csv" {
+		return respondWithCSV(c, *contracts)
+	}
+
+	// Continue with JSON response if not CSV
+	body, err := json.Marshal(contracts)
+	if err != nil {
+		return c.SendString(`{"error": "parsing error"}`)
+	}
+
 	return c.SendString(string(body))
 }
 
