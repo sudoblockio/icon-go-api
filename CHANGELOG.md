@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.5.0](https://github.com/sudoblockio/icon-go-api/compare/v0.4.5...v0.5.0) (2023-11-01)
+
+
+### Features
+
+* add csv option to endpoints with header [#39](https://github.com/sudoblockio/icon-go-api/issues/39) ([3d57ea7](https://github.com/sudoblockio/icon-go-api/commit/3d57ea71b49f310bbbb3560961adf4e650df539f))
+
+
+### Bug Fixes
+
+* add supplies endpoint vs stats ([b4025d5](https://github.com/sudoblockio/icon-go-api/commit/b4025d59b98899819234c0b117608cac3a0420ff))
+
 ## [0.4.5](https://github.com/sudoblockio/icon-go-api/compare/v0.4.4...v0.4.5) (2023-04-22)
 
 
