@@ -607,6 +607,115 @@
                 }
             }
         },
+        "/api/v1/supplies": {
+            "get": {
+                "description": "get json with a summary of stats",
+                "consumes": [
+                    "*/*"
+                ],
+                "tags": [
+                    "Supplies"
+                ],
+                "summary": "Get Supplies",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/supplies/circulating-supply": {
+            "get": {
+                "description": "get circulating supply (total supply - burn wallet balance)",
+                "consumes": [
+                    "*/*"
+                ],
+                "tags": [
+                    "Supplies"
+                ],
+                "summary": "Get Supplies",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/supplies/market-cap": {
+            "get": {
+                "description": "get mkt cap (Coin Gecko Price * circulating supply)",
+                "consumes": [
+                    "*/*"
+                ],
+                "tags": [
+                    "Supplies"
+                ],
+                "summary": "Get Supplies",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/supplies/total-supply": {
+            "get": {
+                "description": "get total supply",
+                "consumes": [
+                    "*/*"
+                ],
+                "tags": [
+                    "Supplies"
+                ],
+                "summary": "Get Supplies",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/transactions": {
             "get": {
                 "description": "get historical transactions",
