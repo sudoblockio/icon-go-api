@@ -8,7 +8,6 @@ import (
 	"github.com/sudoblockio/icon-go-api/service"
 	"go.uber.org/zap"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"time"
 )
@@ -50,8 +49,10 @@ var MarketCap float64
 func GetMarketCap() (float64, error) {
 	resp, err := http.Get("https://api.coingecko.com/api/v3/coins/icon")
 	if err != nil {
-		log.Fatalln(err)
+		return 0.0, err
 	}
+
+	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return 0.0, err
