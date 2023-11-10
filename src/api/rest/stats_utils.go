@@ -47,12 +47,21 @@ func UpdateCirculatingSupply() {
 var MarketCap float64
 
 func GetMarketCap() (float64, error) {
-	resp, err := http.Get("https://api.coingecko.com/api/v3/coins/icon")
+	req, err := http.NewRequest("GET", "https://api.coingecko.com/api/v3/coins/icon", nil)
 	if err != nil {
 		return 0.0, err
 	}
+	//coingecko is blocking requests without a user agent so spoofing here
+	req.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3")
 
+	// Send the request using http.Client
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return 0.0, err
+	}
 	defer resp.Body.Close()
+
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return 0.0, err
