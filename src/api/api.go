@@ -17,6 +17,8 @@ import (
 	"github.com/sudoblockio/icon-go-api/global"
 )
 
+const queryTag = "query"
+
 // @title Icon Go API
 // @version 2.0
 // @description The icon tracker API
@@ -48,6 +50,12 @@ func Start() *fiber.App {
 			return strings.Contains(c.Path(), "/docs/")
 		},
 	}))
+
+	// Enforces strict typing for query parameters
+	fiber.SetParserDecoder(fiber.ParserConfig{
+		SetAliasTag:       queryTag,
+		IgnoreUnknownKeys: false,
+	})
 
 	// Swagger docs
 	app.Get(config.Config.RestPrefix+"/docs/*", swagger.HandlerDefault)
