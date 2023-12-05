@@ -20,6 +20,7 @@ type TransactionsQuery struct {
 	From                 string `query:"from"`
 	To                   string `query:"to"`
 	Type                 string `query:"type"`
+	Address              string `query:"address"`
 	BlockNumber          int    `query:"block_number"`
 	StartBlockNumber     int    `query:"start_block_number"`
 	EndBlockNumber       int    `query:"end_block_number"`

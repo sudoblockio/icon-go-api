@@ -17,8 +17,6 @@ import (
 	"github.com/sudoblockio/icon-go-api/global"
 )
 
-const queryTag = "query"
-
 // @title Icon Go API
 // @version 2.0
 // @description The icon tracker API
@@ -53,8 +51,8 @@ func Start() *fiber.App {
 
 	// Enforces strict typing for query parameters
 	fiber.SetParserDecoder(fiber.ParserConfig{
-		SetAliasTag:       queryTag,
-		IgnoreUnknownKeys: false,
+		SetAliasTag:       "query",
+		IgnoreUnknownKeys: true,
 	})
 
 	// Swagger docs
