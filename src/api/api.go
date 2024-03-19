@@ -52,7 +52,7 @@ func Start() *fiber.App {
 	// Enforces strict typing for query parameters
 	fiber.SetParserDecoder(fiber.ParserConfig{
 		SetAliasTag:       "query",
-		IgnoreUnknownKeys: true,
+		IgnoreUnknownKeys: false,
 	})
 
 	// Swagger docs
