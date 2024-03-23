@@ -156,16 +156,17 @@ func handlerGetAddressDetails(c *fiber.Ctx) error {
 	params := new(AddressesQuery)
 	if err := c.QueryParser(params); err != nil {
 		zap.S().Warnf("Addresses Get Handler ERROR: %s", err.Error())
-
 		c.Status(422)
 		return c.SendString(`{"error": "could not parse query parameters"}`)
 	}
 
 	// Get Addresses
-	address, err := crud.GetAddressCrud().SelectOne(
-		addressString,
-	)
+	address, err := crud.GetAddressCrud().SelectOne(addressString)
 	if err != nil {
+		if err == crud.ErrRecordNotFound {
+			c.Status(404)
+			return c.SendString(`{"error": "address not found"}`)
+		}
 		c.Status(500)
 		zap.S().Warn(
 			"Endpoint=handlerGetAddressDetails",
@@ -179,7 +180,6 @@ func handlerGetAddressDetails(c *fiber.Ctx) error {
 	if err != nil {
 		return c.SendString(`{"error": "parsing error"}`)
 	}
-
 	return c.SendString(string(body))
 }
 
