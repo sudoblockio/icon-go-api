@@ -2,6 +2,8 @@ package rest
 
 import (
 	"encoding/json"
+	"errors"
+	"gorm.io/gorm"
 	"strconv"
 
 	fiber "github.com/gofiber/fiber/v2"
@@ -163,7 +165,7 @@ func handlerGetAddressDetails(c *fiber.Ctx) error {
 	// Get Addresses
 	address, err := crud.GetAddressCrud().SelectOne(addressString)
 	if err != nil {
-		if err == crud.ErrRecordNotFound {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
 			c.Status(404)
 			return c.SendString(`{"error": "address not found"}`)
 		}
@@ -337,7 +339,7 @@ func handlerGetTokenAddresses(c *fiber.Ctx) error {
 	addressString := c.Params("address")
 
 	// Get TokenAddresses
-	tokenAddresss, err := crud.GetTokenAddressCrud().SelectManyByAddress(addressString)
+	tokenAddress, err := crud.GetTokenAddressCrud().SelectManyByAddress(addressString)
 	if err != nil {
 		c.Status(500)
 		zap.S().Warn(
@@ -347,14 +349,14 @@ func handlerGetTokenAddresses(c *fiber.Ctx) error {
 		return c.SendString(`{"error": "could not retrieve addresses"}`)
 	}
 
-	if len(*tokenAddresss) == 0 {
+	if len(*tokenAddress) == 0 {
 		// No Content
 		c.Status(204)
 	}
 
 	// []models.TokenAddress -> []string
 	var tokenContractAddresses []string
-	for _, a := range *tokenAddresss {
+	for _, a := range *tokenAddress {
 		tokenContractAddresses = append(tokenContractAddresses, a.TokenContractAddress)
 	}
 

@@ -2,10 +2,12 @@ package rest
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	fiber "github.com/gofiber/fiber/v2"
 	"github.com/sudoblockio/icon-go-api/models"
 	"go.uber.org/zap"
+	"gorm.io/gorm"
 	"strconv"
 	"sync"
 
@@ -231,10 +233,13 @@ func handlerGetTransaction(c *fiber.Ctx) error {
 
 	transaction, err := crud.GetTransactionCrud().SelectOne(hash, -1)
 	if err != nil {
-		c.Status(404)
-
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			c.Status(404)
+			return c.SendString(`{"error": "transaction not found"}`)
+		}
+		c.Status(500)
 		zap.S().Warn(err.Error())
-		return c.SendString(`{"error": "no transaction found"}`)
+		return c.SendString(`{"error": "could not retrieve transaction"}`)
 	}
 
 	body, _ := json.Marshal(&transaction)

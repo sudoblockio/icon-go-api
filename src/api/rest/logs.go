@@ -2,6 +2,7 @@ package rest
 
 import (
 	"encoding/json"
+	"errors"
 	"gorm.io/gorm"
 	"strconv"
 
@@ -91,7 +92,7 @@ func handlerGetLogs(c *fiber.Ctx) error {
 		params.Method,
 	)
 	if err != nil {
-		if err == gorm.ErrRecordNotFound {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
 			c.Status(404)
 			return c.SendString(`{"error": "logs not found"}`)
 		}

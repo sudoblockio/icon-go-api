@@ -1,11 +1,8 @@
 package crud
 
 import (
-	"errors"
 	"reflect"
 )
-
-var ErrRecordNotFound = errors.New("record not found")
 
 func extractFilledFieldsFromModel(modelValueOf reflect.Value, modelTypeOf reflect.Type) map[string]interface{} {
 

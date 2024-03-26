@@ -2,6 +2,8 @@ package rest
 
 import (
 	"encoding/json"
+	"errors"
+	"gorm.io/gorm"
 	"strconv"
 
 	fiber "github.com/gofiber/fiber/v2"
@@ -152,10 +154,13 @@ func handlerGetBlockDetails(c *fiber.Ctx) error {
 
 	block, err := crud.GetBlockCrud().SelectOne(uint32(number))
 	if err != nil {
-		c.Status(404)
-		return c.SendString(`{"error": "no block found"}`)
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			c.Status(404)
+			return c.SendString(`{"error": "no block found"}`)
+		}
+		c.Status(500)
+		return c.SendString(`{"error": "could not retrieve block"}`)
 	}
-
 	body, _ := json.Marshal(&block)
 	return c.SendString(string(body))
 }
@@ -188,8 +193,12 @@ func handlerGetBlockTimestampDetails(c *fiber.Ctx) error {
 
 	block, err := crud.GetBlockCrud().SelectOneByTimestamp(uint64(timestamp))
 	if err != nil {
-		c.Status(404)
-		return c.SendString(`{"error": "no block found"}`)
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			c.Status(404)
+			return c.SendString(`{"error": "no block found"}`)
+		}
+		c.Status(500)
+		return c.SendString(`{"error": "could not retrieve block"}`)
 	}
 
 	body, _ := json.Marshal(&block)
