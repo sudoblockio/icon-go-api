@@ -430,8 +430,6 @@ func handlerGetTransactionAddress(c *fiber.Ctx) error {
 
 	params := new(TransactionsQuery)
 	if err := c.QueryParser(params); err != nil {
-		zap.S().Warnf("Transactions Get Handler ERROR: %s", err.Error())
-
 		c.Status(422)
 		return c.SendString(`{"error": "could not parse query parameters"}`)
 	}
@@ -452,17 +450,20 @@ func handlerGetTransactionAddress(c *fiber.Ctx) error {
 	}
 
 	transactions, err := crud.GetTransactionCrud().SelectManyByAddress(
-		params.Limit,
-		params.Skip,
-		address,
+		params.Limit, params.Skip, address,
 	)
 	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			c.Status(404)
+			return c.SendString(`{"error": "no transactions found"}`)
+		}
 		c.Status(500)
 		zap.S().Warn(
 			"Endpoint=handlerGetTransactionAddress",
-			" Error=Could not retrieve transactions: ", err.Error(),
+			" Error=Could not retrieve transactions: ",
+			err.Error(),
 		)
-		return c.SendString(`{"error": "no transactions found"}`)
+		return c.SendString(`{"error": "could not retrieve transactions"}`)
 	}
 
 	// X-TOTAL-COUNT
