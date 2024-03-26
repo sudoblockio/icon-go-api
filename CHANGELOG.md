@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.3](https://github.com/sudoblockio/icon-go-api/compare/v0.5.2...v0.5.3) (2024-03-26)
+
+
+### Bug Fixes
+
+* transaction log on bad query ([56f64ea](https://github.com/sudoblockio/icon-go-api/commit/56f64eab788e489905b7b146bcaeda7c8c0b7a6c))
+
 ## [0.5.2](https://github.com/sudoblockio/icon-go-api/compare/v0.5.1...v0.5.2) (2024-03-26)
 
 
