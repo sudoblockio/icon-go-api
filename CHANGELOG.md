@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.5.1](https://github.com/sudoblockio/icon-go-api/compare/v0.5.0...v0.5.1) (2024-03-26)
+
+
+### Bug Fixes
+
+* flip strict mode on query paths ([9e249b9](https://github.com/sudoblockio/icon-go-api/commit/9e249b931308597aac2da426afc866231c5fd5a1))
+* handle api error gracefully ([21b3ba1](https://github.com/sudoblockio/icon-go-api/commit/21b3ba1b40d648d4b2be2e1cfe912479c0bd2f1b))
+* handle coingecko errors gracefully - not getting through in docker but are locally and in cluster ([a25f653](https://github.com/sudoblockio/icon-go-api/commit/a25f653a328ff43c4f447c46ef534e6a7f1bd216))
+
 ## [0.5.0](https://github.com/sudoblockio/icon-go-api/compare/v0.4.5...v0.5.0) (2023-11-01)
 
 
