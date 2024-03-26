@@ -2,6 +2,7 @@ package rest
 
 import (
 	"encoding/json"
+	"gorm.io/gorm"
 	"strconv"
 
 	fiber "github.com/gofiber/fiber/v2"
@@ -90,10 +91,13 @@ func handlerGetLogs(c *fiber.Ctx) error {
 		params.Method,
 	)
 	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			c.Status(404)
+			return c.SendString(`{"error": "logs not found"}`)
+		}
 		c.Status(500)
 		zap.S().Warn(
-			"Endpoint=handlerGetLogs",
-			" Error=Could not retrieve logs: ", err.Error(),
+			"Endpoint=handlerGetLogs", " Error=Could not retrieve logs: ", err.Error(),
 		)
 		return c.SendString(`{"error": "could not retrieve logs"}`)
 	}
