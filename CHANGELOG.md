@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.2](https://github.com/sudoblockio/icon-go-api/compare/v0.5.1...v0.5.2) (2024-03-26)
+
+
+### Bug Fixes
+
+* improve the error logging statements ([7753db4](https://github.com/sudoblockio/icon-go-api/commit/7753db48272f98861b7b71aea2928a85695f7ca1))
+
 ## [0.5.1](https://github.com/sudoblockio/icon-go-api/compare/v0.5.0...v0.5.1) (2024-03-26)
 
 
