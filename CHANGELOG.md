@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.4](https://github.com/sudoblockio/icon-go-api/compare/v0.5.3...v0.5.4) (2024-06-27)
+
+
+### Bug Fixes
+
+* make circ supply update every 5 min ([8ce81c9](https://github.com/sudoblockio/icon-go-api/commit/8ce81c9fbc72fd23809e183fbf62a22ba0faa554))
+
 ## [0.5.3](https://github.com/sudoblockio/icon-go-api/compare/v0.5.2...v0.5.3) (2024-03-26)
 
 
