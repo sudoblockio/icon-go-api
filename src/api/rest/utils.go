@@ -9,6 +9,11 @@ import (
 	"strconv"
 )
 
+type SkipLimitQuery struct {
+	Limit int `query:"limit"`
+	Skip  int `query:"skip"`
+}
+
 // https://stackoverflow.com/a/28818489/12642712
 func newTrue() *bool {
 	b := true

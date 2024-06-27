@@ -155,7 +155,7 @@ func handlerGetAddressDetails(c *fiber.Ctx) error {
 		return c.SendString(`{"error": "address required"}`)
 	}
 
-	params := new(AddressesQuery)
+	params := new(SkipLimitQuery)
 	if err := c.QueryParser(params); err != nil {
 		zap.S().Warnf("Addresses Get Handler ERROR: %s", err.Error())
 		c.Status(422)
@@ -337,6 +337,13 @@ func handlerGetContracts(c *fiber.Ctx) error {
 // @Failure 422 {object} map[string]interface{}
 func handlerGetTokenAddresses(c *fiber.Ctx) error {
 	addressString := c.Params("address")
+
+	params := new(SkipLimitQuery)
+	if err := c.QueryParser(params); err != nil {
+		zap.S().Warnf("Addresses Get Handler ERROR: %s", err.Error())
+		c.Status(422)
+		return c.SendString(`{"error": "could not parse query parameters"}`)
+	}
 
 	// Get TokenAddresses
 	tokenAddress, err := crud.GetTokenAddressCrud().SelectManyByAddress(addressString)

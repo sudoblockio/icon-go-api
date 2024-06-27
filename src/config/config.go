@@ -88,8 +88,8 @@ type configType struct {
 	IconNodeRpcRetryAttempts     int           `envconfig:"ICON_NODE_RPC_RETRY_ATTEMPTS" required:"false" default:"20"`
 
 	// Stats endpoints
-	StatsMarketCapUpdateTime         time.Duration `envconfig:"STATS_MARKET_CAP_UPDATE_TIME" required:"false" default:"1h"`
-	StatsCirculatingSupplyUpdateTime time.Duration `envconfig:"STATS_CIRCULATING_SUPPLY_UPDATE_TIME" required:"false" default:"1h"`
+	StatsMarketCapUpdateTime         time.Duration `envconfig:"STATS_MARKET_CAP_UPDATE_TIME" required:"false" default:"5m"`
+	StatsCirculatingSupplyUpdateTime time.Duration `envconfig:"STATS_CIRCULATING_SUPPLY_UPDATE_TIME" required:"false" default:"5m"`
 }
 
 // Config - runtime config struct

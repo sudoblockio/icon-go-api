@@ -428,7 +428,7 @@ func handlerGetTransactionAddress(c *fiber.Ctx) error {
 		return c.SendString(`{"error": "address required"}`)
 	}
 
-	params := new(TransactionsQuery)
+	params := new(SkipLimitQuery)
 	if err := c.QueryParser(params); err != nil {
 		c.Status(422)
 		return c.SendString(`{"error": "could not parse query parameters"}`)
@@ -813,7 +813,7 @@ func handlerGetTokenTransfersAddress(c *fiber.Ctx) error {
 		return c.SendString(`{"error": "address required"}`)
 	}
 
-	params := new(TransactionsQuery)
+	params := new(SkipLimitQuery)
 	if err := c.QueryParser(params); err != nil {
 		zap.S().Warnf("Transactions Get Handler ERROR: %s", err.Error())
 
