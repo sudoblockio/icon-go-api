@@ -652,7 +652,7 @@ const docTemplate = `{
                 "tags": [
                     "Supplies"
                 ],
-                "summary": "Get Supplies",
+                "summary": "Get Circulating Supply",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -679,7 +679,7 @@ const docTemplate = `{
                 "tags": [
                     "Supplies"
                 ],
-                "summary": "Get Supplies",
+                "summary": "Get Market Cap",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -706,7 +706,7 @@ const docTemplate = `{
                 "tags": [
                     "Supplies"
                 ],
-                "summary": "Get Supplies",
+                "summary": "Get Total Supply",
                 "responses": {
                     "200": {
                         "description": "OK",

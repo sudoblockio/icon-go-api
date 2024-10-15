@@ -2,9 +2,10 @@ package rest
 
 import (
 	"encoding/json"
+	"strconv"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/sudoblockio/icon-go-api/config"
-	"strconv"
 )
 
 func SuppliesAddHandlers(app *fiber.App) {
@@ -39,7 +40,7 @@ func handlerGetSupplies(c *fiber.Ctx) error {
 }
 
 // Circulating Supply
-// @Summary Get Supplies
+// @Summary Get Circulating Supply
 // @Description get circulating supply (total supply - burn wallet balance)
 // @Tags Supplies
 // @BasePath /api/v1
@@ -53,7 +54,7 @@ func handlerGetSuppliesCirculatingSupply(c *fiber.Ctx) error {
 }
 
 // Total Supply
-// @Summary Get Supplies
+// @Summary Get Total Supply
 // @Description get total supply
 // @Tags Supplies
 // @BasePath /api/v1
@@ -67,7 +68,7 @@ func handlerGetSuppliesTotalSupply(c *fiber.Ctx) error {
 }
 
 // Market Cap
-// @Summary Get Supplies
+// @Summary Get Market Cap
 // @Description get mkt cap (Coin Gecko Price * circulating supply)
 // @Tags Supplies
 // @BasePath /api/v1

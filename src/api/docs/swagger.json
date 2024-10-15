@@ -644,7 +644,7 @@
                 "tags": [
                     "Supplies"
                 ],
-                "summary": "Get Supplies",
+                "summary": "Get Circulating Supply",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -671,7 +671,7 @@
                 "tags": [
                     "Supplies"
                 ],
-                "summary": "Get Supplies",
+                "summary": "Get Market Cap",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -698,7 +698,7 @@
                 "tags": [
                     "Supplies"
                 ],
-                "summary": "Get Supplies",
+                "summary": "Get Total Supply",
                 "responses": {
                     "200": {
                         "description": "OK",
