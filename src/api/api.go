@@ -77,8 +77,8 @@ func Start() *fiber.App {
 }
 
 // Version
-// @Summary Show the status of server.
-// @Description get the status of server.
+// @Summary Show the version of server.
+// @Description get the version of server.
 // @Tags Version
 // @Accept */*
 // @Produce json
@@ -95,8 +95,8 @@ func handlerVersion(c *fiber.Ctx) error {
 }
 
 // Metadata
-// @Summary Show the status of server.
-// @Description get the status of server.
+// @Summary Show the metadata of server.
+// @Description get the metadata of server.
 // @Tags Version
 // @Accept */*
 // @Produce json

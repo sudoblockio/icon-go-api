@@ -1427,7 +1427,7 @@ const docTemplate = `{
         },
         "/metadata": {
             "get": {
-                "description": "get the status of server.",
+                "description": "get the metadata of server.",
                 "consumes": [
                     "*/*"
                 ],
@@ -1437,7 +1437,7 @@ const docTemplate = `{
                 "tags": [
                     "Version"
                 ],
-                "summary": "Show the status of server.",
+                "summary": "Show the metadata of server.",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1451,7 +1451,7 @@ const docTemplate = `{
         },
         "/version": {
             "get": {
-                "description": "get the status of server.",
+                "description": "get the version of server.",
                 "consumes": [
                     "*/*"
                 ],
@@ -1461,7 +1461,7 @@ const docTemplate = `{
                 "tags": [
                     "Version"
                 ],
-                "summary": "Show the status of server.",
+                "summary": "Show the version of server.",
                 "responses": {
                     "200": {
                         "description": "OK",
