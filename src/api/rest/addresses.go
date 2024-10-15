@@ -3,8 +3,9 @@ package rest
 import (
 	"encoding/json"
 	"errors"
-	"gorm.io/gorm"
 	"strconv"
+
+	"gorm.io/gorm"
 
 	fiber "github.com/gofiber/fiber/v2"
 	"go.uber.org/zap"
@@ -197,7 +198,7 @@ type ContractsQuery struct {
 }
 
 // Contract
-// @Summary Get contracts
+// @Summary Get Contracts
 // @Description get list of contracts
 // @Tags Addresses
 // @BasePath /api/v1
