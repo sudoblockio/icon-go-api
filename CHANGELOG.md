@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.5.5](https://github.com/sudoblockio/icon-go-api/compare/v0.5.4...v0.5.5) (2024-10-15)
+
+
+### Bug Fixes
+
+* update doc string for stats ([dfb7442](https://github.com/sudoblockio/icon-go-api/commit/dfb74428f10adb28f2453a14ec00ba8c8a6a88cb))
+* update doc string for supplies ([42709a1](https://github.com/sudoblockio/icon-go-api/commit/42709a18ad90aaa34b3f87ca5521aadd7401d5c6))
+* version and metadata endpoint doc strings ([c87de9d](https://github.com/sudoblockio/icon-go-api/commit/c87de9dac3264b68e61b08e48c30d77d6138cdca))
+
 ## [0.5.4](https://github.com/sudoblockio/icon-go-api/compare/v0.5.3...v0.5.4) (2024-06-27)
 
 
