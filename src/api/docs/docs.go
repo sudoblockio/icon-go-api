@@ -110,7 +110,7 @@ const docTemplate = `{
                 "tags": [
                     "Addresses"
                 ],
-                "summary": "Get contracts",
+                "summary": "Get Contracts",
                 "parameters": [
                     {
                         "type": "string",
@@ -1024,7 +1024,7 @@ const docTemplate = `{
                 "tags": [
                     "Transactions"
                 ],
-                "summary": "Get internal transactions by address",
+                "summary": "Get Internal Transactions By Address",
                 "parameters": [
                     {
                         "type": "integer",
@@ -1078,7 +1078,7 @@ const docTemplate = `{
                 "tags": [
                     "Transactions"
                 ],
-                "summary": "Get internal transactions by block number",
+                "summary": "Get Internal Transactions By Block Number",
                 "parameters": [
                     {
                         "type": "integer",
@@ -1132,7 +1132,7 @@ const docTemplate = `{
                 "tags": [
                     "Transactions"
                 ],
-                "summary": "Get internal transactions by hash",
+                "summary": "Get Internal Transactions By Hash",
                 "parameters": [
                     {
                         "type": "integer",
@@ -1186,7 +1186,7 @@ const docTemplate = `{
                 "tags": [
                     "Transactions"
                 ],
-                "summary": "Get token holders by token contract",
+                "summary": "Get Token Holders By Token Contract",
                 "parameters": [
                     {
                         "type": "integer",
@@ -1240,7 +1240,7 @@ const docTemplate = `{
                 "tags": [
                     "Transactions"
                 ],
-                "summary": "Get token transfers",
+                "summary": "Get Token Transfers",
                 "parameters": [
                     {
                         "type": "integer",
@@ -1329,7 +1329,7 @@ const docTemplate = `{
                 "tags": [
                     "Transactions"
                 ],
-                "summary": "Get token transfer by address",
+                "summary": "Get Token Transfer By Address",
                 "parameters": [
                     {
                         "type": "integer",
@@ -1383,7 +1383,7 @@ const docTemplate = `{
                 "tags": [
                     "Transactions"
                 ],
-                "summary": "Get token transfers by token contract",
+                "summary": "Get Token Transfers By Token Contract",
                 "parameters": [
                     {
                         "type": "integer",

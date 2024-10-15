@@ -4,12 +4,13 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"strconv"
+	"sync"
+
 	fiber "github.com/gofiber/fiber/v2"
 	"github.com/sudoblockio/icon-go-api/models"
 	"go.uber.org/zap"
 	"gorm.io/gorm"
-	"strconv"
-	"sync"
 
 	"github.com/sudoblockio/icon-go-api/config"
 	"github.com/sudoblockio/icon-go-api/crud"
@@ -479,7 +480,7 @@ func handlerGetTransactionAddress(c *fiber.Ctx) error {
 }
 
 // Internal transactions by hash
-// @Summary Get internal transactions by hash
+// @Summary Get Internal Transactions By Hash
 // @Description Get internal transactions by hash
 // @Tags Transactions
 // @BasePath /api/v1
@@ -551,7 +552,7 @@ func handlerGetInternalTransactionsByHash(c *fiber.Ctx) error {
 }
 
 // Internal transactions by address
-// @Summary Get internal transactions by address
+// @Summary Get Internal Transactions By Address
 // @Description Get internal transactions by address
 // @Tags Transactions
 // @BasePath /api/v1
@@ -625,7 +626,7 @@ func handlerGetInternalTransactionsAddress(c *fiber.Ctx) error {
 }
 
 // Internal transactions by block number
-// @Summary Get internal transactions by block number
+// @Summary Get Internal Transactions By Block Number
 // @Description Get internal transactions by block number
 // @Tags Transactions
 // @BasePath /api/v1
@@ -704,7 +705,7 @@ func handlerGetInternalTransactionsBlockNumber(c *fiber.Ctx) error {
 }
 
 // TokenTransfers
-// @Summary Get token transfers
+// @Summary Get Token Transfers
 // @Description get historical token transfers
 // @Tags Transactions
 // @BasePath /api/v1
@@ -794,7 +795,7 @@ func handlerGetTokenTransfers(c *fiber.Ctx) error {
 }
 
 // TokenTransfersAddress
-// @Summary Get token transfer by address
+// @Summary Get Token Transfer By Address
 // @Description get historical token transfers by address
 // @Tags Transactions
 // @BasePath /api/v1
@@ -869,7 +870,7 @@ func handlerGetTokenTransfersAddress(c *fiber.Ctx) error {
 }
 
 // TokenTransfersTokenContract
-// @Summary Get token transfers by token contract
+// @Summary Get Token Transfers By Token Contract
 // @Description get historical token transfers by token contract
 // @Tags Transactions
 // @BasePath /api/v1
@@ -944,7 +945,7 @@ func handlerGetTokenTransfersTokenContract(c *fiber.Ctx) error {
 }
 
 // TokenAddressesTokenContract
-// @Summary Get token holders by token contract
+// @Summary Get Token Holders By Token Contract
 // @Description get token holders
 // @Tags Transactions
 // @BasePath /api/v1

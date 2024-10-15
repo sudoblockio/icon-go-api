@@ -440,7 +440,7 @@ paths:
           schema:
             additionalProperties: true
             type: object
-      summary: Get contracts
+      summary: Get Contracts
       tags:
       - Addresses
   /api/v1/addresses/details/{address}:
@@ -1031,7 +1031,7 @@ paths:
           schema:
             additionalProperties: true
             type: object
-      summary: Get internal transactions by hash
+      summary: Get Internal Transactions By Hash
       tags:
       - Transactions
   /api/v1/transactions/internal/address/{address}:
@@ -1067,7 +1067,7 @@ paths:
           schema:
             additionalProperties: true
             type: object
-      summary: Get internal transactions by address
+      summary: Get Internal Transactions By Address
       tags:
       - Transactions
   /api/v1/transactions/internal/block-number/{block_number}:
@@ -1103,7 +1103,7 @@ paths:
           schema:
             additionalProperties: true
             type: object
-      summary: Get internal transactions by block number
+      summary: Get Internal Transactions By Block Number
       tags:
       - Transactions
   /api/v1/transactions/token-holders/token-contract/{token_contract_address}:
@@ -1139,7 +1139,7 @@ paths:
           schema:
             additionalProperties: true
             type: object
-      summary: Get token holders by token contract
+      summary: Get Token Holders By Token Contract
       tags:
       - Transactions
   /api/v1/transactions/token-transfers:
@@ -1198,7 +1198,7 @@ paths:
           schema:
             additionalProperties: true
             type: object
-      summary: Get token transfers
+      summary: Get Token Transfers
       tags:
       - Transactions
   /api/v1/transactions/token-transfers/address/{address}:
@@ -1234,7 +1234,7 @@ paths:
           schema:
             additionalProperties: true
             type: object
-      summary: Get token transfer by address
+      summary: Get Token Transfer By Address
       tags:
       - Transactions
   /api/v1/transactions/token-transfers/token-contract/{token_contract_address}:
@@ -1270,7 +1270,7 @@ paths:
           schema:
             additionalProperties: true
             type: object
-      summary: Get token transfers by token contract
+      summary: Get Token Transfers By Token Contract
       tags:
       - Transactions
   /metadata:
