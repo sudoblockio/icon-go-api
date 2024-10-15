@@ -694,7 +694,7 @@ paths:
           schema:
             additionalProperties: true
             type: object
-      summary: Get Stats
+      summary: Get Circulating Supply
       tags:
       - Stats
   /api/v1/stats/market-cap:
@@ -712,7 +712,7 @@ paths:
           schema:
             additionalProperties: true
             type: object
-      summary: Get Stats
+      summary: Get Market Cap
       tags:
       - Stats
   /api/v1/stats/total-supply:
@@ -730,7 +730,7 @@ paths:
           schema:
             additionalProperties: true
             type: object
-      summary: Get Stats
+      summary: Get Total Supply
       tags:
       - Stats
   /api/v1/supplies:
