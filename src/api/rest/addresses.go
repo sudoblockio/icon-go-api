@@ -198,7 +198,7 @@ type ContractsQuery struct {
 }
 
 // Contract
-// @Summary Get Contracts
+// @Summary Get Contract Addresses
 // @Description get list of contracts
 // @Tags Addresses
 // @BasePath /api/v1
