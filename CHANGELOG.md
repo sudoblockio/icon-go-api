@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.7](https://github.com/sudoblockio/icon-go-api/compare/v0.5.6...v0.5.7) (2024-11-18)
+
+
+### Bug Fixes
+
+* address doc string ([ecdaa8d](https://github.com/sudoblockio/icon-go-api/commit/ecdaa8d1e636767b4c319bb5f571a3645800a207))
+
 ## [0.5.6](https://github.com/sudoblockio/icon-go-api/compare/v0.5.5...v0.5.6) (2024-10-15)
 
 
